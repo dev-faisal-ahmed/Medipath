@@ -10,3 +10,9 @@ authRouter.post(
   validationHandler(authValidation.loginWithCredentialsSchema),
   authController.loginWithCredentials,
 );
+
+authRouter.post(
+  '/login/google',
+  validationHandler(authValidation.loginWithGoogleSchema),
+  authController.loginWithGoogle,
+);

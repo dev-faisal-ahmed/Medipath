@@ -5,6 +5,11 @@ const loginWithCredentialsSchema = z.object({
   password: z.string().min(1, { message: 'Password is required' }),
 });
 
-export const authValidation = { loginWithCredentialsSchema };
+const loginWithGoogleSchema = z.object({
+  userId: z.string().email({ message: 'UserId is required' }),
+});
+
+export const authValidation = { loginWithCredentialsSchema, loginWithGoogleSchema };
 
 export type TLoginWithCredentialsPayload = z.infer<typeof loginWithCredentialsSchema>;
+export type TLoginWithGooglePayload = z.infer<typeof loginWithGoogleSchema>;

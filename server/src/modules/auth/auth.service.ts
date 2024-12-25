@@ -1,6 +1,6 @@
 import { AppError } from '../../utils';
 import { User } from '../user/user.model';
-import { TLoginWithCredentialsPayload } from './auth.validation';
+import { TLoginWithCredentialsPayload, TLoginWithGooglePayload } from './auth.validation';
 
 async function loginWithCredentials(payload: TLoginWithCredentialsPayload) {
   const { userId, password } = payload;
@@ -16,4 +16,15 @@ async function loginWithCredentials(payload: TLoginWithCredentialsPayload) {
   return { accessToken, refreshToken };
 }
 
-export const authService = { loginWithCredentials };
+async function loginWithGoogle(payload: TLoginWithGooglePayload) {
+  const { userId } = payload;
+  const user = await User.findOne({ userId });
+  if (!user) throw new AppError('You are not authorized to login', 401);
+
+  const accessToken = user.generateAccessToken();
+  const refreshToken = user.generateRefreshToken();
+
+  return { accessToken, refreshToken };
+}
+
+export const authService = { loginWithCredentials, loginWithGoogle };
