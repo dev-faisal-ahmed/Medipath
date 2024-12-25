@@ -1,13 +1,13 @@
-import { Schema } from "mongoose";
+import { Model, Schema } from 'mongoose';
 
 export enum USER_ROLE {
-  ADMIN = "ADMIN",
-  SUPER_ADMIN = "SUPER_ADMIN",
+  ADMIN = 'ADMIN',
+  SUPER_ADMIN = 'SUPER_ADMIN',
 }
 
 export enum PROVIDER {
-  CREDENTIALS = "CREDENTIALS",
-  GOGGLE = "GOOGLE",
+  CREDENTIALS = 'CREDENTIALS',
+  GOGGLE = 'GOOGLE',
 }
 
 export interface IUser {
@@ -19,3 +19,17 @@ export interface IUser {
   provider: PROVIDER;
   isDeleted: boolean;
 }
+
+export interface IUserMethods {
+  comparePassword(givenPassword: string): Promise<boolean>;
+  generateAccessToken(): string;
+  generateRefreshToken(): string;
+}
+
+export interface IUserModel extends Model<IUser, {}, IUserMethods> {
+  verifyAccessToken(token: string): TAccessTokenData;
+  verifyRefreshToken(token: string): TRefreshTokenData;
+}
+
+export type TAccessTokenData = Pick<IUser, '_id' | 'userId' | 'name' | 'role' | 'provider'>;
+export type TRefreshTokenData = Pick<IUser, '_id' | 'userId'>;

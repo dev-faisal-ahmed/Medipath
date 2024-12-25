@@ -1,13 +1,23 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import {
+  IUser,
+  IUserMethods,
+  PROVIDER,
+  TAccessTokenData,
+  TRefreshTokenData,
+  IUserModel,
+  USER_ROLE,
+} from './user.interface';
 
-import { CallbackError, Schema } from "mongoose";
-import { IUser, PROVIDER, USER_ROLE } from "./user.interface";
+import { CallbackError, model, Schema } from 'mongoose';
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../../app/config';
 
-const userSchema = new Schema<IUser>(
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+const userSchema = new Schema<IUser, IUserModel, IUserMethods>(
   {
     userId: { type: String, required: true, unique: true },
-    name: { type: String, required: true },
+    name: { type: String, required: true, trim: true },
     password: { type: String },
     role: { type: String, enum: Object.values(USER_ROLE), default: USER_ROLE.ADMIN },
     provider: { type: String, enum: Object.values(PROVIDER), default: PROVIDER.CREDENTIALS },
@@ -16,29 +26,41 @@ const userSchema = new Schema<IUser>(
   {
     methods: {
       comparePassword: async function (givenPassword: string) {
-        if (this.provider === PROVIDER.CREDENTIALS) {
-          const isPasswordMatch = await bcrypt.compare(this.password!, givenPassword);
-          return isPasswordMatch;
-        }
+        if (this.provider !== PROVIDER.CREDENTIALS) return false;
+        const isPasswordMatch = await bcrypt.compare(givenPassword, this.password!);
+        return isPasswordMatch;
       },
-      generateAccessToken: async function () {
-        return;
+      generateAccessToken: function () {
+        const { _id, userId, name, role, provider } = this;
+        return jwt.sign({ _id, userId, name, role, provider }, ACCESS_TOKEN_SECRET!, { expiresIn: '30d' });
+      },
+      generateRefreshToken: function () {
+        const { _id, userId } = this;
+        return jwt.sign({ _id, userId }, REFRESH_TOKEN_SECRET!, { expiresIn: '30d' });
       },
     },
-    statics: {},
+    statics: {
+      verifyAccessToken: function (token: string) {
+        return jwt.verify(token, ACCESS_TOKEN_SECRET!) as TAccessTokenData;
+      },
+      verifyRefreshToken: function (token: string) {
+        return jwt.verify(token, REFRESH_TOKEN_SECRET!) as TRefreshTokenData;
+      },
+    },
     timestamps: true,
-  }
+  },
 );
 
 // hooks
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+
   try {
-    if (this.password) {
-      this.password = await bcrypt.hash(this.password, 50);
-      return next();
-    }
+    if (this.password) this.password = await bcrypt.hash(this.password, 6);
+    return next();
   } catch (error) {
     return next(error as CallbackError);
   }
 });
+
+export const User = model<IUser, IUserModel>('user', userSchema);
