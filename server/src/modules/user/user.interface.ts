@@ -12,7 +12,7 @@ export enum PROVIDER {
 
 export interface IUser {
   _id: Schema.Types.ObjectId;
-  userId: string;
+  email: string;
   name: string;
   password?: string;
   role: USER_ROLE;
@@ -31,5 +31,5 @@ export interface IUserModel extends Model<IUser, {}, IUserMethods> {
   verifyRefreshToken(token: string): TRefreshTokenData;
 }
 
-export type TAccessTokenData = Pick<IUser, '_id' | 'userId' | 'name' | 'role' | 'provider'>;
-export type TRefreshTokenData = Pick<IUser, '_id' | 'userId'>;
+export type TAccessTokenData = Pick<IUser, '_id' | 'email' | 'name' | 'role' | 'provider'>;
+export type TRefreshTokenData = Pick<IUser, '_id' | 'email'>;

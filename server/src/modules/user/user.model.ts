@@ -16,7 +16,7 @@ import jwt from 'jsonwebtoken';
 
 const userSchema = new Schema<IUser, IUserModel, IUserMethods>(
   {
-    userId: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
     name: { type: String, required: true, trim: true },
     password: { type: String },
     role: { type: String, enum: Object.values(USER_ROLE), default: USER_ROLE.ADMIN },
@@ -31,12 +31,12 @@ const userSchema = new Schema<IUser, IUserModel, IUserMethods>(
         return isPasswordMatch;
       },
       generateAccessToken: function () {
-        const { _id, userId, name, role, provider } = this;
-        return jwt.sign({ _id, userId, name, role, provider }, ACCESS_TOKEN_SECRET!, { expiresIn: '30d' });
+        const { _id, email, name, role, provider } = this;
+        return jwt.sign({ _id, email, name, role, provider }, ACCESS_TOKEN_SECRET!, { expiresIn: '30d' });
       },
       generateRefreshToken: function () {
-        const { _id, userId } = this;
-        return jwt.sign({ _id, userId }, REFRESH_TOKEN_SECRET!, { expiresIn: '30d' });
+        const { _id, email } = this;
+        return jwt.sign({ _id, email }, REFRESH_TOKEN_SECRET!, { expiresIn: '30d' });
       },
     },
     statics: {
