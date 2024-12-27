@@ -7,10 +7,16 @@ import { Input } from '@/components/ui/input';
 import { Form } from '@/components/ui/form';
 
 export function AddService() {
-  const { form, handleAddService } = useAddService();
+  const {
+    form,
+    handleAddService,
+    isPending,
+    state: { isOpen, setIsOpen },
+  } = useAddService();
 
   return (
     <CommonDialog
+      control={{ isOpen, setIsOpen }}
       title="Add New Service"
       description="Please provide the service details to add a new service."
       trigger={
@@ -37,7 +43,9 @@ export function AddService() {
                 Close
               </Button>
             </DialogClose>
-            <Button className="w-20">Add</Button>
+            <Button disabled={isPending} className="w-20">
+              {isPending ? 'Adding' : 'Add'}
+            </Button>
           </div>
         </form>
       </Form>

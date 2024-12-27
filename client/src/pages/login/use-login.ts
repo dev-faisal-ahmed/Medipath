@@ -21,7 +21,7 @@ export function useLogin() {
     defaultValues: { email: '', password: '' },
   });
 
-  const loginMutation = useMutation({ mutationFn: loginWithCredentials });
+  const { mutateAsync, isPending } = useMutation({ mutationFn: loginWithCredentials });
   const navigate = useNavigate();
   const { search } = useLocation();
 
@@ -31,7 +31,7 @@ export function useLogin() {
     tryCatch({
       id,
       tryFn: async () => {
-        const response = await loginMutation.mutateAsync({ email, password });
+        const response = await mutateAsync({ email, password });
         saveAccessTokenToLocal(response.data.accessToken);
         toast.success(response.message, { id });
         navigate({ to: search.redirect || '/' });
@@ -39,5 +39,5 @@ export function useLogin() {
     });
   });
 
-  return { loginForm, handleLogin };
+  return { loginForm, handleLogin, isPending };
 }
