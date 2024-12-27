@@ -6,7 +6,7 @@ import { loginWithCredentials } from '@/api/query/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from '@tanstack/react-router';
 import { useMutation } from '@tanstack/react-query';
-import { useAuth } from '@/hook/useAuth';
+import { useAuth } from '@/providers/auth/use-auth';
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: 'Invalid email' }),

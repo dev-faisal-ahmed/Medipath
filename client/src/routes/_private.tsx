@@ -1,10 +1,9 @@
-import { getLoggedUser } from '@/helper';
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { MainLayout } from '@/components/layout/main/main-layout';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_private')({
-  beforeLoad: ({ location }) => {
-    const user = getLoggedUser();
-    if (!user) throw redirect({ to: '/login', search: { redirect: location.href } });
+  beforeLoad: ({ location, context }) => {
+    if (!context.auth.user) throw redirect({ to: '/login', search: { redirect: location.pathname } });
   },
-  component: () => <Outlet />,
+  component: MainLayout,
 });
