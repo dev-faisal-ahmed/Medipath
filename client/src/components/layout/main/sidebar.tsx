@@ -11,7 +11,7 @@ export function Sidebar() {
   const { user } = useAuth();
 
   return (
-    <aside className="hidden min-h-screen flex-col border-r bg-card py-6 md:flex">
+    <aside className="hidden min-h-screen flex-col border-r bg-card py-4 md:flex">
       <AppLogo className="mx-4 pt-2" />
       <div className="mt-8 flex grow flex-col gap-3">
         {sidebarLinks.map(({ url, title, icon, isActive }) => (
@@ -29,7 +29,7 @@ export function Sidebar() {
         ))}
       </div>
 
-      <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4 border-t-2 px-6 pt-6">
+      <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4 border-t-2 px-4 pt-4">
         <div>
           <ProfileIcon name={user?.name as string} />
         </div>
