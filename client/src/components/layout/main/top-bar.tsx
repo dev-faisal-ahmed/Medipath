@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
-import { useAuth } from '@/providers';
 import { ProfileIcon } from '@/components/shared/profile-icon';
 import { Link, useLocation } from '@tanstack/react-router';
 import { ProfileMenu } from './profile-menu';
 import { PlusIcon } from 'lucide-react';
 import { TooltipContainer } from '@/components/ui/tooltip';
+import { getLoggedUser } from '@/helper';
 
 export function TopBar() {
   const { pathname } = useLocation();
-  const { user } = useAuth();
+  const user = getLoggedUser();
 
   const title = useMemo(() => {
     if (pathname === '/') return 'Dashboard';

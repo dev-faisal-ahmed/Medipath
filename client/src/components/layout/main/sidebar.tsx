@@ -4,13 +4,13 @@ import { ProfileIcon } from '@/components/shared/profile-icon';
 import { ISidebarLink, useSidebarLinks } from './use-sidebar-links';
 import { Link } from '@tanstack/react-router';
 import { ProfileMenu } from './profile-menu';
-import { useAuth } from '@/providers';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDownIcon } from 'lucide-react';
+import { getLoggedUser } from '@/helper';
 
 export function Sidebar() {
   const { sidebarLinks } = useSidebarLinks();
-  const { user } = useAuth();
+  const user = getLoggedUser();
 
   return (
     <aside className="hidden min-h-screen flex-col border-r bg-card py-4 md:flex">
@@ -45,7 +45,7 @@ function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink) {
           <div
             className={cn(
               'flex items-center gap-3 rounded-md border-r border-transparent px-2 py-2 duration-300 hover:bg-primary hover:text-white',
-              isActive && 'bg-primary/10 font-semibold',
+              isActive && 'bg-primary/10 font-semibold text-primary',
             )}
           >
             {icon}
@@ -60,10 +60,11 @@ function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink) {
             <div className="flex flex-col border-l pl-2">
               {items.map((item) => (
                 <Link
+                  key={item.url}
                   to={item.url}
                   className={cn(
                     'rounded-md px-2 py-2 hover:bg-primary hover:text-white',
-                    item.isActive && 'bg-primary/10 font-semibold',
+                    item.isActive && 'bg-primary/10 font-semibold text-primary',
                   )}
                 >
                   {item.title}
@@ -80,7 +81,7 @@ function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink) {
       to={url}
       className={cn(
         'mx-4 flex items-center gap-3 rounded-md px-2 py-2 duration-300 hover:bg-primary hover:text-white',
-        isActive && 'bg-primary/10 font-semibold',
+        isActive && 'bg-primary/10 font-semibold text-primary',
       )}
     >
       {icon}
