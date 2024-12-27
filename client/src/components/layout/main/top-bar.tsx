@@ -12,6 +12,8 @@ export function TopBar() {
 
   const title = useMemo(() => {
     if (pathname === '/') return 'Dashboard';
+    if (pathname === '/services') return 'Services';
+    if (pathname === '/add-bill') return 'Bill Entry';
   }, [pathname]);
 
   return (
