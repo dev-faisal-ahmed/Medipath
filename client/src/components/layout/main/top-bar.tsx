@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import { ProfileIcon } from '@/components/shared/profile-icon';
-import { Link, useLocation } from '@tanstack/react-router';
-import { ProfileMenu } from './profile-menu';
 import { PlusIcon } from 'lucide-react';
 import { TooltipContainer } from '@/components/ui/tooltip';
+import { Link, useLocation } from '@tanstack/react-router';
+import { ProfileMenu } from './profile-menu';
+import { ProfileIcon } from '@/components/shared';
 import { getLoggedUser } from '@/helper';
 
 export function TopBar() {

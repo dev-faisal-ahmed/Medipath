@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import { AppLogo } from './app-logo';
-import { ProfileIcon } from '@/components/shared/profile-icon';
+import { ProfileIcon } from '@/components/shared';
 import { ISidebarLink, useSidebarLinks } from './use-sidebar-links';
 import { Link } from '@tanstack/react-router';
 import { ProfileMenu } from './profile-menu';

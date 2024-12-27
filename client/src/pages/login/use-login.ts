@@ -16,7 +16,7 @@ const loginFormSchema = z.object({
 type TLoginForm = z.infer<typeof loginFormSchema>;
 
 export function useLogin() {
-  const loginForm = useForm<TLoginForm>({
+  const form = useForm<TLoginForm>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: { email: '', password: '' },
   });
@@ -25,7 +25,7 @@ export function useLogin() {
   const navigate = useNavigate();
   const { search } = useLocation();
 
-  const handleLogin = loginForm.handleSubmit((data) => {
+  const handleLogin = form.handleSubmit((data) => {
     const id = toast.loading('Logging in...');
     const { email, password } = data;
     tryCatch({
@@ -39,5 +39,5 @@ export function useLogin() {
     });
   });
 
-  return { loginForm, handleLogin, isPending };
+  return { form, handleLogin, isPending };
 }

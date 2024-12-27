@@ -1,13 +1,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input, PasswordInput } from '@/components/ui/input';
-import { Form, FormField } from '@/components/ui/form';
-import { CommonFormItem } from '@/components/shared';
-import { Button } from '@/components/ui/button';
 import { useLogin } from './use-login';
+import { Form } from '@/components/ui/form';
+import { Input, PasswordInput } from '@/components/ui/input';
+import { CommonFormFiled } from '@/components/shared';
+import { Button } from '@/components/ui/button';
 
 export function LoginPage() {
-  const { loginForm, handleLogin } = useLogin();
-  const { control } = loginForm;
+  const { form, handleLogin, isPending } = useLogin();
 
   return (
     <main className="flex h-dvh items-center justify-center">
@@ -19,29 +18,17 @@ export function LoginPage() {
           <CardDescription className="text-center font-semibold">Please provide your credentials</CardDescription>
         </CardHeader>
         <CardContent>
-          <Form {...loginForm}>
-            <form onSubmit={handleLogin}>
-              <div className="space-y-3">
-                <FormField
-                  control={control}
-                  name="email"
-                  render={({ field }) => (
-                    <CommonFormItem label="Email">
-                      <Input {...field} placeholder="@: john@doe" />
-                    </CommonFormItem>
-                  )}
-                />
-                <FormField
-                  control={control}
-                  name="password"
-                  render={({ field }) => (
-                    <CommonFormItem label="Password" description="Please use a strong password">
-                      <PasswordInput {...field} placeholder="@: ------" />
-                    </CommonFormItem>
-                  )}
-                />
-              </div>
-              <Button className="mt-6 w-full">Login</Button>
+          <Form {...form}>
+            <form className="flex flex-col gap-3" onSubmit={handleLogin}>
+              <CommonFormFiled control={form.control} name="email" label="Email">
+                {({ field }) => <Input {...field} placeholder="@: John@doe" />}
+              </CommonFormFiled>
+              <CommonFormFiled control={form.control} name="password" label="Password">
+                {({ field }) => <PasswordInput {...field} placeholder="@: ------" />}
+              </CommonFormFiled>
+              <Button disabled={isPending} className="mt-2 w-full">
+                {isPending ? 'Logging in...' : 'Login'}
+              </Button>
             </form>
           </Form>
         </CardContent>

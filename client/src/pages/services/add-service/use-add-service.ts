@@ -1,11 +1,11 @@
-import { addService } from '@/api/query/service';
-import { tryCatch, wordCapitalize } from '@/helper';
+import { z } from 'zod';
+import { toast } from 'sonner';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
+import { addService } from '@/api/query/service';
+import { tryCatch, wordCapitalize } from '@/helper';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
 
 const addServiceSchema = z.object({
   name: z

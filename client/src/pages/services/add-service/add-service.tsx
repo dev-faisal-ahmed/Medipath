@@ -29,13 +29,13 @@ export function AddService() {
       <Form {...form}>
         <form className="flex flex-col gap-3" onSubmit={handleAddService}>
           <CommonFormFiled name="name" label="Name∗">
-            {({ field }) => <Input {...field} />}
+            {({ field }) => <Input {...field} placeholder="@: X-Ray" />}
           </CommonFormFiled>
           <CommonFormFiled name="price" label="Price∗">
-            {({ field }) => <Input {...field} />}
+            {({ field }) => <Input {...field} placeholder="@: 450" />}
           </CommonFormFiled>
           <CommonFormFiled name="roomNo" label="Room No">
-            {({ field }) => <Input {...field} />}
+            {({ field }) => <Input {...field} placeholder="@ 203" />}
           </CommonFormFiled>
           <div className="mt-4 flex items-center justify-end gap-4">
             <DialogClose>
