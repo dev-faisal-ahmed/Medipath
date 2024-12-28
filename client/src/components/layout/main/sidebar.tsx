@@ -13,11 +13,11 @@ export function Sidebar() {
   const user = getLoggedUser();
 
   return (
-    <aside className="hidden min-h-screen flex-col bg-white py-4 shadow-md md:flex">
+    <aside className="hidden min-h-screen flex-col py-4 md:flex">
       <Link to="/">
         <AppLogo className="mx-4 pt-2" />
       </Link>
-      <div className="mt-8 flex grow flex-col">
+      <div className="mt-20 flex grow flex-col gap-2">
         {sidebarLinks.map((link, index) => (
           <SidebarLink key={index} {...link} />
         ))}
@@ -46,8 +46,8 @@ function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink) {
         <CollapsibleTrigger className="group w-full px-4">
           <div
             className={cn(
-              'flex items-center gap-3 rounded-md border-r border-transparent px-2 py-2 duration-300 hover:bg-primary hover:text-white',
-              isActive && 'bg-secondary/20 font-semibold text-primary',
+              'flex items-center gap-3 rounded-md border-r border-transparent p-3 duration-300 hover:bg-secondary/30 hover:text-primary',
+              isActive && 'bg-primary font-semibold text-white',
             )}
           >
             {icon}
@@ -58,15 +58,15 @@ function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink) {
           </div>
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <div className="pl-8 pr-4">
-            <div className="flex flex-col border-l pl-2">
+          <div className="mt-2 pl-8 pr-4">
+            <div className="flex flex-col gap-2 border-l pl-2">
               {items.map((item) => (
                 <Link
                   key={item.url}
                   to={item.url}
                   className={cn(
-                    'rounded-md px-2 py-2 hover:bg-primary hover:text-white',
-                    item.isActive && 'bg-secondary/20 font-semibold text-primary',
+                    'rounded-md p-3 hover:bg-secondary/30 hover:text-primary',
+                    item.isActive && 'bg-primary font-semibold text-white',
                   )}
                 >
                   {item.title}
@@ -82,8 +82,8 @@ function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink) {
     <Link
       to={url}
       className={cn(
-        'mx-4 flex items-center gap-3 rounded-md px-2 py-2 duration-300 hover:bg-primary hover:text-white',
-        isActive && 'bg-secondary/20 font-semibold text-primary',
+        'mx-4 flex items-center gap-3 rounded-md p-3 duration-300 hover:bg-secondary/30 hover:text-primary',
+        isActive && 'bg-primary font-semibold text-white',
       )}
     >
       {icon}
