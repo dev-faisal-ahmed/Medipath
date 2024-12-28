@@ -1,4 +1,4 @@
-import { AddService } from './add-service/add-service';
+import { AddService } from './add-service';
 
 export function ServicesPage() {
   return (

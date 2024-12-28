@@ -1,4 +1,4 @@
-import { MainLayout } from '@/components/layout/main/main-layout';
+import { MainLayout } from '@/components/layout/main/main.layout';
 import { getLoggedUser } from '@/helper';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
