@@ -3,12 +3,9 @@ type TProps = {
   name: string;
 };
 
-export const ProfileIcon = ({ name, size = 40 }: TProps) => {
+export const ProfileIcon = ({ name }: TProps) => {
   return (
-    <div
-      className="flex items-center justify-center rounded-full bg-primary text-2xl font-bold text-white"
-      style={{ height: size, width: size }}
-    >
+    <div className="flex size-9 items-center justify-center rounded-md bg-primary text-2xl font-bold text-white">
       {name?.[0]}
     </div>
   );

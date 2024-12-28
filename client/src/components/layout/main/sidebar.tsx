@@ -13,15 +13,17 @@ export function Sidebar() {
   const user = getLoggedUser();
 
   return (
-    <aside className="hidden min-h-screen flex-col border-r bg-card py-4 md:flex">
-      <AppLogo className="mx-4 pt-2" />
+    <aside className="hidden min-h-screen flex-col bg-white py-4 shadow-md md:flex">
+      <Link to="/">
+        <AppLogo className="mx-4 pt-2" />
+      </Link>
       <div className="mt-8 flex grow flex-col">
         {sidebarLinks.map((link, index) => (
           <SidebarLink key={index} {...link} />
         ))}
       </div>
 
-      <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4 border-t-2 px-4 pt-4">
+      <div className="mx-4 grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-md bg-secondary/20 p-4">
         <div>
           <ProfileIcon name={user?.name as string} />
         </div>
@@ -45,7 +47,7 @@ function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink) {
           <div
             className={cn(
               'flex items-center gap-3 rounded-md border-r border-transparent px-2 py-2 duration-300 hover:bg-primary hover:text-white',
-              isActive && 'bg-primary/10 font-semibold text-primary',
+              isActive && 'bg-secondary/20 font-semibold text-primary',
             )}
           >
             {icon}
@@ -64,7 +66,7 @@ function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink) {
                   to={item.url}
                   className={cn(
                     'rounded-md px-2 py-2 hover:bg-primary hover:text-white',
-                    item.isActive && 'bg-primary/10 font-semibold text-primary',
+                    item.isActive && 'bg-secondary/20 font-semibold text-primary',
                   )}
                 >
                   {item.title}
@@ -81,7 +83,7 @@ function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink) {
       to={url}
       className={cn(
         'mx-4 flex items-center gap-3 rounded-md px-2 py-2 duration-300 hover:bg-primary hover:text-white',
-        isActive && 'bg-primary/10 font-semibold text-primary',
+        isActive && 'bg-secondary/20 font-semibold text-primary',
       )}
     >
       {icon}

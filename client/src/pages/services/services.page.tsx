@@ -1,11 +1,15 @@
+import { Header } from '@/providers/header/header.provider';
 import { AddService } from './add-service';
 
 export function ServicesPage() {
   return (
-    <main className="p-6">
-      <section className="flex items-center justify-end">
+    <>
+      <Header title="Service">
         <AddService />
-      </section>
-    </main>
+      </Header>
+      <main className="p-6">
+        <section className="flex items-center justify-end"></section>
+      </main>
+    </>
   );
 }

@@ -45,7 +45,7 @@ export function AddService() {
             {({ field }) => <Input {...field} placeholder="@ 203" />}
           </CommonFormFiled>
           <div className="mt-4 flex items-center justify-end gap-4">
-            <DialogClose>
+            <DialogClose asChild>
               <Button className="w-20" variant="destructive">
                 Close
               </Button>

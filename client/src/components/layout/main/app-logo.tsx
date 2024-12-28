@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-
+import { FaHandHoldingMedical } from 'react-icons/fa6';
 interface IProps {
   className?: string;
   hideTitle?: boolean;
@@ -8,7 +8,9 @@ interface IProps {
 export function AppLogo({ className, hideTitle }: IProps) {
   return (
     <div className={cn('flex items-center gap-2', className)}>
-      <img src={'/images/medipath.jpg'} width={60} height={60} alt="Logo" />
+      <span className="text-primary">
+        <FaHandHoldingMedical size={36} />
+      </span>
       {!hideTitle && (
         <h3 className="text-2xl font-bold">
           <span className="text-destructive">Medi</span>

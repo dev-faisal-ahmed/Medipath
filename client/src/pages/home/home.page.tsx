@@ -1,3 +1,10 @@
+import { Header } from '@/providers/header/header.provider';
+
 export function HomePage() {
-  return <div>Home Page</div>;
+  return (
+    <>
+      <Header title="Dashboard" />
+      <div>Home Page</div>
+    </>
+  );
 }

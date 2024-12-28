@@ -1,14 +1,15 @@
 import { Outlet } from '@tanstack/react-router';
 import { Sidebar } from './sidebar';
-import { TopBar } from './top-bar';
+import { HeaderProvider } from '@/providers/header/header.provider';
 
 export function MainLayout() {
   return (
     <main className="grid h-dvh grid-cols-[280px_1fr]">
       <Sidebar />
       <main>
-        <TopBar />
-        <Outlet />
+        <HeaderProvider>
+          <Outlet />
+        </HeaderProvider>
       </main>
     </main>
   );
