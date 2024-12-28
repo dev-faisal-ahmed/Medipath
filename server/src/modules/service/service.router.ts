@@ -12,3 +12,7 @@ serviceRouter.post(
   validationHandler(serviceValidation.addService),
   serviceController.addService,
 );
+
+export const servicesRouter = Router();
+
+servicesRouter.get('/', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), serviceController.getServices);

@@ -1,5 +1,6 @@
 import { AppError } from '../../utils';
 import { Service } from './service.model';
+import { generateMeta, getPageParams, getPartialFilterParams } from '../../helpers';
 import { TAddServicePayload } from './service.validation';
 
 async function addService(payload: TAddServicePayload) {
@@ -12,4 +13,13 @@ async function addService(payload: TAddServicePayload) {
   return 'Service added successfully';
 }
 
-export const serviceService = { addService };
+async function getServices(query: Record<string, unknown>) {
+  const { page, limit, skip } = getPageParams(query);
+  const dbQuery = { isDeleted: false, ...getPartialFilterParams(query, 'name') };
+  const total = await Service.countDocuments(dbQuery);
+  const meta = generateMeta({ page, limit, total });
+  const services = await Service.find(dbQuery).skip(skip).limit(limit);
+  return { services, meta };
+}
+
+export const serviceService = { addService, getServices };

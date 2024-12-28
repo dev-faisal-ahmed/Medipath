@@ -7,4 +7,9 @@ const addService = catchAsync(async (req, res) => {
   sendSuccessResponse(res, { message, data: null });
 });
 
-export const serviceController = { addService };
+const getServices = catchAsync(async (req, res) => {
+  const { meta, services } = await serviceService.getServices(req.query);
+  sendSuccessResponse(res, { message: 'Services retrieved successfully', data: { meta, services } });
+});
+
+export const serviceController = { addService, getServices };

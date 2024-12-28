@@ -5,4 +5,5 @@ export interface IService {
   name: string;
   price: number;
   roomNo: string;
+  isDeleted: boolean;
 }

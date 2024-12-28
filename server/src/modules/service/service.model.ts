@@ -5,6 +5,7 @@ const serviceSchema = new Schema<IService>({
   name: { type: String, required: true, unique: true },
   price: { type: Number, required: true, min: 50 },
   roomNo: { type: String },
+  isDeleted: { type: Boolean, default: false },
 });
 
 export const Service = model<IService>('service', serviceSchema);
