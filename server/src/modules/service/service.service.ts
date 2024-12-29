@@ -18,7 +18,10 @@ async function getServices(query: Record<string, unknown>) {
   const dbQuery = { isDeleted: false, ...getPartialFilterParams(query, 'name') };
   const total = await Service.countDocuments(dbQuery);
   const meta = generateMeta({ page, limit, total });
-  const services = await Service.find(dbQuery).skip(skip).limit(limit);
+  const services = await Service.find(dbQuery, { updatedAt: 0, __v: 0, isDeleted: 0 })
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
   return { services, meta };
 }
 

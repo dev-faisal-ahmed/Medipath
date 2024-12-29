@@ -6,7 +6,7 @@ export function MainLayout() {
   return (
     <main className="grid h-dvh grid-cols-[280px_1fr]">
       <Sidebar />
-      <main>
+      <main className="flex h-dvh flex-col">
         <HeaderProvider>
           <Outlet />
         </HeaderProvider>

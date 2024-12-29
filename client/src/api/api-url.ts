@@ -5,4 +5,5 @@ export const apiUrl = {
   loginWithCredentials: `${SERVER_ADDRESS}/auth/login/credentials`,
   // service
   addService: `${SERVER_ADDRESS}/service`,
+  getServices: (searchParams: string) => `${SERVER_ADDRESS}/services?${searchParams}`,
 };

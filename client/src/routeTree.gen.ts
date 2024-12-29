@@ -15,11 +15,11 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as PrivateImport } from './routes/_private'
+import { Route as PrivateServicesRouteImport } from './routes/_private/services/route'
 
 // Create Virtual Routes
 
 const PrivateIndexLazyImport = createFileRoute('/_private/')()
-const PrivateServicesLazyImport = createFileRoute('/_private/services')()
 const PrivateAddBillLazyImport = createFileRoute('/_private/add-bill')()
 
 // Create/Update Routes
@@ -43,20 +43,20 @@ const PrivateIndexLazyRoute = PrivateIndexLazyImport.update({
   import('./routes/_private/index.lazy').then((d) => d.Route),
 )
 
-const PrivateServicesLazyRoute = PrivateServicesLazyImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => PrivateRoute,
-} as any).lazy(() =>
-  import('./routes/_private/services.lazy').then((d) => d.Route),
-)
-
 const PrivateAddBillLazyRoute = PrivateAddBillLazyImport.update({
   id: '/add-bill',
   path: '/add-bill',
   getParentRoute: () => PrivateRoute,
 } as any).lazy(() =>
   import('./routes/_private/add-bill.lazy').then((d) => d.Route),
+)
+
+const PrivateServicesRouteRoute = PrivateServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => PrivateRoute,
+} as any).lazy(() =>
+  import('./routes/_private/services/route.lazy').then((d) => d.Route),
 )
 
 // Populate the FileRoutesByPath interface
@@ -77,18 +77,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
+    '/_private/services': {
+      id: '/_private/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof PrivateServicesRouteImport
+      parentRoute: typeof PrivateImport
+    }
     '/_private/add-bill': {
       id: '/_private/add-bill'
       path: '/add-bill'
       fullPath: '/add-bill'
       preLoaderRoute: typeof PrivateAddBillLazyImport
-      parentRoute: typeof PrivateImport
-    }
-    '/_private/services': {
-      id: '/_private/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof PrivateServicesLazyImport
       parentRoute: typeof PrivateImport
     }
     '/_private/': {
@@ -104,14 +104,14 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface PrivateRouteChildren {
+  PrivateServicesRouteRoute: typeof PrivateServicesRouteRoute
   PrivateAddBillLazyRoute: typeof PrivateAddBillLazyRoute
-  PrivateServicesLazyRoute: typeof PrivateServicesLazyRoute
   PrivateIndexLazyRoute: typeof PrivateIndexLazyRoute
 }
 
 const PrivateRouteChildren: PrivateRouteChildren = {
+  PrivateServicesRouteRoute: PrivateServicesRouteRoute,
   PrivateAddBillLazyRoute: PrivateAddBillLazyRoute,
-  PrivateServicesLazyRoute: PrivateServicesLazyRoute,
   PrivateIndexLazyRoute: PrivateIndexLazyRoute,
 }
 
@@ -121,15 +121,15 @@ const PrivateRouteWithChildren =
 export interface FileRoutesByFullPath {
   '': typeof PrivateRouteWithChildren
   '/login': typeof LoginRoute
+  '/services': typeof PrivateServicesRouteRoute
   '/add-bill': typeof PrivateAddBillLazyRoute
-  '/services': typeof PrivateServicesLazyRoute
   '/': typeof PrivateIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
+  '/services': typeof PrivateServicesRouteRoute
   '/add-bill': typeof PrivateAddBillLazyRoute
-  '/services': typeof PrivateServicesLazyRoute
   '/': typeof PrivateIndexLazyRoute
 }
 
@@ -137,22 +137,22 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_private': typeof PrivateRouteWithChildren
   '/login': typeof LoginRoute
+  '/_private/services': typeof PrivateServicesRouteRoute
   '/_private/add-bill': typeof PrivateAddBillLazyRoute
-  '/_private/services': typeof PrivateServicesLazyRoute
   '/_private/': typeof PrivateIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/login' | '/add-bill' | '/services' | '/'
+  fullPaths: '' | '/login' | '/services' | '/add-bill' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/add-bill' | '/services' | '/'
+  to: '/login' | '/services' | '/add-bill' | '/'
   id:
     | '__root__'
     | '/_private'
     | '/login'
-    | '/_private/add-bill'
     | '/_private/services'
+    | '/_private/add-bill'
     | '/_private/'
   fileRoutesById: FileRoutesById
 }
@@ -184,20 +184,20 @@ export const routeTree = rootRoute
     "/_private": {
       "filePath": "_private.tsx",
       "children": [
-        "/_private/add-bill",
         "/_private/services",
+        "/_private/add-bill",
         "/_private/"
       ]
     },
     "/login": {
       "filePath": "login.tsx"
     },
-    "/_private/add-bill": {
-      "filePath": "_private/add-bill.lazy.tsx",
+    "/_private/services": {
+      "filePath": "_private/services/route.tsx",
       "parent": "/_private"
     },
-    "/_private/services": {
-      "filePath": "_private/services.lazy.tsx",
+    "/_private/add-bill": {
+      "filePath": "_private/add-bill.lazy.tsx",
       "parent": "/_private"
     },
     "/_private/": {

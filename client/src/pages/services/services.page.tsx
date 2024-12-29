@@ -1,5 +1,6 @@
 import { Header } from '@/providers/header/header.provider';
 import { AddService } from './add-service';
+import { ServicesTable } from './service-table';
 
 export function ServicesPage() {
   return (
@@ -7,9 +8,7 @@ export function ServicesPage() {
       <Header title="Service">
         <AddService />
       </Header>
-      <main className="p-6">
-        <section className="flex items-center justify-end"></section>
-      </main>
+      <ServicesTable />
     </>
   );
 }

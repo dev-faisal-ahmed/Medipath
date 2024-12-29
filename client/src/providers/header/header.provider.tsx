@@ -2,11 +2,11 @@ import { memo, PropsWithChildren, useCallback, useEffect, useMemo, useState } fr
 import { ProfileMenu } from '@/components/layout/main/profile-menu';
 import { ProfileIcon } from '@/components/shared';
 import { TooltipContainer } from '@/components/ui/tooltip';
+import { HeaderContext, useHeaderContext } from './header.context';
 import { getLoggedUser } from '@/helper';
 import { Link } from '@tanstack/react-router';
 import { ReactNode } from '@tanstack/react-router';
 import { PlusIcon } from 'lucide-react';
-import { HeaderContext, useHeaderContext } from './header.context';
 
 export function HeaderProvider({ children }: PropsWithChildren) {
   const [headerChild, setHeaderChild] = useState<ReactNode | null>();
@@ -42,7 +42,7 @@ export function HeaderProvider({ children }: PropsWithChildren) {
           <div className="my-2 border-t" />
         </ProfileMenu>
       </nav>
-      {children}
+      <main className="grow">{children}</main>
     </HeaderContext.Provider>
   );
 }

@@ -12,6 +12,8 @@ import { useMutation } from '@tanstack/react-query';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { queryClient } from '@/providers';
+import { QUERY_KEYS } from '@/api';
 
 export function AddService() {
   const {
@@ -78,7 +80,14 @@ function useAddService() {
     defaultValues: { name: '', price: '', roomNo: '' },
   });
 
-  const { isPending, mutateAsync } = useMutation({ mutationFn: addService });
+  const { isPending, mutateAsync } = useMutation({
+    mutationFn: addService,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SERVICES] });
+      form.reset();
+      setIsOpen(false);
+    },
+  });
 
   const handleAddService = form.handleSubmit((data) => {
     const id = toast.loading('Adding Service');
@@ -87,7 +96,6 @@ function useAddService() {
       tryFn: async () => {
         const response = await mutateAsync({ ...data, price: Number(data.price) });
         toast.success(response.message, { id });
-        setIsOpen(false);
       },
     });
   });
