@@ -19,14 +19,14 @@ export function DataTable<TData, TValue>({ columns, data, pagination }: IDataTab
   });
 
   return (
-    <div className="border">
+    <div className="rounded-md border bg-neutral-100 shadow">
       <Table>
-        <TableHeader className="sticky top-0 bg-neutral-100 shadow">
+        <TableHeader className="sticky top-0 shadow backdrop-blur-md">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead className="font-semibold uppercase" key={header.id}>
+                  <TableHead className="py-4 font-semibold" key={header.id}>
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 );
@@ -38,7 +38,7 @@ export function DataTable<TData, TValue>({ columns, data, pagination }: IDataTab
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                className="border-b even:bg-gray-50"
+                className="border-b odd:bg-background even:bg-gray-50"
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
               >
@@ -72,7 +72,7 @@ interface ITabelPaginationProps {
 function TablePagination({ page, totalPages }: ITabelPaginationProps) {
   const navigate = useNavigate();
   return (
-    <div className="flex items-center justify-between p-4">
+    <div className="sticky bottom-0 flex h-16 items-center justify-between gap-4 border-t px-4 backdrop-blur-md">
       <Button
         onClick={() => navigate({ search: { page: String(page - 1) } as any })}
         disabled={page === 1}
@@ -80,6 +80,9 @@ function TablePagination({ page, totalPages }: ITabelPaginationProps) {
       >
         <ArrowLeftIcon /> Previous
       </Button>
+      <div className="font-semibold">
+        {page} / {totalPages}
+      </div>
       <Button
         onClick={() => navigate({ search: { page: String(page + 1) } as any })}
         disabled={page === totalPages}

@@ -3,6 +3,7 @@ import { getServices } from '@/api/query';
 import { DataTable } from '@/components/ui/data-table';
 import { removeEmptyProperty } from '@/helper';
 import { IService } from '@/lib/types';
+import { useHeaderContext } from '@/providers/header/header.context';
 import { useQuery } from '@tanstack/react-query';
 import { getRouteApi } from '@tanstack/react-router';
 import { ColumnDef } from '@tanstack/react-table';
@@ -12,9 +13,16 @@ const routeApi = getRouteApi('/_private/services');
 
 export function ServicesTable() {
   const params = routeApi.useSearch();
-  const { data: servicesData, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.SERVICES, { ...removeEmptyProperty(params) }],
-    queryFn: () => getServices(params),
+  const { searchTerm } = useHeaderContext();
+
+  const {
+    data: servicesData,
+    isLoading,
+    isFetching,
+  } = useQuery({
+    queryKey: [QUERY_KEYS.SERVICES, { ...removeEmptyProperty({ ...params, searchTerm }) }],
+    queryFn: () => getServices({ ...params, name: searchTerm }),
+    staleTime: Infinity,
   });
 
   const page = servicesData?.meta?.page || 1;
@@ -43,7 +51,7 @@ export function ServicesTable() {
     ];
   }, [limit, page]);
 
-  if (isLoading) return <div>Loading....</div>;
+  if (isLoading || isFetching) return <div>Loading....</div>;
   if (!servicesData) return <div> No Data Found</div>;
 
   return (

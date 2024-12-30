@@ -3,6 +3,8 @@ import { createContext, ReactNode, useContext } from 'react';
 interface IHeaderContext {
   updateHeaderChild(child: ReactNode | null): void;
   updateHeaderTitle(title: ReactNode | string): void;
+  updateShowSearchBar(show: boolean): void;
+  searchTerm: string;
 }
 
 export const HeaderContext = createContext<IHeaderContext | null>(null);

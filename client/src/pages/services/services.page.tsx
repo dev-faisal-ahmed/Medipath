@@ -5,7 +5,7 @@ import { ServicesTable } from './service-table';
 export function ServicesPage() {
   return (
     <>
-      <Header title="Service">
+      <Header showSearchBar>
         <AddService />
       </Header>
       <ServicesTable />
