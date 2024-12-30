@@ -29,10 +29,7 @@ export function ServicesTable() {
         cell: ({ row }) => <span>{(page - 1) * limit + (row.index + 1)}</span>,
         meta: { noStretch: true },
       },
-      {
-        accessorKey: 'name',
-        header: 'Name',
-      },
+      { accessorKey: 'name', header: 'Name' },
       {
         accessorKey: 'price',
         header: () => <div className="text-center">Price</div>,

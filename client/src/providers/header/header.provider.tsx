@@ -7,6 +7,7 @@ import { getLoggedUser } from '@/helper';
 import { Link } from '@tanstack/react-router';
 import { ReactNode } from '@tanstack/react-router';
 import { PlusIcon } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export function HeaderProvider({ children }: PropsWithChildren) {
   const [headerChild, setHeaderChild] = useState<ReactNode | null>();
@@ -42,7 +43,9 @@ export function HeaderProvider({ children }: PropsWithChildren) {
           <div className="my-2 border-t" />
         </ProfileMenu>
       </nav>
-      <main className="grow">{children}</main>
+      <main className="mt-2 h-[calc(100vh-64px)]">
+        <ScrollArea className="h-full">{children}</ScrollArea>
+      </main>
     </HeaderContext.Provider>
   );
 }
