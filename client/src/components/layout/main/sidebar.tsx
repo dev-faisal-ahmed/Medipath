@@ -59,7 +59,7 @@ function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink) {
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="mt-2 pl-8 pr-4">
-            <div className="flex flex-col gap-2 border-l pl-2">
+            <div className="flex flex-col border-l pl-2">
               {items.map((item) => (
                 <Link
                   key={item.url}

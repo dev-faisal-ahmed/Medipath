@@ -31,7 +31,7 @@ export function HeaderProvider({ children }: PropsWithChildren) {
 
   return (
     <HeaderContext.Provider value={contextValue}>
-      <nav className="flex h-16 items-center gap-3 px-6">
+      <nav className="flex items-center gap-3 p-6">
         {showSearchBar ? (
           <div className="relative w-full max-w-96">
             <SearchIcon className="absolute left-2 top-1/2 size-5 -translate-y-1/2 text-primary" />
@@ -69,9 +69,9 @@ export function HeaderProvider({ children }: PropsWithChildren) {
           <div className="my-2 border-t" />
         </ProfileMenu>
       </nav>
-      <main className="mt-2 h-[calc(100vh-64px)]">
-        <ScrollArea className="h-full">{children}</ScrollArea>
-      </main>
+      {/* <main className="mt-2 h-[calc(100vh-64px)]"> */}
+      <ScrollArea className="h-full">{children}</ScrollArea>
+      {/* </main> */}
     </HeaderContext.Provider>
   );
 }
