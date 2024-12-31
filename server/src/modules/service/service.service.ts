@@ -1,7 +1,7 @@
 import { AppError } from '../../utils';
 import { Service } from './service.model';
 import { generateMeta, getPageParams, getPartialFilterParams } from '../../helpers';
-import { TAddServicePayload } from './service.validation';
+import { TAddServicePayload, TUpdateServicePayload } from './service.validation';
 
 async function addService(payload: TAddServicePayload) {
   const isServiceExist = await Service.exists({ name: payload.name });
@@ -25,4 +25,14 @@ async function getServices(query: Record<string, unknown>) {
   return { services, meta };
 }
 
-export const serviceService = { addService, getServices };
+async function updateService(payload: TUpdateServicePayload, serviceId: string) {
+  await Service.updateOne({ _id: serviceId }, { $set: payload });
+  return 'Service Updated';
+}
+
+async function deleteService(serviceId: string) {
+  await Service.updateOne({ _id: serviceId }, { $set: { isDeleted: true } });
+  return 'Service Deleted';
+}
+
+export const serviceService = { addService, getServices, updateService, deleteService };

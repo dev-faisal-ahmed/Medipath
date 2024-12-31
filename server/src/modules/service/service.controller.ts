@@ -12,4 +12,14 @@ const getServices = catchAsync(async (req, res) => {
   sendSuccessResponse(res, { message: 'Services retrieved successfully', data: services, meta });
 });
 
-export const serviceController = { addService, getServices };
+const updateService = catchAsync(async (req, res) => {
+  const message = await serviceService.updateService(req.body, req.params.serviceId);
+  sendSuccessResponse(res, { message, data: null });
+});
+
+const deleteService = catchAsync(async (req, res) => {
+  const message = await serviceService.deleteService(req.params.serviceId);
+  sendSuccessResponse(res, { message, data: null });
+});
+
+export const serviceController = { addService, getServices, updateService, deleteService };

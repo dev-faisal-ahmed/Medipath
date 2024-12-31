@@ -13,6 +13,15 @@ serviceRouter.post(
   serviceController.addService,
 );
 
+serviceRouter.patch(
+  '/:serviceId',
+  authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
+  validationHandler(serviceValidation.updateService),
+  serviceController.updateService,
+);
+
+serviceRouter.delete('/:serviceId', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), serviceController.deleteService);
+
 export const servicesRouter = Router();
 
 servicesRouter.get('/', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), serviceController.getServices);
