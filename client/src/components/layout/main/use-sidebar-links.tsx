@@ -1,7 +1,7 @@
 import { ReactNode, useMemo } from 'react';
 import { useLocation } from '@tanstack/react-router';
 import { MdSpaceDashboard } from 'react-icons/md';
-import { FaXRay } from 'react-icons/fa6';
+import { FaXRay, FaUserDoctor } from 'react-icons/fa6';
 import { RiBillFill } from 'react-icons/ri';
 
 export interface ISidebarLink {
@@ -17,7 +17,7 @@ export function useSidebarLinks() {
 
   const sidebarLinks = useMemo(() => {
     const exactMath = (link: string) => pathname === link;
-    // const partialMatch = (link: string) => pathname.startsWith(link);
+    const partialMatch = (link: string) => pathname.startsWith(link);
     const matchList = (links: string[]) => links.includes(pathname);
 
     const links: ISidebarLink[] = [
@@ -35,6 +35,15 @@ export function useSidebarLinks() {
         items: [
           { title: 'Bills', url: '/bills', isActive: exactMath('/bills') },
           { title: 'Bill Entry', url: '/add-bill', isActive: exactMath('/add-bill') },
+        ],
+      },
+      {
+        title: 'Referrer',
+        icon: <FaUserDoctor size={20} />,
+        isActive: partialMatch('/referrer'),
+        items: [
+          { title: 'Agents', url: '/referrer/agents', isActive: exactMath('/referrer/agents') },
+          { title: 'Doctors', url: '/referrer/doctors', isActive: exactMath('/referrer/doctors') },
         ],
       },
     ];

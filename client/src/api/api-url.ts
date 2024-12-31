@@ -8,4 +8,6 @@ export const apiUrl = {
   getServices: (searchParams: string) => `${SERVER_ADDRESS}/services?${searchParams}`,
   deleteService: (serviceId: string) => `${SERVER_ADDRESS}/service/${serviceId}`,
   updateService: (serviceId: string) => `${SERVER_ADDRESS}/service/${serviceId}`,
+  // referrer
+  addReferrer: `${SERVER_ADDRESS}/referrer`,
 };
