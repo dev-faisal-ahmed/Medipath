@@ -21,3 +21,8 @@ export async function getServices(args: Record<string, string>): Promise<IServer
   const { data } = await axiosInstance.get(apiUrl.getServices(searchParams));
   return data;
 }
+
+export async function deleteService(serviceId: string): Promise<IServerResponse<null>> {
+  const { data } = await axiosInstance.delete(apiUrl.deleteService(serviceId));
+  return data;
+}

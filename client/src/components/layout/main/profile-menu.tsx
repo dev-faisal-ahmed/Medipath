@@ -25,17 +25,10 @@ export function ProfileMenu({ trigger, asChild, children }: IProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="p-2">
         {children}
-        <Button
-          variant="ghost"
-          className="flex w-full items-center justify-start gap-2 hover:bg-primary hover:text-white"
-        >
+        <Button variant="primary_ghost" className="flex w-full items-center justify-start gap-2">
           <LockKeyholeIcon size={16} /> Change Password
         </Button>
-        <Button
-          onClick={onLogout}
-          variant="ghost"
-          className="flex w-full items-center justify-start gap-2 text-destructive hover:bg-destructive/80 hover:text-white"
-        >
+        <Button onClick={onLogout} variant="destructive_ghost" className="flex w-full items-center justify-start gap-2">
           <LogOutIcon size={16} /> Logout
         </Button>
       </DropdownMenuContent>

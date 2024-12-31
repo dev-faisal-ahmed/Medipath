@@ -19,9 +19,9 @@ export function DataTable<TData, TValue>({ columns, data, pagination }: IDataTab
   });
 
   return (
-    <div className="rounded-md border bg-neutral-100 shadow">
+    <div className="border">
       <Table>
-        <TableHeader className="sticky top-0 shadow backdrop-blur-md">
+        <TableHeader className="sticky top-0 bg-neutral-100 shadow">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -38,7 +38,7 @@ export function DataTable<TData, TValue>({ columns, data, pagination }: IDataTab
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                className="border-b odd:bg-background even:bg-gray-50"
+                className="border-b even:bg-gray-50"
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
               >
@@ -72,7 +72,7 @@ interface ITabelPaginationProps {
 function TablePagination({ page, totalPages }: ITabelPaginationProps) {
   const navigate = useNavigate();
   return (
-    <div className="sticky bottom-0 flex h-16 items-center justify-between gap-4 border-t px-4 backdrop-blur-md">
+    <div className="sticky bottom-0 flex h-16 items-center justify-between gap-4 border-t bg-neutral-100 px-4">
       <Button
         onClick={() => navigate({ search: { page: String(page - 1) } as any })}
         disabled={page === 1}

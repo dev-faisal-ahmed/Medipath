@@ -82,11 +82,7 @@ function useAddService() {
 
   const { isPending, mutateAsync } = useMutation({
     mutationFn: addService,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SERVICES] });
-      form.reset();
-      setIsOpen(false);
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SERVICES] }),
   });
 
   const handleAddService = form.handleSubmit((data) => {
@@ -96,6 +92,8 @@ function useAddService() {
       tryFn: async () => {
         const response = await mutateAsync({ ...data, price: Number(data.price) });
         toast.success(response.message, { id });
+        form.reset();
+        setIsOpen(false);
       },
     });
   });
