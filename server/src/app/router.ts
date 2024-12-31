@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { authRouter } from '../modules/auth/auth.router';
 import { userRouter } from '../modules/user/user.router';
 import { serviceRouter, servicesRouter } from '../modules/service/service.router';
+import { referrerRouter } from '../modules/referrer/referrer.router';
 
 interface IRoute {
   path: string;
@@ -15,6 +16,7 @@ const routes: IRoute[] = [
   { path: '/user', router: userRouter },
   { path: '/service', router: serviceRouter },
   { path: '/services', router: servicesRouter },
+  { path: '/referrer', router: referrerRouter },
 ];
 
 routes.forEach(({ path, router }) => {

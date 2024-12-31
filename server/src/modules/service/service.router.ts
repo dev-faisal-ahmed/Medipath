@@ -9,14 +9,14 @@ export const serviceRouter = Router();
 serviceRouter.post(
   '/',
   authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
-  validationHandler(serviceValidation.addService),
+  validationHandler(serviceValidation.addServiceSchema),
   serviceController.addService,
 );
 
 serviceRouter.patch(
   '/:serviceId',
   authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
-  validationHandler(serviceValidation.updateService),
+  validationHandler(serviceValidation.updateServiceSchema),
   serviceController.updateService,
 );
 
