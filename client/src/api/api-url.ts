@@ -7,4 +7,5 @@ export const apiUrl = {
   addService: `${SERVER_ADDRESS}/service`,
   getServices: (searchParams: string) => `${SERVER_ADDRESS}/services?${searchParams}`,
   deleteService: (serviceId: string) => `${SERVER_ADDRESS}/service/${serviceId}`,
+  updateService: (serviceId: string) => `${SERVER_ADDRESS}/service/${serviceId}`,
 };

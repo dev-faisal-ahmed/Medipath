@@ -19,11 +19,7 @@ export function ServicesTable() {
   const params = routeApi.useSearch();
   const { searchTerm } = useHeaderContext();
 
-  const {
-    data: servicesData,
-    isLoading,
-    isFetching,
-  } = useQuery({
+  const { data: servicesData, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.SERVICES, { ...removeEmptyProperty({ ...params, searchTerm }) }],
     queryFn: () => getServices({ ...params, name: searchTerm }),
     staleTime: Infinity,
@@ -41,7 +37,10 @@ export function ServicesTable() {
         cell: ({ row }) => <span>{(page - 1) * limit + (row.index + 1)}</span>,
         meta: { noStretch: true },
       },
-      { accessorKey: 'name', header: 'Name' },
+      {
+        accessorKey: 'name',
+        header: 'Name',
+      },
       {
         accessorKey: 'price',
         header: () => <div className="text-center">Price</div>,
@@ -52,11 +51,14 @@ export function ServicesTable() {
         header: () => <div className="text-center">Room No</div>,
         cell: ({ getValue }) => <div className="text-center">{getValue<string>()}</div>,
       },
-      { id: 'action', cell: ({ row }) => <ActionDrawer {...row.original} /> },
+      {
+        id: 'action',
+        cell: ({ row }) => <ActionDrawer {...row.original} />,
+      },
     ];
   }, [limit, page]);
 
-  if (isLoading || isFetching) return <div>Loading....</div>;
+  if (isLoading) return <div>Loading....</div>;
   if (!servicesData) return <div> No Data Found</div>;
 
   return (
@@ -82,7 +84,7 @@ function ActionDrawer(service: IService) {
       <DropdownMenuSeparator />
       <div className="flex flex-col gap-2 p-2">
         <DeleteService serviceId={service._id} closeDrawer={closeDrawer} />
-        <UpdateService />
+        <UpdateService payload={service} closeDrawer={closeDrawer} />
       </div>
     </CommonDropdownMenu>
   );

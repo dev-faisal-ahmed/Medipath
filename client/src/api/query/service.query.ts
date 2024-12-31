@@ -11,8 +11,8 @@ interface IAddServicePayload {
 
 export async function addService(payload: IAddServicePayload): Promise<IServerResponse<null>> {
   const body = removeEmptyProperty(payload);
-  const response = await axiosInstance.post(apiUrl.addService, body);
-  return response.data;
+  const { data } = await axiosInstance.post(apiUrl.addService, body);
+  return data;
 }
 
 export async function getServices(args: Record<string, string>): Promise<IServerResponse<IService[]>> {
@@ -24,5 +24,12 @@ export async function getServices(args: Record<string, string>): Promise<IServer
 
 export async function deleteService(serviceId: string): Promise<IServerResponse<null>> {
   const { data } = await axiosInstance.delete(apiUrl.deleteService(serviceId));
+  return data;
+}
+
+export async function updateService(payload: Partial<IService>): Promise<IServerResponse<null>> {
+  const { _id: serviceId, ...restPayload } = payload;
+  const body = removeEmptyProperty(restPayload);
+  const { data } = await axiosInstance.patch(apiUrl.updateService(serviceId!), body);
   return data;
 }
