@@ -1,6 +1,7 @@
 import { catchAsync } from '../../middlewares';
 import { sendSuccessResponse } from '../../helpers';
 import { serviceService } from './service.service';
+import { TObject } from '../../utils/type';
 
 const addService = catchAsync(async (req, res) => {
   const message = await serviceService.addService(req.body);
@@ -8,7 +9,7 @@ const addService = catchAsync(async (req, res) => {
 });
 
 const getServices = catchAsync(async (req, res) => {
-  const { meta, services } = await serviceService.getServices(req.query);
+  const { meta, services } = await serviceService.getServices(req.query as TObject);
   sendSuccessResponse(res, { message: 'Services retrieved successfully', data: services, meta });
 });
 

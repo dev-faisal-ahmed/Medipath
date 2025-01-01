@@ -21,7 +21,7 @@ export function ServicesTable() {
 
   const { data: servicesData, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.SERVICES, { ...removeEmptyProperty({ ...params, searchTerm }) }],
-    queryFn: () => getServices({ ...params, name: searchTerm }),
+    queryFn: () => getServices({ ...params, searchTerm }),
     staleTime: Infinity,
   });
 

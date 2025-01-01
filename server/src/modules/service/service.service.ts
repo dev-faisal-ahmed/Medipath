@@ -1,7 +1,8 @@
 import { AppError } from '../../utils';
 import { Service } from './service.model';
-import { generateMeta, getPageParams, getPartialFilterParams } from '../../helpers';
+import { generateMeta, getPageParams, getSearchFilterQuery } from '../../helpers';
 import { TAddServicePayload, TUpdateServicePayload } from './service.validation';
+import { TObject } from '../../utils/type';
 
 async function addService(payload: TAddServicePayload) {
   const isServiceExist = await Service.exists({ name: payload.name });
@@ -13,15 +14,18 @@ async function addService(payload: TAddServicePayload) {
   return 'Service added successfully';
 }
 
-async function getServices(query: Record<string, unknown>) {
+async function getServices(query: TObject) {
+  const dbQuery = { isDeleted: false, ...getSearchFilterQuery(query, 'name') };
   const { page, limit, skip } = getPageParams(query);
-  const dbQuery = { isDeleted: false, ...getPartialFilterParams(query, 'name') };
-  const total = await Service.countDocuments(dbQuery);
-  const meta = generateMeta({ page, limit, total });
+
   const services = await Service.find(dbQuery, { updatedAt: 0, __v: 0, isDeleted: 0 })
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit);
+
+  const total = await Service.countDocuments(dbQuery);
+  const meta = generateMeta({ page, limit, total });
+
   return { services, meta };
 }
 
