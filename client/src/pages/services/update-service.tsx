@@ -7,9 +7,8 @@ import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { tryCatch, wordCapitalize } from '@/helper';
 import { IService } from '@/lib/types';
-import { queryClient } from '@/providers';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { PenLineIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -88,10 +87,12 @@ function useUpdateService({ payload, closeDrawer }: IUpdateService) {
     defaultValues: { name: payload.name, price: payload.price.toString(), roomNo: payload.roomNo },
   });
 
+  const QC = useQueryClient();
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { mutateAsync, isPending } = useMutation({
     mutationFn: updateService,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SERVICES] }),
+    onSuccess: () => QC.invalidateQueries({ queryKey: [QUERY_KEYS.SERVICES] }),
   });
 
   const handleUpdateService = form.handleSubmit((data) => {

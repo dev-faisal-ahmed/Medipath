@@ -19,7 +19,7 @@ export function generateMeta({ page, limit, total }: IGenerateMetaArgs): IMeta {
   return { page, limit, total, totalPages };
 }
 
-export function getSearchFilterQuery(query: TObject, ...fields: string[]) {
+export function getSearchQuery(query: TObject, ...fields: string[]) {
   const searchTerm = query.searchTerm;
   if (!searchTerm || fields.length === 0) return {};
   const searchFields = fields.map((field) => ({ [field]: { $regex: searchTerm, $options: 'i' } }));
@@ -28,7 +28,7 @@ export function getSearchFilterQuery(query: TObject, ...fields: string[]) {
 
 export function getExactMatchQuery(query: TObject, ...fields: string[]) {
   const keys = Object.keys(query);
-  if (!!keys.length) return {};
+  if (!keys.length) return {};
 
   return keys.reduce((acc: Record<string, any>, key) => {
     if (fields.includes(key)) acc[key] = query[key];

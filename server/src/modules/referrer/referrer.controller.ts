@@ -1,5 +1,6 @@
 import { sendSuccessResponse } from '../../helpers';
 import { catchAsync } from '../../middlewares';
+import { TObject } from '../../utils/type';
 import { referrerService } from './referrer.service';
 
 const addReferrer = catchAsync(async (req, res) => {
@@ -7,4 +8,9 @@ const addReferrer = catchAsync(async (req, res) => {
   sendSuccessResponse(res, { message, data: null });
 });
 
-export const referrerController = { addReferrer };
+const getReferrers = catchAsync(async (req, res) => {
+  const { referrers, meta } = await referrerService.getReferrers(req.query as TObject);
+  sendSuccessResponse(res, { message: 'Referrers retrieved successfully', meta, data: referrers });
+});
+
+export const referrerController = { addReferrer, getReferrers };

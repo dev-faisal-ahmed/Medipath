@@ -1,6 +1,6 @@
 import { AppError } from '../../utils';
 import { Service } from './service.model';
-import { generateMeta, getPageParams, getSearchFilterQuery } from '../../helpers';
+import { generateMeta, getPageParams, getSearchQuery } from '../../helpers';
 import { TAddServicePayload, TUpdateServicePayload } from './service.validation';
 import { TObject } from '../../utils/type';
 
@@ -15,7 +15,7 @@ async function addService(payload: TAddServicePayload) {
 }
 
 async function getServices(query: TObject) {
-  const dbQuery = { isDeleted: false, ...getSearchFilterQuery(query, 'name') };
+  const dbQuery = { isDeleted: false, ...getSearchQuery(query, 'name') };
   const { page, limit, skip } = getPageParams(query);
 
   const services = await Service.find(dbQuery, { updatedAt: 0, __v: 0, isDeleted: 0 })

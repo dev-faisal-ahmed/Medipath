@@ -22,7 +22,6 @@ export function ServicesTable() {
   const { data: servicesData, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.SERVICES, { ...removeEmptyProperty({ ...params, searchTerm }) }],
     queryFn: () => getServices({ ...params, searchTerm }),
-    staleTime: Infinity,
   });
 
   const page = servicesData?.meta?.page || 1;
@@ -30,12 +29,12 @@ export function ServicesTable() {
   const totalPages = servicesData?.meta?.totalPages || 1;
 
   const column = useMemo<ColumnDef<IService>[]>(() => {
+    const offset = (page - 1) * limit;
     return [
       {
         id: 'Serial',
         header: 'SL.',
-        cell: ({ row }) => <span>{(page - 1) * limit + (row.index + 1)}</span>,
-        meta: { noStretch: true },
+        cell: ({ row }) => <span>{offset + (row.index + 1)}</span>,
       },
       {
         accessorKey: 'name',

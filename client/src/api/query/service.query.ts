@@ -1,6 +1,6 @@
 import { apiUrl } from '../api-url';
 import { removeEmptyProperty } from '@/helper';
-import { IServerResponse, IService } from '@/lib/types';
+import { IServerResponse, IService, TObject } from '@/lib/types';
 import { axiosInstance } from '../axios-instance';
 
 interface IAddServicePayload {
@@ -15,7 +15,7 @@ export async function addService(payload: IAddServicePayload): Promise<IServerRe
   return data;
 }
 
-export async function getServices(args: Record<string, string>): Promise<IServerResponse<IService[]>> {
+export async function getServices(args: TObject): Promise<IServerResponse<IService[]>> {
   const refinedArgs = removeEmptyProperty(args);
   const searchParams = new URLSearchParams(refinedArgs).toString();
   const { data } = await axiosInstance.get(apiUrl.getServices(searchParams));

@@ -10,4 +10,5 @@ export const apiUrl = {
   updateService: (serviceId: string) => `${SERVER_ADDRESS}/service/${serviceId}`,
   // referrer
   addReferrer: `${SERVER_ADDRESS}/referrer`,
+  getReferrers: (searchParams: string) => `${SERVER_ADDRESS}/referrers?${searchParams}`,
 };

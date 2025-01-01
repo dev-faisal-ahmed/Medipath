@@ -9,12 +9,11 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { QUERY_KEYS } from '@/api';
 import { deleteService } from '@/api/query';
 import { tryCatch } from '@/helper';
-import { queryClient } from '@/providers';
 import { TrashIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -26,10 +25,11 @@ interface IProps {
 
 export function DeleteService({ serviceId, closeDrawer }: IProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const QC = useQueryClient();
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: deleteService,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SERVICES] }),
+    onSuccess: () => QC.invalidateQueries({ queryKey: [QUERY_KEYS.SERVICES] }),
   });
 
   function handleDeleteService() {

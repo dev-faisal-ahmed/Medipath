@@ -12,3 +12,7 @@ referrerRouter.post(
   validationHandler(referrerValidation.addReferrerSchema),
   referrerController.addReferrer,
 );
+
+export const referrersRouter = Router();
+
+referrersRouter.get('/', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), referrerController.getReferrers);

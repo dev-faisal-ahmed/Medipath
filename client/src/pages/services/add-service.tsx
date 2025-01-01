@@ -8,11 +8,10 @@ import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { tryCatch, wordCapitalize } from '@/helper';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { queryClient } from '@/providers';
 import { QUERY_KEYS } from '@/api';
 
 export function AddService() {
@@ -75,6 +74,8 @@ type TAddServiceForm = z.infer<typeof addServiceSchema>;
 
 function useAddService() {
   const [isOpen, setIsOpen] = useState(false);
+  const QC = useQueryClient();
+
   const form = useForm<TAddServiceForm>({
     resolver: zodResolver(addServiceSchema),
     defaultValues: { name: '', price: '', roomNo: '' },
@@ -82,7 +83,7 @@ function useAddService() {
 
   const { isPending, mutateAsync } = useMutation({
     mutationFn: addService,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SERVICES] }),
+    onSuccess: () => QC.invalidateQueries({ queryKey: [QUERY_KEYS.SERVICES] }),
   });
 
   const handleAddService = form.handleSubmit((data) => {

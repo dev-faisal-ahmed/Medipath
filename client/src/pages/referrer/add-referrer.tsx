@@ -6,10 +6,9 @@ import { CommonDialog, DialogClose } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { tryCatch } from '@/helper';
-import { REFERRER_TYPE } from '@/lib/types/referrer';
-import { queryClient } from '@/providers';
+import { REFERRER_TYPE } from '@/lib/types/referrer.type';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -88,6 +87,7 @@ type TAddReferrerForm = z.infer<typeof addReferrerFormSchema>;
 
 function useAddReferrer(referrerType: REFERRER_TYPE) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const QC = useQueryClient();
 
   const form = useForm<TAddReferrerForm>({
     resolver: zodResolver(addReferrerFormSchema),
@@ -96,7 +96,7 @@ function useAddReferrer(referrerType: REFERRER_TYPE) {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: addReferrer,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.REFERRERS] }),
+    onSuccess: () => QC.invalidateQueries({ queryKey: [QUERY_KEYS.REFERRERS] }),
   });
 
   const handleAddReferrer = form.handleSubmit((data) => {

@@ -1,4 +1,4 @@
-import { generateMeta, getExactMatchQuery, getPageParams, getSearchFilterQuery } from '../../helpers';
+import { generateMeta, getExactMatchQuery, getPageParams, getSearchQuery } from '../../helpers';
 import { TObject } from '../../utils/type';
 import { Referrer } from './referrer.model';
 import { TAddReferrerPayload } from './referrer.validation';
@@ -11,7 +11,7 @@ async function addReferrer(payload: TAddReferrerPayload) {
 async function getReferrers(query: TObject) {
   const dbQuery = {
     isDeleted: false,
-    ...getSearchFilterQuery(query, 'name', 'designation', 'phone'),
+    ...getSearchQuery(query, 'name', 'designation', 'phone'),
     ...getExactMatchQuery(query, 'type'),
   };
 
