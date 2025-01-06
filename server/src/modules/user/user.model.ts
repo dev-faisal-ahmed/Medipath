@@ -13,6 +13,7 @@ import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../../app/config';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { MODEL } from '../model-names';
 
 const userSchema = new Schema<IUser, IUserModel, IUserMethods>(
   {
@@ -63,4 +64,4 @@ userSchema.pre('save', async function (next) {
   }
 });
 
-export const User = model<IUser, IUserModel>('user', userSchema);
+export const User = model<IUser, IUserModel>(MODEL.USER, userSchema);

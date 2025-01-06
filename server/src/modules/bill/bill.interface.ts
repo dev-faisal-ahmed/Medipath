@@ -9,9 +9,9 @@ export enum AGENT_TITLE {
 
 export enum GENDER {
   MALE = 'MALE',
+  FEMALE = 'FEMALE',
+  OTHERS = 'OTHERS',
 }
-
-export type TGender = 'Male' | 'Female' | 'Others';
 
 export interface IPatient {
   name: string;
@@ -19,14 +19,14 @@ export interface IPatient {
   address?: string;
   age: number;
   ageTitle: AGENT_TITLE;
-  gender: TGender;
+  gender: GENDER;
 }
 
 export interface IBill {
   _id: Schema.Types.ObjectId;
-  billId: string;
   referrerId: Schema.Types.ObjectId;
-  visitedBy: Schema.Types.ObjectId;
+  visitorId: Schema.Types.ObjectId;
+  billId: string;
   patientInfo: IPatient;
   serviceIds: Schema.Types.ObjectId;
   date: Date;

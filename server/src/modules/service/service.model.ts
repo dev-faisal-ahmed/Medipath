@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { IService } from './service.interface';
+import { MODEL } from '../model-names';
 
 const serviceSchema = new Schema<IService>(
   {
@@ -11,4 +12,4 @@ const serviceSchema = new Schema<IService>(
   { timestamps: true },
 );
 
-export const Service = model<IService>('service', serviceSchema);
+export const Service = model<IService>(MODEL.SERVICE, serviceSchema);

@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { IReferrer, REFERRER_TYPE } from './referrer.interface';
+import { MODEL } from '../model-names';
 
 const referrerSchema = new Schema<IReferrer>(
   {
@@ -12,4 +13,4 @@ const referrerSchema = new Schema<IReferrer>(
   { timestamps: true },
 );
 
-export const Referrer = model<IReferrer>('referrer', referrerSchema);
+export const Referrer = model<IReferrer>(MODEL.REFERRER, referrerSchema);
