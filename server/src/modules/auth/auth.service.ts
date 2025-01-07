@@ -10,10 +10,8 @@ async function loginWithCredentials(payload: TLoginWithCredentialsPayload) {
   const isPasswordMatched = await user.comparePassword(password);
   if (!isPasswordMatched) throw new AppError('Password does not match!', 400);
 
-  const accessToken = user.generateAccessToken();
-  const refreshToken = user.generateRefreshToken();
-
-  return { accessToken, refreshToken };
+  const { password: _, ...restInfo } = user;
+  return restInfo;
 }
 
 async function loginWithGoogle(payload: TLoginWithGooglePayload) {
