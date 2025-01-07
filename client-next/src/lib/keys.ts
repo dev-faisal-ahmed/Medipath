@@ -1,0 +1,3 @@
+export enum TOKEN_KEYS {
+  ACCESS_TOKEN = 'ACCESS_TOKEN',
+}
