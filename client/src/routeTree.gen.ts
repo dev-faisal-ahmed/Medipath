@@ -8,21 +8,16 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as PrivateImport } from './routes/_private'
+import { Route as PrivateIndexImport } from './routes/_private/index'
 import { Route as PrivateServicesRouteImport } from './routes/_private/services/route'
+import { Route as PrivateAddBillRouteImport } from './routes/_private/add-bill/route'
 import { Route as PrivateReferrerDoctorsRouteImport } from './routes/_private/referrer.doctors/route'
 import { Route as PrivateReferrerAgentsRouteImport } from './routes/_private/referrer.agents/route'
-
-// Create Virtual Routes
-
-const PrivateIndexLazyImport = createFileRoute('/_private/')()
-const PrivateAddBillLazyImport = createFileRoute('/_private/add-bill')()
 
 // Create/Update Routes
 
@@ -37,20 +32,12 @@ const PrivateRoute = PrivateImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const PrivateIndexLazyRoute = PrivateIndexLazyImport.update({
+const PrivateIndexRoute = PrivateIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => PrivateRoute,
 } as any).lazy(() =>
   import('./routes/_private/index.lazy').then((d) => d.Route),
-)
-
-const PrivateAddBillLazyRoute = PrivateAddBillLazyImport.update({
-  id: '/add-bill',
-  path: '/add-bill',
-  getParentRoute: () => PrivateRoute,
-} as any).lazy(() =>
-  import('./routes/_private/add-bill.lazy').then((d) => d.Route),
 )
 
 const PrivateServicesRouteRoute = PrivateServicesRouteImport.update({
@@ -59,6 +46,14 @@ const PrivateServicesRouteRoute = PrivateServicesRouteImport.update({
   getParentRoute: () => PrivateRoute,
 } as any).lazy(() =>
   import('./routes/_private/services/route.lazy').then((d) => d.Route),
+)
+
+const PrivateAddBillRouteRoute = PrivateAddBillRouteImport.update({
+  id: '/add-bill',
+  path: '/add-bill',
+  getParentRoute: () => PrivateRoute,
+} as any).lazy(() =>
+  import('./routes/_private/add-bill/route.lazy').then((d) => d.Route),
 )
 
 const PrivateReferrerDoctorsRouteRoute =
@@ -100,6 +95,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
+    '/_private/add-bill': {
+      id: '/_private/add-bill'
+      path: '/add-bill'
+      fullPath: '/add-bill'
+      preLoaderRoute: typeof PrivateAddBillRouteImport
+      parentRoute: typeof PrivateImport
+    }
     '/_private/services': {
       id: '/_private/services'
       path: '/services'
@@ -107,18 +109,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateServicesRouteImport
       parentRoute: typeof PrivateImport
     }
-    '/_private/add-bill': {
-      id: '/_private/add-bill'
-      path: '/add-bill'
-      fullPath: '/add-bill'
-      preLoaderRoute: typeof PrivateAddBillLazyImport
-      parentRoute: typeof PrivateImport
-    }
     '/_private/': {
       id: '/_private/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof PrivateIndexLazyImport
+      preLoaderRoute: typeof PrivateIndexImport
       parentRoute: typeof PrivateImport
     }
     '/_private/referrer/agents': {
@@ -141,17 +136,17 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface PrivateRouteChildren {
+  PrivateAddBillRouteRoute: typeof PrivateAddBillRouteRoute
   PrivateServicesRouteRoute: typeof PrivateServicesRouteRoute
-  PrivateAddBillLazyRoute: typeof PrivateAddBillLazyRoute
-  PrivateIndexLazyRoute: typeof PrivateIndexLazyRoute
+  PrivateIndexRoute: typeof PrivateIndexRoute
   PrivateReferrerAgentsRouteRoute: typeof PrivateReferrerAgentsRouteRoute
   PrivateReferrerDoctorsRouteRoute: typeof PrivateReferrerDoctorsRouteRoute
 }
 
 const PrivateRouteChildren: PrivateRouteChildren = {
+  PrivateAddBillRouteRoute: PrivateAddBillRouteRoute,
   PrivateServicesRouteRoute: PrivateServicesRouteRoute,
-  PrivateAddBillLazyRoute: PrivateAddBillLazyRoute,
-  PrivateIndexLazyRoute: PrivateIndexLazyRoute,
+  PrivateIndexRoute: PrivateIndexRoute,
   PrivateReferrerAgentsRouteRoute: PrivateReferrerAgentsRouteRoute,
   PrivateReferrerDoctorsRouteRoute: PrivateReferrerDoctorsRouteRoute,
 }
@@ -162,18 +157,18 @@ const PrivateRouteWithChildren =
 export interface FileRoutesByFullPath {
   '': typeof PrivateRouteWithChildren
   '/login': typeof LoginRoute
+  '/add-bill': typeof PrivateAddBillRouteRoute
   '/services': typeof PrivateServicesRouteRoute
-  '/add-bill': typeof PrivateAddBillLazyRoute
-  '/': typeof PrivateIndexLazyRoute
+  '/': typeof PrivateIndexRoute
   '/referrer/agents': typeof PrivateReferrerAgentsRouteRoute
   '/referrer/doctors': typeof PrivateReferrerDoctorsRouteRoute
 }
 
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
+  '/add-bill': typeof PrivateAddBillRouteRoute
   '/services': typeof PrivateServicesRouteRoute
-  '/add-bill': typeof PrivateAddBillLazyRoute
-  '/': typeof PrivateIndexLazyRoute
+  '/': typeof PrivateIndexRoute
   '/referrer/agents': typeof PrivateReferrerAgentsRouteRoute
   '/referrer/doctors': typeof PrivateReferrerDoctorsRouteRoute
 }
@@ -182,9 +177,9 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_private': typeof PrivateRouteWithChildren
   '/login': typeof LoginRoute
+  '/_private/add-bill': typeof PrivateAddBillRouteRoute
   '/_private/services': typeof PrivateServicesRouteRoute
-  '/_private/add-bill': typeof PrivateAddBillLazyRoute
-  '/_private/': typeof PrivateIndexLazyRoute
+  '/_private/': typeof PrivateIndexRoute
   '/_private/referrer/agents': typeof PrivateReferrerAgentsRouteRoute
   '/_private/referrer/doctors': typeof PrivateReferrerDoctorsRouteRoute
 }
@@ -194,16 +189,16 @@ export interface FileRouteTypes {
   fullPaths:
     | ''
     | '/login'
-    | '/services'
     | '/add-bill'
+    | '/services'
     | '/'
     | '/referrer/agents'
     | '/referrer/doctors'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
-    | '/services'
     | '/add-bill'
+    | '/services'
     | '/'
     | '/referrer/agents'
     | '/referrer/doctors'
@@ -211,8 +206,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_private'
     | '/login'
-    | '/_private/services'
     | '/_private/add-bill'
+    | '/_private/services'
     | '/_private/'
     | '/_private/referrer/agents'
     | '/_private/referrer/doctors'
@@ -246,8 +241,8 @@ export const routeTree = rootRoute
     "/_private": {
       "filePath": "_private.tsx",
       "children": [
-        "/_private/services",
         "/_private/add-bill",
+        "/_private/services",
         "/_private/",
         "/_private/referrer/agents",
         "/_private/referrer/doctors"
@@ -256,16 +251,16 @@ export const routeTree = rootRoute
     "/login": {
       "filePath": "login.tsx"
     },
+    "/_private/add-bill": {
+      "filePath": "_private/add-bill/route.tsx",
+      "parent": "/_private"
+    },
     "/_private/services": {
       "filePath": "_private/services/route.tsx",
       "parent": "/_private"
     },
-    "/_private/add-bill": {
-      "filePath": "_private/add-bill.lazy.tsx",
-      "parent": "/_private"
-    },
     "/_private/": {
-      "filePath": "_private/index.lazy.tsx",
+      "filePath": "_private/index.tsx",
       "parent": "/_private"
     },
     "/_private/referrer/agents": {

@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export function wordCapitalize(words: string) {
   return words
@@ -11,4 +13,13 @@ export function removeEmptyProperty(payload: Record<string, any>) {
     if (payload[key]) acc[key] = payload[key];
     return acc;
   }, {});
+}
+
+interface IZodEnumArgs {
+  options: string[];
+  message: string;
+}
+
+export function zodEnum({ options, message }: IZodEnumArgs) {
+  return z.enum([...(options as [string, ...string[]])], { message });
 }
