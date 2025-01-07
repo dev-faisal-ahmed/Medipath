@@ -31,4 +31,4 @@ const billSchema = new Schema<IBill>(
   { timestamps: true },
 );
 
-export const Bill = model<IPatient>(MODEL.BILL, billSchema);
+export const Bill = model<IBill>(MODEL.BILL, billSchema);
