@@ -1,13 +1,16 @@
 'use client';
 
-import { PropsWithChildren } from 'react';
 import { Toaster } from 'sonner';
+import { PropsWithChildren } from 'react';
+import { QueryProvider } from './query-client.provider';
 
 export function Providers({ children }: PropsWithChildren) {
   return (
     <>
-      {children}
-      <Toaster richColors duration={2000} />
+      <QueryProvider>
+        {children}
+        <Toaster richColors duration={2000} />
+      </QueryProvider>
     </>
   );
 }

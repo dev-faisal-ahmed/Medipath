@@ -1,10 +1,10 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
-import { apiUrl } from './api';
+import { apiUrl } from '../api-lib';
 import { axiosInstance } from './axios';
-import { IServerResponse, PROVIDER, TLoggedUser, USER_ROLE } from './types';
-import { generateAccessToken } from './helper';
+import { IServerResponse, PROVIDER, TLoggedUser, USER_ROLE } from '../types';
+import { generateAccessToken } from '@/helper';
 
 declare module 'next-auth' {
   interface Session {

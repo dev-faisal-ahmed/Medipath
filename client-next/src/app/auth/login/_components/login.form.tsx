@@ -1,6 +1,6 @@
 'use client';
 
-import { CommonFormFiled } from '@/components/shared/common-form-field';
+import { CommonFormFiled } from '@/components/shared/form/common-form-field';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';

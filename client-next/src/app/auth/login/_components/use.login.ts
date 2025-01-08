@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { singInAction } from '@/lib/actions/auth.action';
-import { tryCatch } from '@/lib/helper';
+import { singInAction } from '@/actions/auth.action';
+import { tryCatch } from '@/helper';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
