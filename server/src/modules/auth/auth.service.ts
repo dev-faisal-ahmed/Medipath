@@ -4,13 +4,13 @@ import { TLoginWithCredentialsPayload, TLoginWithGooglePayload } from './auth.va
 
 async function loginWithCredentials(payload: TLoginWithCredentialsPayload) {
   const { email, password } = payload;
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }, { isDeleted: 0, createdAt: 0, updatedAt: 0, __v: 0 });
   if (!user) throw new AppError('User not found', 404);
 
   const isPasswordMatched = await user.comparePassword(password);
   if (!isPasswordMatched) throw new AppError('Password does not match!', 400);
 
-  const { password: _, ...restInfo } = user;
+  const { password: _, ...restInfo } = user.toObject();
   return restInfo;
 }
 

@@ -1,3 +1,7 @@
-export default function Home() {
-  return <h1>Welcome to Medipath</h1>;
+import { getAuth } from '@/lib/actions';
+
+export default async function Home() {
+  const session = await getAuth();
+
+  return <h1>Welcome to Medipath{JSON.stringify(session)}</h1>;
 }
