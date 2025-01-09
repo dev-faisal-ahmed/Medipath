@@ -16,7 +16,7 @@ export function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink)
           <div
             className={cn(
               'flex items-center gap-3 rounded-md border-r border-transparent p-3 duration-300 hover:bg-secondary/30 hover:text-primary',
-              isActive && 'bg-primary font-semibold text-white',
+              isActive && 'bg-secondary/30 font-semibold text-primary',
             )}
           >
             {icon}
@@ -27,8 +27,8 @@ export function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink)
           </div>
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <div className="mt-2 pl-8 pr-4">
-            <div className="flex flex-col border-l pl-2">
+          <div className="mt-1 pl-8">
+            <div className="flex flex-col gap-1 border-l pl-2">
               {items.map((item) => (
                 <ActiveLink key={item.url} {...item} />
               ))}
@@ -56,7 +56,7 @@ function ActiveLink({ url, title, isActive, className, icon }: IActiveLinkProps)
       className={cn(
         'mx-4 flex items-center gap-3 rounded-md p-3 duration-300 hover:bg-secondary/30 hover:text-primary',
         className,
-        isActive && 'bg-primary font-semibold text-white',
+        isActive && 'bg-secondary/30 font-semibold text-primary',
       )}
     >
       {icon}

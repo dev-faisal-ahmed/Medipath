@@ -31,20 +31,17 @@ export function useSidebarLinks() {
       {
         title: 'Bill',
         icon: <RiBillFill size={20} />,
-        isActive: matchList(['/bills', '/add-bill']),
+        isActive: matchList(['/bills', '/bill/add']),
         items: [
           { title: 'Bills', url: '/bills', isActive: exactMath('/bills') },
-          { title: 'Bill Entry', url: '/add-bill', isActive: exactMath('/add-bill') },
+          { title: 'Bill Entry', url: '/bill/add', isActive: exactMath('/bill/add') },
         ],
       },
       {
         title: 'Referrer',
+        url: '/referrers',
         icon: <FaUserDoctor size={20} />,
-        isActive: partialMatch('/referrer'),
-        items: [
-          { title: 'Agents', url: '/referrer/agents', isActive: exactMath('/referrer/agents') },
-          { title: 'Doctors', url: '/referrer/doctors', isActive: exactMath('/referrer/doctors') },
-        ],
+        isActive: partialMatch('/referrers'),
       },
     ];
 

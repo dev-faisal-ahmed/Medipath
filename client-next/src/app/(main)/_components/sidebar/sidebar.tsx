@@ -21,10 +21,12 @@ export function Sidebar() {
       <Link href="/">
         <AppLogo className="mx-4 pt-2" />
       </Link>
-      <ScrollArea className="flex grow flex-col gap-1">
-        {sidebarLinks.map((link, index) => (
-          <SidebarLink key={index} {...link} />
-        ))}
+      <ScrollArea className="grow">
+        <section className="flex flex-col gap-1">
+          {sidebarLinks.map((link, index) => (
+            <SidebarLink key={index} {...link} />
+          ))}
+        </section>
       </ScrollArea>
 
       <div className="mx-4 grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-md bg-secondary/20 p-4">
