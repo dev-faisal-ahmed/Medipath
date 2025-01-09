@@ -3,6 +3,7 @@
 import { useAuth } from '@/hooks';
 import { PropsWithChildren } from 'react';
 import { Sidebar } from './sidebar';
+import { Topbar } from './topbar/topbar';
 
 export function MainLayout({ children }: PropsWithChildren) {
   useAuth();
@@ -10,7 +11,9 @@ export function MainLayout({ children }: PropsWithChildren) {
   return (
     <main className="grid h-dvh grid-cols-[280px_1fr]">
       <Sidebar />
-      {children}
+      <section className="flex h-dvh flex-col">
+        <Topbar>{children}</Topbar>
+      </section>
     </main>
   );
 }

@@ -8,7 +8,8 @@ export async function singInAction(payload: { email: string; password: string })
     const response = await signIn('credentials', { ...payload, redirect: false });
     return { success: response };
   } catch (error) {
-    if (error instanceof AuthError) return { error: error.cause?.err?.message };
+    if (error instanceof AuthError) return { error: error.cause?.err?.message || 'Invalid credentials' };
+    return { error: 'Something went wrong' };
   }
 }
 
