@@ -8,9 +8,7 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  async (config) => {
-    return config;
-  },
+  (config) => config,
   (error) => Promise.reject(error),
 );
 

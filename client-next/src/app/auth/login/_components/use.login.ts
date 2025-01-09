@@ -34,12 +34,10 @@ export function useLogin() {
       tryFn: async () => {
         setIsLoading(true);
         const response = await singInAction({ email, password });
-        if (response?.error) throw new Error(response.error);
-
+        if (response?.error) return toast.error(response.error, { id });
         toast.success('Successfully logged in!', { id });
         router.push('/');
       },
-      catchFn: () => toast.error('Invalid wrong user id or password', { id }),
       finallyFn: () => setIsLoading(false),
     });
   });

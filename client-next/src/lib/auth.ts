@@ -5,6 +5,7 @@ import { apiUrl } from '../api-lib';
 import { axiosInstance } from './axios';
 import { IServerResponse, PROVIDER, TLoggedUser, USER_ROLE } from '../types';
 import { generateAccessToken } from '@/helper';
+import { AxiosError } from 'axios';
 
 declare module 'next-auth' {
   interface Session {
@@ -26,11 +27,19 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       authorize: async (credentials) => {
         const { email, password } = credentials;
 
-        const response = await axiosInstance.post(apiUrl.loginWithCredentials, { email, password });
-        const { ok, data: userInfo, message } = response.data as IServerResponse<TLoggedUser>;
+        try {
+          const response = await axiosInstance.post(apiUrl.loginWithCredentials, { email, password });
+          const { ok, data: userInfo, message } = response.data as IServerResponse<TLoggedUser>;
 
-        if (!ok) throw new Error(message);
-        return userInfo;
+          if (!ok) throw new Error(message);
+          return userInfo;
+        } catch (error) {
+          console.log('----------------------error---------------------');
+          let message = 'Invalid credentials';
+          if (error instanceof AxiosError) message = error.response?.data.message;
+          else if (error instanceof Error) message = error.message;
+          throw new Error(message);
+        }
       },
     }),
   ],
