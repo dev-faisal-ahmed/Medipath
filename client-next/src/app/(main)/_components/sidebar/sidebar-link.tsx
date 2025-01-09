@@ -1,8 +1,12 @@
+'use client';
+
 import Link from 'next/link';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+
 import { cn } from '@/lib/utils';
 import { ChevronDownIcon } from 'lucide-react';
 import { ISidebarLink } from './use.sidebar-link';
+import { ReactNode } from 'react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 export function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink) {
   if (items)
@@ -26,16 +30,7 @@ export function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink)
           <div className="mt-2 pl-8 pr-4">
             <div className="flex flex-col border-l pl-2">
               {items.map((item) => (
-                <Link
-                  key={item.url}
-                  href={item.url}
-                  className={cn(
-                    'rounded-md p-3 hover:bg-secondary/30 hover:text-primary',
-                    item.isActive && 'bg-primary font-semibold text-white',
-                  )}
-                >
-                  {item.title}
-                </Link>
+                <ActiveLink key={item.url} {...item} />
               ))}
             </div>
           </div>
@@ -43,11 +38,24 @@ export function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink)
       </Collapsible>
     );
 
+  return <ActiveLink title={title} url={url!} icon={icon} isActive={isActive} />;
+}
+
+interface IActiveLinkProps {
+  url: string;
+  title: string;
+  className?: string;
+  isActive?: boolean;
+  icon?: ReactNode;
+}
+
+function ActiveLink({ url, title, isActive, className, icon }: IActiveLinkProps) {
   return (
     <Link
       href={url!}
       className={cn(
         'mx-4 flex items-center gap-3 rounded-md p-3 duration-300 hover:bg-secondary/30 hover:text-primary',
+        className,
         isActive && 'bg-primary font-semibold text-white',
       )}
     >

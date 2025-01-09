@@ -2,14 +2,17 @@
 
 import { Toaster } from 'sonner';
 import { PropsWithChildren } from 'react';
-import { QueryProvider } from './query-client.provider';
+import { QueryProvider } from './query.provider';
+import { ThemeProvider } from './theme.provider';
 
 export function Providers({ children }: PropsWithChildren) {
   return (
     <>
       <QueryProvider>
-        {children}
-        <Toaster richColors duration={2000} />
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+          {children}
+          <Toaster richColors duration={2000} />
+        </ThemeProvider>
       </QueryProvider>
     </>
   );

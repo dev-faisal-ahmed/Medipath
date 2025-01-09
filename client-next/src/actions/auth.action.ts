@@ -1,7 +1,7 @@
 'use server';
 
 import { AuthError } from 'next-auth';
-import { auth, signIn } from '../lib/auth';
+import { auth, signIn, signOut } from '../lib/auth';
 
 export async function singInAction(payload: { email: string; password: string }) {
   try {
@@ -10,6 +10,10 @@ export async function singInAction(payload: { email: string; password: string })
   } catch (error) {
     if (error instanceof AuthError) return { error: error.cause?.err?.message };
   }
+}
+
+export async function logOut() {
+  await signOut();
 }
 
 export async function getAuth() {

@@ -2,7 +2,7 @@ import { isServer, QueryCache, QueryClient, QueryClientProvider } from '@tanstac
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PropsWithChildren } from 'react';
 
-const TIME = 10 * 60 * 1000;
+const TIME = 20 * 60 * 1000;
 
 function makeQueryClient() {
   return new QueryClient({
@@ -23,9 +23,10 @@ function getQueryClient() {
 
 export function QueryProvider({ children }: PropsWithChildren) {
   const queryClient = getQueryClient();
+
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} position="bottom" buttonPosition="bottom-left" />
+      <ReactQueryDevtools initialIsOpen={false} position="bottom" buttonPosition="top-left" />
       {children}
     </QueryClientProvider>
   );
