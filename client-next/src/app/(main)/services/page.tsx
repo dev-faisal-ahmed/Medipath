@@ -1,7 +1,11 @@
+import { Header } from '@/components/shared/header';
+import { ServicesTable } from './_components/service.table';
+
 export default function Page() {
   return (
     <main>
-      <h1>Services Page</h1>
+      <Header showSearchBar />
+      <ServicesTable />
     </main>
   );
 }

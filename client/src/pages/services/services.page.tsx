@@ -8,6 +8,7 @@ export function ServicesPage() {
       <Header showSearchBar>
         <AddService />
       </Header>
+
       <ServicesTable />
     </>
   );

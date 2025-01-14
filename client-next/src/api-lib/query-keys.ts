@@ -1,3 +1,4 @@
-export enum QUERY_KEYS {
-  AUTH = 'AUTH',
-}
+export const QUERY_KEYS = {
+  AUTH: 'AUTH',
+  SERVICE: 'SERVICE',
+} as const;

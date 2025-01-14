@@ -1,25 +1,31 @@
 'use client';
 
-import { useTopbarContext } from '@/app/(main)/_components/topbar/topbar';
-import { memo, PropsWithChildren, useEffect } from 'react';
+import { useTopbarContext } from '@/hooks';
+import { memo, ReactNode, useEffect } from 'react';
 
-export const Header = memo(
-  ({ title = 'Medipath', showSearchBar, children }: PropsWithChildren<{ title?: string; showSearchBar?: boolean }>) => {
-    const { updateHeaderTitle, updateHeaderChild, resetSearch } = useTopbarContext();
+interface HeaderProps {
+  title?: string;
+  showSearchBar?: boolean;
+  children?: ReactNode;
+}
 
-    useEffect(() => {
-      if (title) updateHeaderTitle(title);
-      if (children) updateHeaderChild(children);
+export const Header = memo(({ title = 'Medipath', children, showSearchBar = false }: HeaderProps) => {
+  const { updateHeaderTitle, updateHeaderChild, updateSearch, updateIsSearchbarShown } = useTopbarContext();
 
-      return () => {
-        updateHeaderTitle('');
-        updateHeaderChild(null);
-        resetSearch();
-      };
-    }, [title, children, updateHeaderTitle, updateHeaderChild, showSearchBar, resetSearch]);
+  useEffect(() => {
+    if (title) updateHeaderTitle(title);
+    if (children) updateHeaderChild(children);
+    updateIsSearchbarShown(showSearchBar);
 
-    return null;
-  },
-);
+    return () => {
+      updateHeaderTitle('');
+      updateHeaderChild(null);
+      updateIsSearchbarShown(false);
+      updateSearch('');
+    };
+  }, [title, children, updateHeaderTitle, updateHeaderChild, updateIsSearchbarShown, showSearchBar, updateSearch]);
+
+  return null;
+});
 
 Header.displayName = 'Header';
