@@ -6,3 +6,10 @@ export function removeEmptyProperty(payload: Record<string, any>) {
     return acc;
   }, {});
 }
+
+export function wordCapitalize(words: string) {
+  return words
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}

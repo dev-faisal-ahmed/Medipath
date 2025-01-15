@@ -3,13 +3,13 @@
 import { useTopbarContext } from '@/hooks';
 import { memo, ReactNode, useEffect } from 'react';
 
-interface HeaderProps {
+interface IProps {
   title?: string;
   showSearchBar?: boolean;
   children?: ReactNode;
 }
 
-export const Header = memo(({ title = 'Medipath', children, showSearchBar = false }: HeaderProps) => {
+export const Header = memo(({ title = 'Medipath', children, showSearchBar = false }: IProps) => {
   const { updateHeaderTitle, updateHeaderChild, updateSearch, updateIsSearchbarShown } = useTopbarContext();
 
   useEffect(() => {
