@@ -1,17 +1,16 @@
 'use client';
 
-import { CommonDropdownMenu, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { QUERY_KEYS } from '@/api-lib';
 import { getServices } from '@/api-lib/query';
-import { DataTable } from '@/components/ui/data-table';
+import { DataTable, DataTableAction } from '@/components/ui/data-table';
 import { removeEmptyProperty } from '@/helper';
 import { IService } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
-import { EllipsisIcon } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import { useTopbarContext } from '@/hooks';
 import { useSearchParams } from 'next/navigation';
+import { UpdateService } from './update-service';
 
 const LIMIT = '20';
 
@@ -53,7 +52,7 @@ export function ServicesTable() {
       },
       {
         id: 'action',
-        cell: ({ row }) => <ActionDrawer {...row.original} />,
+        cell: ({ row }) => <ActionDropdown {...row.original} />,
       },
     ];
   }, [limit, page]);
@@ -68,24 +67,14 @@ export function ServicesTable() {
   );
 }
 
-function ActionDrawer(service: IService) {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+function ActionDropdown(service: IService) {
+  const [open, setOpen] = useState(false);
 
-  const closeDrawer = useCallback(() => {
-    setIsDrawerOpen(false);
-  }, []);
+  const onOpenChange = useCallback((open: boolean) => setOpen(open), []);
 
   return (
-    <CommonDropdownMenu
-      control={{ isOpen: isDrawerOpen, setIsOpen: setIsDrawerOpen }}
-      trigger={<EllipsisIcon size={18} />}
-    >
-      <DropdownMenuLabel className="p-2 text-center">Actions</DropdownMenuLabel>
-      <DropdownMenuSeparator />
-      <div className="flex flex-col gap-2 p-2">
-        {/* <DeleteService serviceId={service._id} closeDrawer={closeDrawer} /> */}
-        {/* <UpdateService payload={service} closeDrawer={closeDrawer} /> */}
-      </div>
-    </CommonDropdownMenu>
+    <DataTableAction open={open} onOpenChange={onOpenChange}>
+      <UpdateService service={service} onActionDropdownChange={onOpenChange} />
+    </DataTableAction>
   );
 }

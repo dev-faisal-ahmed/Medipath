@@ -18,7 +18,7 @@ export function AddService() {
   const queryClient = useQueryClient();
   const onOpenChange = useCallback((open: boolean) => setOpen(open), []);
 
-  const { mutate: addServiceMutation } = useMutation({
+  const { mutate } = useMutation({
     mutationKey: [FORM_ID],
     mutationFn: addService,
     onSuccess: (response) => {
@@ -32,7 +32,7 @@ export function AddService() {
   });
 
   const handleAddService = (formData: TServiceForm) => {
-    addServiceMutation({ ...formData, price: Number(formData.price) });
+    mutate({ ...formData, price: Number(formData.price) });
   };
 
   return (
@@ -43,7 +43,7 @@ export function AddService() {
       <FormDialog
         formId={FORM_ID}
         title="Add Service"
-        description="Provide Service Information Give Below"
+        description="Provide service information to add one"
         submitButtonTitle="Add Service"
         submitLoadingTitle="Adding Service..."
         open={open}

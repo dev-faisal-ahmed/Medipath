@@ -21,3 +21,15 @@ export async function getServices(args: TObject): Promise<IServerResponse<IServi
   const { data } = await axiosInstance.get(apiUrl.getServices(searchParams));
   return data;
 }
+
+export async function updateService(payload: Partial<IService>): Promise<IServerResponse<null>> {
+  const { _id: serviceId, ...restPayload } = payload;
+  const body = removeEmptyProperty(restPayload);
+  const { data } = await axiosInstance.patch(apiUrl.updateService(serviceId!), body);
+  return data;
+}
+
+export async function deleteService(serviceId: string): Promise<IServerResponse<null>> {
+  const { data } = await axiosInstance.delete(apiUrl.deleteService(serviceId));
+  return data;
+}
