@@ -8,8 +8,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '../ui/dialog';
-import { Button } from '../ui/button';
+} from '../../ui/dialog';
+import { Button } from '../../ui/button';
 import { useIsMutating } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 

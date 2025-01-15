@@ -3,14 +3,14 @@
 import { Button } from '@/components/ui/button';
 import { IService } from '@/types';
 import { PenLineIcon } from 'lucide-react';
-import { useCallback, useState } from 'react';
 import { ServiceForm, TServiceForm } from './service.form';
 import { QUERY_KEYS } from '@/api-lib';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateService } from '@/api-lib/query';
 import { toast } from 'sonner';
 import { errorMessageGen } from '@/helper';
-import { FormDialog } from '@/components/shared/form.dialog';
+import { FormDialog } from '@/components/shared/form/form.dialog';
+import { usePopupState } from '@/hooks';
 
 interface IProps {
   service: IService;
@@ -18,10 +18,8 @@ interface IProps {
 }
 
 export function UpdateService({ service, onActionDropdownChange }: IProps) {
-  const FORM_ID = `${QUERY_KEYS.SERVICE}|${service._id}`;
-  const [open, setOpen] = useState(false);
-
-  const onOpenChange = useCallback((open: boolean) => setOpen(open), []);
+  const FORM_ID = `${QUERY_KEYS.SERVICE}_UPDATE_${service._id}`;
+  const { open, onOpenChange } = usePopupState();
 
   const queryClient = useQueryClient();
   const { mutate } = useMutation({

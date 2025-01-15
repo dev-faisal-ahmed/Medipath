@@ -7,10 +7,11 @@ import { removeEmptyProperty } from '@/helper';
 import { IService } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
-import { useCallback, useMemo, useState } from 'react';
-import { useTopbarContext } from '@/hooks';
+import { useMemo } from 'react';
+import { usePopupState, useTopbarContext } from '@/hooks';
 import { useSearchParams } from 'next/navigation';
 import { UpdateService } from './update-service';
+import { DeleteService } from './delete-service';
 
 const LIMIT = '20';
 
@@ -68,13 +69,12 @@ export function ServicesTable() {
 }
 
 function ActionDropdown(service: IService) {
-  const [open, setOpen] = useState(false);
-
-  const onOpenChange = useCallback((open: boolean) => setOpen(open), []);
+  const { open, onOpenChange } = usePopupState();
 
   return (
     <DataTableAction open={open} onOpenChange={onOpenChange}>
       <UpdateService service={service} onActionDropdownChange={onOpenChange} />
+      <DeleteService serviceId={service._id} onActionDropdownChange={onOpenChange} />
     </DataTableAction>
   );
 }

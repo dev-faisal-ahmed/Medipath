@@ -8,7 +8,7 @@ import { PlusIcon, SearchIcon, XIcon } from 'lucide-react';
 import { ProfileMenu } from '../profile-menu';
 import { ProfileIcon } from '@/components/shared/profile-icon';
 import { TooltipContainer } from '@/components/ui/tooltip';
-import { useTopbarContext } from '@/hooks/use.topbar-context';
+import { useTopbarContext } from '@/hooks';
 
 export function Topbar() {
   const { isSearchbarShown, headerTitle, headerChild, updateSearch, search } = useTopbarContext();
