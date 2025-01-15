@@ -1,4 +1,4 @@
-export enum QUERY_KEYS {
-  SERVICES = 'SERVICES',
-  REFERRERS = 'REFERRERS',
-}
+export const QUERY_KEYS = {
+  SERVICES: 'SERVICES',
+  REFERRERS: 'REFERRERS',
+} as const;

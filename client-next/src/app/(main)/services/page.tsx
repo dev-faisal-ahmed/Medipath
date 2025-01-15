@@ -1,10 +1,13 @@
 import { Header } from '@/components/shared/header';
 import { ServicesTable } from './_components/service.table';
+import { AddService } from './_components/add-service';
 
 export default function Page() {
   return (
     <main>
-      <Header showSearchBar />
+      <Header showSearchBar>
+        <AddService />
+      </Header>
       <ServicesTable />
     </main>
   );

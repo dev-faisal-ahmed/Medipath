@@ -33,7 +33,7 @@ export function ServiceForm({ formId, defaultValues, onSubmit }: IProps) {
 
   return (
     <Form {...form}>
-      <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="space-y-3" id={formId} onSubmit={form.handleSubmit(onSubmit)}>
         <CommonFormFiled name="name" label="Name∗">
           {({ field }) => <Input {...field} placeholder="@: X-Ray" />}
         </CommonFormFiled>
