@@ -1,5 +1,5 @@
 import { getAuth } from '@/actions';
-import { Header } from '@/components/shared/header';
+import { Header } from '@/components/shared';
 
 export default async function Home() {
   const session = await getAuth();

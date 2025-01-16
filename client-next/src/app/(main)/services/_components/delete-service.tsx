@@ -2,7 +2,7 @@
 
 import { QK } from '@/api-lib';
 import { deleteService } from '@/api-lib/query';
-import { DeleteDialog } from '@/components/shared/delete.dialog';
+import { DeleteDialog } from '@/components/shared';
 import { errorMessageGen } from '@/helper';
 import { usePopupState } from '@/hooks';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

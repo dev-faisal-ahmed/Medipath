@@ -1,7 +1,7 @@
 'use client';
 
 import { QK } from '@/api-lib';
-import { FormDialog } from '@/components/shared/form/form.dialog';
+import { FormDialog } from '@/components/shared/form';
 import { ServiceForm, TServiceForm } from './service.form';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
@@ -11,14 +11,14 @@ import { toast } from 'sonner';
 import { errorMessageGen } from '@/helper';
 import { usePopupState } from '@/hooks';
 
-const FORM_ID = QK.SERVICE + '_ADD';
+const formId = QK.SERVICE + '_ADD';
 
 export const AddService = () => {
   const qc = useQueryClient();
   const { open, onOpenChange } = usePopupState();
 
   const { mutate } = useMutation({
-    mutationKey: [FORM_ID],
+    mutationKey: [formId],
     mutationFn: addService,
     onSuccess: (response) => {
       qc.invalidateQueries({ queryKey: [QK.SERVICE] });
@@ -37,10 +37,10 @@ export const AddService = () => {
   return (
     <>
       <Button onClick={() => onOpenChange(true)}>
-        <PlusIcon /> Add Contact
+        <PlusIcon /> Add Service
       </Button>
       <FormDialog
-        formId={FORM_ID}
+        formId={formId}
         title="Add Service"
         description="Provide service information to add one"
         submitButtonTitle="Add Service"
@@ -48,7 +48,7 @@ export const AddService = () => {
         open={open}
         onOpenChange={onOpenChange}
       >
-        <ServiceForm formId={FORM_ID} onSubmit={handleAddService} />
+        <ServiceForm formId={formId} onSubmit={handleAddService} />
       </FormDialog>
     </>
   );

@@ -8,7 +8,7 @@ import { ProfileMenu } from '../profile-menu';
 import { SidebarLink } from './sidebar-link';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks';
-import { ProfileIcon } from '@/components/shared/profile-icon';
+import { ProfileIcon } from '@/components/shared';
 
 export const Sidebar = () => {
   const { sidebarLinks } = useSidebarLinks();

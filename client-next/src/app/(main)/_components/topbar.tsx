@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks';
 import { Input } from '@/components/ui/input';
 import { PlusIcon, SearchIcon, XIcon } from 'lucide-react';
 import { ProfileMenu } from './profile-menu';
-import { ProfileIcon } from '@/components/shared/profile-icon';
+import { ProfileIcon } from '@/components/shared';
 import { TooltipContainer } from '@/components/ui/tooltip';
 import { useTopbarContext } from '@/hooks';
 

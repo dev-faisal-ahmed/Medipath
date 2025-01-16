@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateService } from '@/api-lib/query';
 import { toast } from 'sonner';
 import { errorMessageGen } from '@/helper';
-import { FormDialog } from '@/components/shared/form/form.dialog';
+import { FormDialog } from '@/components/shared/form';
 import { usePopupState } from '@/hooks';
 
 interface IProps {
@@ -18,12 +18,12 @@ interface IProps {
 }
 
 export const UpdateService = ({ service, onActionDropdownChange }: IProps) => {
-  const FORM_ID = `${QK.SERVICE}_UPDATE_${service._id}`;
+  const formId = `${QK.SERVICE}_UPDATE_${service._id}`;
   const { open, onOpenChange } = usePopupState();
 
   const qc = useQueryClient();
   const { mutate } = useMutation({
-    mutationKey: [FORM_ID],
+    mutationKey: [formId],
     mutationFn: updateService,
     onSuccess: (res) => {
       qc.invalidateQueries({ queryKey: [QK.SERVICE] });
@@ -46,7 +46,7 @@ export const UpdateService = ({ service, onActionDropdownChange }: IProps) => {
         <PenLineIcon /> Update
       </Button>
       <FormDialog
-        formId={FORM_ID}
+        formId={formId}
         title="Update Service"
         description="Provide necessary information to update service"
         open={open}
@@ -55,7 +55,7 @@ export const UpdateService = ({ service, onActionDropdownChange }: IProps) => {
         submitLoadingTitle="Updating Service..."
       >
         <ServiceForm
-          formId={FORM_ID}
+          formId={formId}
           onSubmit={handleUpdateService}
           defaultValues={{ ...service, price: service.price.toString() }}
         />
