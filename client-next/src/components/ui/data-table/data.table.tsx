@@ -8,7 +8,7 @@ interface IDataTableProps<TData, TValue> {
   pagination?: { page: number; totalPages: number };
 }
 
-export function DataTable<TData, TValue>({ columns, data, pagination }: IDataTableProps<TData, TValue>) {
+export const DataTable = <TData, TValue>({ columns, data, pagination }: IDataTableProps<TData, TValue>) => {
   const table = useReactTable({
     data,
     columns,
@@ -59,4 +59,4 @@ export function DataTable<TData, TValue>({ columns, data, pagination }: IDataTab
       )}
     </div>
   );
-}
+};

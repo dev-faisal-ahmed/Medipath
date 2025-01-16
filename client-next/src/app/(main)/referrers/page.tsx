@@ -1,3 +1,9 @@
+import { Header } from '@/components/shared/header';
+
 export default function ReferrersPage() {
-  return 'Referrers Page';
+  return (
+    <>
+      <Header />
+    </>
+  );
 }

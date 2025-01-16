@@ -7,7 +7,7 @@ import { Form } from '@/components/ui/form';
 import { Input, PasswordInput } from '@/components/ui/input';
 import { useLogin } from './use.login';
 
-export function LoginForm() {
+export const LoginForm = () => {
   const { form, handleLogin, isLoading } = useLogin();
 
   return (
@@ -35,4 +35,4 @@ export function LoginForm() {
       </CardContent>
     </Card>
   );
-}
+};

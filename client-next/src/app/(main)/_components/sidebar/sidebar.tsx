@@ -10,7 +10,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks';
 import { ProfileIcon } from '@/components/shared/profile-icon';
 
-export function Sidebar() {
+export const Sidebar = () => {
   const { sidebarLinks } = useSidebarLinks();
   const { data: session } = useAuth();
 
@@ -43,4 +43,4 @@ export function Sidebar() {
       </div>
     </aside>
   );
-}
+};

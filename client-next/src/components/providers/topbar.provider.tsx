@@ -7,7 +7,7 @@ import { createContext, PropsWithChildren, useState, ReactNode, useCallback, use
 export const TopbarContext = createContext<ITopbarContext | null>(null);
 
 // provider
-export function TopbarProvider({ children }: PropsWithChildren) {
+export const TopbarProvider = ({ children }: PropsWithChildren) => {
   const [headerChild, setHeaderChild] = useState<ReactNode | null>(null);
   const [headerTitle, setHeaderTitle] = useState<ReactNode | string | null>(null);
   const [search, setSearch] = useState<string>('');
@@ -48,7 +48,7 @@ export function TopbarProvider({ children }: PropsWithChildren) {
   }, []);
 
   return <TopbarContext.Provider value={contextValue}>{children}</TopbarContext.Provider>;
-}
+};
 
 // interface
 interface ITopbarContext {

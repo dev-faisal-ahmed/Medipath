@@ -6,7 +6,7 @@ import { QueryProvider } from './query.provider';
 import { ThemeProvider } from './theme.provider';
 import { TooltipProvider } from '../ui/tooltip';
 
-export function Providers({ children }: PropsWithChildren) {
+export const Providers = ({ children }: PropsWithChildren) => {
   return (
     <>
       <QueryProvider>
@@ -19,4 +19,4 @@ export function Providers({ children }: PropsWithChildren) {
       </QueryProvider>
     </>
   );
-}
+};

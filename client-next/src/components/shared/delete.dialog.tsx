@@ -24,7 +24,7 @@ interface IProps {
   onOpenChange(open: boolean): void;
 }
 
-export function DeleteDialog({ mutationKey, title, description, onDelete, open, onOpenChange }: IProps) {
+export const DeleteDialog = ({ mutationKey, title, description, onDelete, open, onOpenChange }: IProps) => {
   const isMutating = useIsMutating({ mutationKey: [mutationKey] });
 
   return (
@@ -50,4 +50,4 @@ export function DeleteDialog({ mutationKey, title, description, onDelete, open, 
       </AlertDialogContent>
     </AlertDialog>
   );
-}
+};

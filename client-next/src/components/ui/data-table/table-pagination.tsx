@@ -9,7 +9,7 @@ interface ITabelPaginationProps {
   totalPages: number;
 }
 
-export function TablePagination({ page, totalPages }: ITabelPaginationProps) {
+export const TablePagination = ({ page, totalPages }: ITabelPaginationProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -61,4 +61,4 @@ export function TablePagination({ page, totalPages }: ITabelPaginationProps) {
       </Button>
     </div>
   );
-}
+};

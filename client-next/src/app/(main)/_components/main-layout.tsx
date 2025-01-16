@@ -3,11 +3,11 @@
 import { useAuth } from '@/hooks';
 import { PropsWithChildren } from 'react';
 import { Sidebar } from './sidebar';
-import { Topbar } from './topbar/topbar';
+import { Topbar } from './topbar';
 import { TopbarProvider } from '@/components/providers';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-export function MainLayout({ children }: PropsWithChildren) {
+export const MainLayout = ({ children }: PropsWithChildren) => {
   useAuth();
 
   return (
@@ -21,4 +21,4 @@ export function MainLayout({ children }: PropsWithChildren) {
       </section>
     </main>
   );
-}
+};

@@ -1,6 +1,6 @@
 'use client';
 
-import { QUERY_KEYS } from '@/api-lib';
+import { QK } from '@/api-lib';
 import { getServices } from '@/api-lib/query';
 import { DataTable, DataTableAction } from '@/components/ui/data-table';
 import { removeEmptyProperty } from '@/helper';
@@ -15,13 +15,13 @@ import { DeleteService } from './delete-service';
 
 const LIMIT = '20';
 
-export function ServicesTable() {
+export const ServicesTable = () => {
   const { searchTerm } = useTopbarContext();
   const searchParams = useSearchParams();
   const pageParams = searchParams.get('page') || '1';
 
   const { data: servicesData, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.SERVICE, { ...removeEmptyProperty({ searchTerm, limit: LIMIT, pageParams }) }],
+    queryKey: [QK.SERVICE, { ...removeEmptyProperty({ searchTerm, limit: LIMIT, pageParams }) }],
     queryFn: () => getServices({ searchTerm, limit: LIMIT, page: pageParams }),
   });
 
@@ -66,9 +66,9 @@ export function ServicesTable() {
       <DataTable data={servicesData.data} pagination={{ page, totalPages }} columns={column} />
     </section>
   );
-}
+};
 
-function ActionDropdown(service: IService) {
+const ActionDropdown = (service: IService) => {
   const { open, onOpenChange } = usePopupState();
 
   return (
@@ -77,4 +77,4 @@ function ActionDropdown(service: IService) {
       <DeleteService serviceId={service._id} onActionDropdownChange={onOpenChange} />
     </DataTableAction>
   );
-}
+};

@@ -4,24 +4,24 @@ import { PropsWithChildren } from 'react';
 
 const TIME = 20 * 60 * 1000;
 
-function makeQueryClient() {
+const makeQueryClient = () => {
   return new QueryClient({
     defaultOptions: { queries: { staleTime: TIME } },
     queryCache: new QueryCache(),
   });
-}
+};
 
 let browserQueryClient: QueryClient | undefined = undefined;
 
-function getQueryClient() {
+const getQueryClient = () => {
   if (isServer) return makeQueryClient();
   else {
     if (!browserQueryClient) browserQueryClient = makeQueryClient();
     return browserQueryClient;
   }
-}
+};
 
-export function QueryProvider({ children }: PropsWithChildren) {
+export const QueryProvider = ({ children }: PropsWithChildren) => {
   const queryClient = getQueryClient();
 
   return (
@@ -30,4 +30,4 @@ export function QueryProvider({ children }: PropsWithChildren) {
       {children}
     </QueryClientProvider>
   );
-}
+};

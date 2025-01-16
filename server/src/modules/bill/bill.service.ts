@@ -8,7 +8,7 @@ import { Bill } from './bill.model';
 import { Transaction } from '../transaction/transaction.model';
 import { TRANSACTION_CATEGORY, TRANSACTION_TYPE } from '../transaction/transaction.interface';
 
-async function addBill(payload: TAddBillPayload) {
+const addBill = async (payload: TAddBillPayload) => {
   const session = await mongoose.startSession();
 
   try {
@@ -73,6 +73,6 @@ async function addBill(payload: TAddBillPayload) {
   } finally {
     await session.endSession();
   }
-}
+};
 
 export const billService = { addBill };

@@ -5,7 +5,7 @@ import { USER_ROLE } from '../modules/user/user.interface';
 
 const BEARER = 'bearer';
 
-export function authGuard(...requiredRoles: USER_ROLE[]) {
+export const authGuard = (...requiredRoles: USER_ROLE[]) => {
   return catchAsync(async (req, _, next) => {
     const accessToken = req.headers.authorization;
     if (!accessToken) throw new AppError('No token found', 404);
@@ -27,4 +27,4 @@ export function authGuard(...requiredRoles: USER_ROLE[]) {
     req.user = isUserExist;
     next();
   });
-}
+};

@@ -6,12 +6,12 @@ import { app } from './app';
 
 let server: Server;
 
-async function bootstrap() {
+const bootstrap = async () => {
   await mongoose.connect(MONGO_URI!);
   server = app.listen(PORT, () => {
     console.log('App is listening on post', PORT);
   });
-}
+};
 
 bootstrap();
 

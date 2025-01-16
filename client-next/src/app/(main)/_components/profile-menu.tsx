@@ -14,7 +14,7 @@ interface IProps {
   children?: ReactNode;
 }
 
-export function ProfileMenu({ trigger, asChild, children }: IProps) {
+export const ProfileMenu = ({ trigger, asChild, children }: IProps) => {
   const router = useRouter();
   async function onLogout() {
     await logOut();
@@ -38,4 +38,4 @@ export function ProfileMenu({ trigger, asChild, children }: IProps) {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};

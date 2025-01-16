@@ -10,10 +10,10 @@ import {
 
 import { CallbackError, model, Schema } from 'mongoose';
 import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../../app/config';
+import { MODEL } from '../model-names';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { MODEL } from '../model-names';
 
 const userSchema = new Schema<IUser, IUserModel, IUserMethods>(
   {

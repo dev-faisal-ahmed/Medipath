@@ -1,3 +1,3 @@
-export enum TOKEN_KEYS {
-  ACCESS_TOKEN = 'ACCESS_TOKEN',
-}
+export const TOKEN_KEYS = {
+  ACCESS_TOKEN: 'ACCESS_TOKEN',
+} as const;

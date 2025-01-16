@@ -2,7 +2,7 @@ import { AppError } from '../../utils';
 import { User } from '../user/user.model';
 import { TLoginWithCredentialsPayload, TLoginWithGooglePayload } from './auth.validation';
 
-async function loginWithCredentials(payload: TLoginWithCredentialsPayload) {
+const loginWithCredentials = async (payload: TLoginWithCredentialsPayload) => {
   const { email, password } = payload;
   const user = await User.findOne({ email }, { isDeleted: 0, createdAt: 0, updatedAt: 0, __v: 0 });
   if (!user) throw new AppError('User not found', 404);
@@ -12,9 +12,9 @@ async function loginWithCredentials(payload: TLoginWithCredentialsPayload) {
 
   const { password: _, ...restInfo } = user.toObject();
   return restInfo;
-}
+};
 
-async function loginWithGoogle(payload: TLoginWithGooglePayload) {
+const loginWithGoogle = async (payload: TLoginWithGooglePayload) => {
   const { email } = payload;
   const user = await User.findOne({ email });
   if (!user) throw new AppError('You are not authorized to login', 401);
@@ -23,6 +23,6 @@ async function loginWithGoogle(payload: TLoginWithGooglePayload) {
   const refreshToken = user.generateRefreshToken();
 
   return { accessToken, refreshToken };
-}
+};
 
 export const authService = { loginWithCredentials, loginWithGoogle };

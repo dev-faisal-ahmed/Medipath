@@ -6,10 +6,10 @@ interface IZodEnumArgs {
   message: string;
 }
 
-export function zodEnum({ options, message }: IZodEnumArgs) {
+export const zodEnum = ({ options, message }: IZodEnumArgs) => {
   return z.enum([...(options as [string, ...string[]])], { message });
-}
+};
 
-export function zodMongoObjectId(message: string = 'Invalid Object Id') {
+export const zodMongoObjectId = (message: string = 'Invalid Object Id') => {
   return z.string().refine((val) => Types.ObjectId.isValid(val), { message });
-}
+};

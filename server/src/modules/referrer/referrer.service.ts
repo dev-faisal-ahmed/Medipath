@@ -3,12 +3,12 @@ import { TObject } from '../../utils/type';
 import { Referrer } from './referrer.model';
 import { TAddReferrerPayload } from './referrer.validation';
 
-async function addReferrer(payload: TAddReferrerPayload) {
+const addReferrer = async (payload: TAddReferrerPayload) => {
   await Referrer.create(payload);
   return 'Referrer added';
-}
+};
 
-async function getReferrers(query: TObject) {
+const getReferrers = async (query: TObject) => {
   const dbQuery = {
     isDeleted: false,
     ...getSearchQuery(query, 'name', 'designation', 'phone'),
@@ -21,6 +21,6 @@ async function getReferrers(query: TObject) {
   const meta = generateMeta({ page, limit, total });
 
   return { referrers, meta };
-}
+};
 
 export const referrerService = { addReferrer, getReferrers };

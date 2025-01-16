@@ -8,7 +8,7 @@ import { ISidebarLink } from './use.sidebar-link';
 import { ReactNode } from 'react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
-export function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink) {
+export const SidebarLink = ({ title, items, icon, isActive, url }: ISidebarLink) => {
   if (items)
     return (
       <Collapsible>
@@ -39,7 +39,7 @@ export function SidebarLink({ title, items, icon, isActive, url }: ISidebarLink)
     );
 
   return <ActiveLink title={title} url={url!} icon={icon} isActive={isActive} />;
-}
+};
 
 interface IActiveLinkProps {
   url: string;
@@ -49,7 +49,7 @@ interface IActiveLinkProps {
   icon?: ReactNode;
 }
 
-function ActiveLink({ url, title, isActive, className, icon }: IActiveLinkProps) {
+const ActiveLink = ({ url, title, isActive, className, icon }: IActiveLinkProps) => {
   return (
     <Link
       href={url!}
@@ -63,4 +63,4 @@ function ActiveLink({ url, title, isActive, className, icon }: IActiveLinkProps)
       {title}
     </Link>
   );
-}
+};

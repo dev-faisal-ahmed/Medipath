@@ -4,7 +4,7 @@ import { MONGO_URI, SUPER_ADMIN_EMAIL, SUPER_ADMIN_USER_PASSWORD } from '../app/
 import { PROVIDER, USER_ROLE } from '../modules/user/user.interface';
 import { User } from '../modules/user/user.model';
 
-async function seedSuperAdmin() {
+const seedSuperAdmin = async () => {
   try {
     await mongoose.connect(MONGO_URI!);
 
@@ -26,6 +26,6 @@ async function seedSuperAdmin() {
   } finally {
     await mongoose.disconnect();
   }
-}
+};
 
 seedSuperAdmin();

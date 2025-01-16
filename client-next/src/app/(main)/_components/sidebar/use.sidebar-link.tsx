@@ -12,7 +12,7 @@ export interface ISidebarLink {
   url?: string;
 }
 
-export function useSidebarLinks() {
+export const useSidebarLinks = () => {
   const pathname = usePathname();
 
   const sidebarLinks = useMemo(() => {
@@ -49,4 +49,4 @@ export function useSidebarLinks() {
   }, [pathname]);
 
   return { sidebarLinks };
-}
+};

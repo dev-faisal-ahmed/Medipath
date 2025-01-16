@@ -14,7 +14,7 @@ const loginFormSchema = z.object({
 
 type TLoginForm = z.infer<typeof loginFormSchema>;
 
-export function useLogin() {
+export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -26,8 +26,6 @@ export function useLogin() {
   const handleLogin = form.handleSubmit((data) => {
     const { email, password } = data;
     const id = toast.loading('Logging in....');
-
-    console.log('pressed');
 
     tryCatch({
       id,
@@ -43,4 +41,4 @@ export function useLogin() {
   });
 
   return { form, handleLogin, isLoading };
-}
+};

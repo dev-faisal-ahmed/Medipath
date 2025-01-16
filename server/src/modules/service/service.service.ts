@@ -4,7 +4,7 @@ import { generateMeta, getPageParams, getSearchQuery } from '../../helpers';
 import { TAddServicePayload, TUpdateServicePayload } from './service.validation';
 import { TObject } from '../../utils/type';
 
-async function addService(payload: TAddServicePayload) {
+const addService = async (payload: TAddServicePayload) => {
   const isServiceExist = await Service.exists({ name: payload.name });
   if (isServiceExist) throw new AppError('Service already exists', 400);
 
@@ -12,9 +12,9 @@ async function addService(payload: TAddServicePayload) {
   if (!service) throw new AppError('Service not created', 500);
 
   return 'Service added successfully';
-}
+};
 
-async function getServices(query: TObject) {
+const getServices = async (query: TObject) => {
   const dbQuery = { isDeleted: false, ...getSearchQuery(query, 'name') };
   const { page, limit, skip } = getPageParams(query);
 
@@ -27,16 +27,16 @@ async function getServices(query: TObject) {
   const meta = generateMeta({ page, limit, total });
 
   return { services, meta };
-}
+};
 
-async function updateService(payload: TUpdateServicePayload, serviceId: string) {
+const updateService = async (payload: TUpdateServicePayload, serviceId: string) => {
   await Service.updateOne({ _id: serviceId }, { $set: payload });
   return 'Service Updated';
-}
+};
 
-async function deleteService(serviceId: string) {
+const deleteService = async (serviceId: string) => {
   await Service.updateOne({ _id: serviceId }, { $set: { isDeleted: true } });
   return 'Service Deleted';
-}
+};
 
 export const serviceService = { addService, getServices, updateService, deleteService };

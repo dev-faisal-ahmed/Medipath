@@ -24,7 +24,7 @@ interface IProps {
   onOpenChange(open: boolean): void;
 }
 
-export function FormDialog({
+export const FormDialog = ({
   formId,
   title,
   description,
@@ -33,7 +33,7 @@ export function FormDialog({
   submitLoadingTitle,
   open,
   onOpenChange,
-}: IProps) {
+}: IProps) => {
   const isMutating = useIsMutating({ mutationKey: [formId] });
 
   return (
@@ -55,4 +55,4 @@ export function FormDialog({
       </DialogContent>
     </Dialog>
   );
-}
+};

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { IService } from '@/types';
 import { PenLineIcon } from 'lucide-react';
 import { ServiceForm, TServiceForm } from './service.form';
-import { QUERY_KEYS } from '@/api-lib';
+import { QK } from '@/api-lib';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateService } from '@/api-lib/query';
 import { toast } from 'sonner';
@@ -17,16 +17,16 @@ interface IProps {
   onActionDropdownChange(open: boolean): void;
 }
 
-export function UpdateService({ service, onActionDropdownChange }: IProps) {
-  const FORM_ID = `${QUERY_KEYS.SERVICE}_UPDATE_${service._id}`;
+export const UpdateService = ({ service, onActionDropdownChange }: IProps) => {
+  const FORM_ID = `${QK.SERVICE}_UPDATE_${service._id}`;
   const { open, onOpenChange } = usePopupState();
 
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   const { mutate } = useMutation({
     mutationKey: [FORM_ID],
     mutationFn: updateService,
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SERVICE] });
+      qc.invalidateQueries({ queryKey: [QK.SERVICE] });
       toast.success(res.message);
       onOpenChange(false);
       onActionDropdownChange(false);
@@ -62,4 +62,4 @@ export function UpdateService({ service, onActionDropdownChange }: IProps) {
       </FormDialog>
     </>
   );
-}
+};

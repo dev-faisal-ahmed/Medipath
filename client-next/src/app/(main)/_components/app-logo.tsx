@@ -1,11 +1,12 @@
 import { cn } from '@/lib/utils';
 import { FaHandHoldingMedical } from 'react-icons/fa6';
+
 interface IProps {
   className?: string;
   hideTitle?: boolean;
 }
 
-export function AppLogo({ className, hideTitle }: IProps) {
+export const AppLogo = ({ className, hideTitle }: IProps) => {
   return (
     <div className={cn('flex items-center gap-2', className)}>
       <span className="text-primary">
@@ -19,4 +20,4 @@ export function AppLogo({ className, hideTitle }: IProps) {
       )}
     </div>
   );
-}
+};

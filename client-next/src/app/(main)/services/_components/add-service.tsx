@@ -1,6 +1,6 @@
 'use client';
 
-import { QUERY_KEYS } from '@/api-lib';
+import { QK } from '@/api-lib';
 import { FormDialog } from '@/components/shared/form/form.dialog';
 import { ServiceForm, TServiceForm } from './service.form';
 import { Button } from '@/components/ui/button';
@@ -11,17 +11,17 @@ import { toast } from 'sonner';
 import { errorMessageGen } from '@/helper';
 import { usePopupState } from '@/hooks';
 
-const FORM_ID = QUERY_KEYS.SERVICE + '_ADD';
+const FORM_ID = QK.SERVICE + '_ADD';
 
-export function AddService() {
-  const queryClient = useQueryClient();
+export const AddService = () => {
+  const qc = useQueryClient();
   const { open, onOpenChange } = usePopupState();
 
   const { mutate } = useMutation({
     mutationKey: [FORM_ID],
     mutationFn: addService,
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SERVICE] });
+      qc.invalidateQueries({ queryKey: [QK.SERVICE] });
       toast.success(response.message);
       onOpenChange(false);
     },
@@ -52,4 +52,4 @@ export function AddService() {
       </FormDialog>
     </>
   );
-}
+};

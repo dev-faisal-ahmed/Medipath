@@ -7,7 +7,7 @@ interface ITryCatchArgs {
   finallyFn?: () => void;
 }
 
-export async function tryCatch({ id, tryFn, catchFn, finallyFn }: ITryCatchArgs) {
+export const tryCatch = async ({ id, tryFn, catchFn, finallyFn }: ITryCatchArgs) => {
   return Promise.resolve(tryFn())
     .catch((error) => {
       if (catchFn) return catchFn(error);
@@ -17,4 +17,4 @@ export async function tryCatch({ id, tryFn, catchFn, finallyFn }: ITryCatchArgs)
     .finally(() => {
       if (finallyFn) finallyFn();
     });
-}
+};

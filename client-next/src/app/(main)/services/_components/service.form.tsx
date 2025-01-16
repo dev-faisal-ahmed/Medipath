@@ -25,7 +25,7 @@ interface IProps {
   onSubmit(formData: TServiceForm): void;
 }
 
-export function ServiceForm({ formId, defaultValues, onSubmit }: IProps) {
+export const ServiceForm = ({ formId, defaultValues, onSubmit }: IProps) => {
   const form = useForm<TServiceForm>({
     resolver: zodResolver(serviceFormSchema),
     defaultValues: defaultValues || { name: '', price: '', roomNo: '' },
@@ -46,4 +46,4 @@ export function ServiceForm({ formId, defaultValues, onSubmit }: IProps) {
       </form>
     </Form>
   );
-}
+};

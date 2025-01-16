@@ -18,7 +18,7 @@ interface IProps {
   children: ReactNode;
 }
 
-export function DataTableAction({ open, onOpenChange, children }: IProps) {
+export const DataTableAction = ({ open, onOpenChange, children }: IProps) => {
   return (
     <DropdownMenu open={open} onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild>
@@ -33,4 +33,4 @@ export function DataTableAction({ open, onOpenChange, children }: IProps) {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};
