@@ -25,14 +25,14 @@ export const ProfileMenu = ({ trigger, asChild, children }: IProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="outline-none" asChild={asChild}>
-        {trigger || <EllipsisIcon />}
+        {trigger || <EllipsisIcon size={18} />}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="p-2">
         {children}
-        <Button variant="primary_ghost" className="flex w-full items-center justify-start gap-2">
+        <Button variant="primary-ghost" className="flex w-full items-center justify-start gap-2">
           <LockKeyholeIcon size={16} /> Change Password
         </Button>
-        <Button onClick={onLogout} variant="destructive_ghost" className="flex w-full items-center justify-start gap-2">
+        <Button onClick={onLogout} variant="destructive-ghost" className="flex w-full items-center justify-start gap-2">
           <LogOutIcon size={16} /> Logout
         </Button>
       </DropdownMenuContent>

@@ -18,7 +18,8 @@ export const wordCapitalize = (words: string) => {
 
 export const errorMessageGen = (error: unknown, defaultMessage: string = 'Something went wrong') => {
   let message = defaultMessage;
+  console.log(typeof error);
   if (error instanceof AxiosError) message = error.response?.data?.message;
-  if (error instanceof Error) message = error.message;
+  else if (error instanceof Error) message = error.message;
   return message;
 };

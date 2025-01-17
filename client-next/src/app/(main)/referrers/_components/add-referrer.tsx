@@ -5,11 +5,10 @@ import { FormDialog } from '@/components/shared/form';
 import { usePopupState } from '@/hooks';
 import { ReferrerForm, TReferrerForm } from './referrer.form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addReferrer } from '@/api-lib/query/referrer.query';
+import { addReferrer } from '@/api-lib/query';
 import { toast } from 'sonner';
 import { errorMessageGen } from '@/helper';
-import { Button } from '@/components/ui/button';
-import { PlusIcon } from 'lucide-react';
+import { ActionButton } from '@/components/ui/button';
 
 const formId = QK.REFERRER + '_ADD';
 
@@ -30,15 +29,11 @@ export const AddReferrer = () => {
     },
   });
 
-  const onSubmit = (formData: TReferrerForm) => {
-    mutate({ ...formData });
-  };
+  const onSubmit = (formData: TReferrerForm) => mutate({ ...formData });
 
   return (
     <>
-      <Button onClick={() => onOpenChange(true)}>
-        <PlusIcon /> Add Referrer
-      </Button>
+      <ActionButton label="Add Referrer" actionType="ADD" onClick={() => onOpenChange(true)} />
       <FormDialog
         formId={formId}
         title="Add Referrer"

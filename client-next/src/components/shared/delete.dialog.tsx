@@ -10,8 +10,7 @@ import {
   AlertDialogTrigger,
 } from '../ui/alert-dialog';
 
-import { Button } from '../ui/button';
-import { TrashIcon } from 'lucide-react';
+import { ActionButton, Button } from '../ui/button';
 import { AlertDialogCancel } from '@radix-ui/react-alert-dialog';
 import { useIsMutating } from '@tanstack/react-query';
 
@@ -30,9 +29,7 @@ export const DeleteDialog = ({ mutationKey, title, description, onDelete, open, 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive_ghost" className="justify-start text-foreground">
-          <TrashIcon /> {title}
-        </Button>
+        <ActionButton label={title} actionType="DELETE" />
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

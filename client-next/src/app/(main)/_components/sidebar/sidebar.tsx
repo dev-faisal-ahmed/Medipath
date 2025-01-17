@@ -34,7 +34,7 @@ export const Sidebar = () => {
           <ProfileIcon name={user?.name as string} />
         </div>
         <div>
-          <h3 className="line-clamp-1 font-bold">{user?.name as string}</h3>
+          <h3 className="line-clamp-1 break-all font-bold">{user?.name as string}</h3>
           <p className="text-xs text-muted-foreground">{user?.role}</p>
         </div>
         <div>

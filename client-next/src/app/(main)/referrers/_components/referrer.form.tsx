@@ -12,7 +12,7 @@ const referrerFormSchema = z.object({
   name: z.string().min(1, { message: 'Referrer name is required' }),
   designation: z.string().min(1, { message: 'Designation can not be empty string' }).optional(),
   type: z.nativeEnum(REFERRER_TYPE),
-  phone: z.string(),
+  phone: z.string().optional(),
 });
 
 export type TReferrerForm = z.infer<typeof referrerFormSchema>;

@@ -1,8 +1,7 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { ActionButton } from '@/components/ui/button';
 import { IService } from '@/types';
-import { PenLineIcon } from 'lucide-react';
 import { ServiceForm, TServiceForm } from './service.form';
 import { QK } from '@/api-lib';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -37,14 +36,15 @@ export const UpdateService = ({ service, onActionDropdownChange }: IProps) => {
   });
 
   const handleUpdateService = (formData: TServiceForm) => {
-    mutate({ _id: service._id, ...formData, price: Number(formData.price) });
+    const price = Number(formData.price);
+    const serviceId = service._id;
+
+    mutate({ _id: serviceId, ...formData, price });
   };
 
   return (
     <>
-      <Button onClick={() => onOpenChange(true)} className="justify-start" variant="primary_ghost">
-        <PenLineIcon /> Update
-      </Button>
+      <ActionButton label="Update Service" actionType="UPDATE" onClick={() => onOpenChange(true)} />
       <FormDialog
         formId={formId}
         title="Update Service"

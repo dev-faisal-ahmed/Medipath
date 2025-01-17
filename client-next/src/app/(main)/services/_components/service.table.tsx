@@ -21,7 +21,7 @@ export const ServicesTable = () => {
   const pageParams = searchParams.get('page') || '1';
 
   const { data: servicesData, isLoading } = useQuery({
-    queryKey: [QK.SERVICE, { ...removeEmptyProperty({ searchTerm, limit: LIMIT, pageParams }) }],
+    queryKey: [QK.SERVICE, { ...removeEmptyProperty({ searchTerm, limit: LIMIT, page: pageParams }) }],
     queryFn: () => getServices({ searchTerm, limit: LIMIT, page: pageParams }),
   });
 
@@ -31,6 +31,7 @@ export const ServicesTable = () => {
 
   const column = useMemo<ColumnDef<IService>[]>(() => {
     const offset = (page - 1) * limit;
+
     return [
       {
         id: 'Serial',

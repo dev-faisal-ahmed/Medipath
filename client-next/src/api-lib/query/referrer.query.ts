@@ -5,15 +5,24 @@ import { axiosInstance } from '@/lib/axios';
 
 type TAddReferrerPayload = Pick<IReferrer, 'name' | 'designation' | 'type' | 'phone'>;
 
-export async function addReferrer(payload: TAddReferrerPayload): Promise<IServerResponse<null>> {
+export const addReferrer = async (payload: TAddReferrerPayload): Promise<IServerResponse<null>> => {
   const refinedBody = removeEmptyProperty(payload);
   const { data } = await axiosInstance.post(apiUrl.addReferrer, refinedBody);
   return data;
-}
+};
 
-export async function getReferrers(args: TObject): Promise<IServerResponse<IReferrer[]>> {
+export const getReferrers = async (args: TObject): Promise<IServerResponse<IReferrer[]>> => {
   const refinedArgs = removeEmptyProperty(args);
   const searchParams = new URLSearchParams(refinedArgs).toString();
   const { data } = await axiosInstance.get(apiUrl.getReferrers(searchParams));
   return data;
-}
+};
+
+type TUpdateReferrerPayload = Pick<IReferrer, '_id' | 'name' | 'designation' | 'type' | 'phone'>;
+
+export const updateReferrer = async (payload: TUpdateReferrerPayload): Promise<IServerResponse<null>> => {
+  const { _id, ...rest } = payload;
+  const refinedBody = removeEmptyProperty(rest);
+  const { data } = await axiosInstance.patch(apiUrl.updateReferrer(_id), refinedBody);
+  return data;
+};

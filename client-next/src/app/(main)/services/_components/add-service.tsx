@@ -3,8 +3,7 @@
 import { QK } from '@/api-lib';
 import { FormDialog } from '@/components/shared/form';
 import { ServiceForm, TServiceForm } from './service.form';
-import { Button } from '@/components/ui/button';
-import { PlusIcon } from 'lucide-react';
+import { ActionButton } from '@/components/ui/button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addService } from '@/api-lib/query';
 import { toast } from 'sonner';
@@ -30,15 +29,11 @@ export const AddService = () => {
     },
   });
 
-  const handleAddService = (formData: TServiceForm) => {
-    mutate({ ...formData, price: Number(formData.price) });
-  };
+  const handleAddService = (formData: TServiceForm) => mutate({ ...formData, price: Number(formData.price) });
 
   return (
     <>
-      <Button onClick={() => onOpenChange(true)}>
-        <PlusIcon /> Add Service
-      </Button>
+      <ActionButton label="Add Service" actionType="ADD" onClick={() => onOpenChange(true)} />
       <FormDialog
         formId={formId}
         title="Add Service"
