@@ -1,3 +1,5 @@
+'use client';
+
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { ControllerProps, FieldPath, FieldValues } from 'react-hook-form';
 
@@ -9,13 +11,13 @@ interface IProps<TFieldValues extends FieldValues, TName extends FieldPath<TFiel
   children: ControllerProps<TFieldValues, TName>['render'];
 }
 
-export function CommonFormFiled<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues>>({
+export const CommonFormFiled = <TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues>>({
   label,
   description,
   children,
   showMessage = true,
   ...props
-}: IProps<TFieldValues, TName>) {
+}: IProps<TFieldValues, TName>) => {
   return (
     <FormField
       {...props}
@@ -29,4 +31,4 @@ export function CommonFormFiled<TFieldValues extends FieldValues, TName extends 
       )}
     />
   );
-}
+};

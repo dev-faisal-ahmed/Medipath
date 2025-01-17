@@ -5,11 +5,11 @@ import { MODEL } from '../model-names';
 const patientSubSchema = new Schema<IPatient>(
   {
     name: { type: String, required: true },
-    phone: { type: String },
-    address: { type: String },
     age: { type: Number },
     ageTitle: { type: String, enum: Object.values(AGENT_TITLE), default: AGENT_TITLE.YEAR },
+    phone: { type: String },
     gender: { type: String, enum: Object.values(GENDER) },
+    address: { type: String },
   },
   { _id: false },
 );
@@ -19,8 +19,8 @@ const billSchema = new Schema<IBill>(
     referrerId: { type: Schema.Types.ObjectId, ref: MODEL.REFERRER },
     visitorId: { type: Schema.Types.ObjectId, ref: MODEL.REFERRER },
     billId: { type: String, required: true, unique: true },
-    patientInfo: { type: patientSubSchema, required: true },
     serviceIds: [{ type: Schema.Types.ObjectId }],
+    patientInfo: { type: patientSubSchema, required: true },
     date: { type: Date, default: new Date() },
     price: { type: Number, min: 0 },
     discount: { type: Number, default: 0 },

@@ -1,6 +1,0 @@
-{
-  "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindFunctions": ["clsx"],
-  "singleQuote": true,
-  "printWidth": 120
-}

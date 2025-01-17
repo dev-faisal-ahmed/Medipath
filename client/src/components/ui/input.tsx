@@ -1,5 +1,6 @@
-import * as React from 'react';
+'use client';
 
+import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 
@@ -25,7 +26,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, React.ComponentProps<'i
     const [isShown, setIsShown] = React.useState(false);
 
     return (
-      <div className="flex items-center rounded-md border border-input focus-within:ring-1 focus-within:ring-ring">
+      <div className="flex items-center overflow-hidden rounded-md border border-input focus-within:ring-1 focus-within:ring-ring">
         <input
           type={isShown ? 'text' : 'password'}
           className={cn(

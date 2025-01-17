@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useNavigate } from '@tanstack/react-router';
+'use client';
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '../button';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 
@@ -8,19 +9,27 @@ interface ITabelPaginationProps {
   totalPages: number;
 }
 
-export function TablePagination({ page, totalPages }: ITabelPaginationProps) {
-  const navigate = useNavigate();
+export const TablePagination = ({ page, totalPages }: ITabelPaginationProps) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  function navigate(page: number) {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', page.toString());
+    router.replace(`${pathname}?${params.toString()}`);
+  }
 
   function goNext() {
-    navigate({ search: { page: String(page + 1) } as any });
+    navigate(page + 1);
   }
 
   function goPrevious() {
-    navigate({ search: { page: String(page - 1) } as any });
+    navigate(page - 1);
   }
 
   function goTo(pageNumber: number) {
-    navigate({ search: { page: String(pageNumber) } as any });
+    navigate(pageNumber);
   }
 
   return (
@@ -34,17 +43,17 @@ export function TablePagination({ page, totalPages }: ITabelPaginationProps) {
 
           if (pageNumber === page)
             return (
-              <Button onCanPlay={() => goTo(pageNumber)} variant="outline" size="icon">
+              <Button key={index} onCanPlay={() => goTo(pageNumber)} variant="outline" size="icon">
                 {pageNumber}
               </Button>
             );
           else if (pageNumber === 1 || pageNumber === totalPages || page + 1 === pageNumber || page - 1 === pageNumber)
             return (
-              <Button onClick={() => goTo(pageNumber)} variant="ghost" size="icon" key={index}>
+              <Button key={index} onClick={() => goTo(pageNumber)} variant="ghost" size="icon">
                 {pageNumber}
               </Button>
             );
-          else return <span> ... </span>;
+          else return <span key={index}> ... </span>;
         })}
       </div>
       <Button onClick={goNext} disabled={page === totalPages} variant="outline">
@@ -52,4 +61,4 @@ export function TablePagination({ page, totalPages }: ITabelPaginationProps) {
       </Button>
     </div>
   );
-}
+};
