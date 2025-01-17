@@ -12,4 +12,5 @@ export const apiUrl = {
   addReferrer: `${SERVER_ADDRESS}/referrer`,
   getReferrers: (searchParams: string) => `${SERVER_ADDRESS}/referrers?${searchParams}`,
   updateReferrer: (referrerId: string) => `${SERVER_ADDRESS}/referrer/${referrerId}`,
+  deleteReferrer: (referrerId: string) => `${SERVER_ADDRESS}/referrer/${referrerId}`,
 };

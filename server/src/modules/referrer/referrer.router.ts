@@ -20,6 +20,12 @@ referrerRouter.patch(
   referrerController.updateReferrer,
 );
 
+referrerRouter.delete(
+  '/:referrerId',
+  authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
+  referrerController.deleteReferrer,
+);
+
 export const referrersRouter = Router();
 
 referrersRouter.get('/', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), referrerController.getReferrers);

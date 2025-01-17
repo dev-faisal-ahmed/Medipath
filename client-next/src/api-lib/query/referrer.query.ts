@@ -4,7 +4,6 @@ import { apiUrl } from '../api-url';
 import { axiosInstance } from '@/lib/axios';
 
 type TAddReferrerPayload = Pick<IReferrer, 'name' | 'designation' | 'type' | 'phone'>;
-
 export const addReferrer = async (payload: TAddReferrerPayload): Promise<IServerResponse<null>> => {
   const refinedBody = removeEmptyProperty(payload);
   const { data } = await axiosInstance.post(apiUrl.addReferrer, refinedBody);
@@ -19,10 +18,14 @@ export const getReferrers = async (args: TObject): Promise<IServerResponse<IRefe
 };
 
 type TUpdateReferrerPayload = Pick<IReferrer, '_id' | 'name' | 'designation' | 'type' | 'phone'>;
-
 export const updateReferrer = async (payload: TUpdateReferrerPayload): Promise<IServerResponse<null>> => {
   const { _id, ...rest } = payload;
   const refinedBody = removeEmptyProperty(rest);
   const { data } = await axiosInstance.patch(apiUrl.updateReferrer(_id), refinedBody);
+  return data;
+};
+
+export const deleteReferrer = async (referrerId: string): Promise<IServerResponse<null>> => {
+  const { data } = await axiosInstance.delete(apiUrl.deleteReferrer(referrerId));
   return data;
 };

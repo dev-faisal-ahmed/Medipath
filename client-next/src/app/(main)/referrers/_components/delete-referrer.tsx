@@ -1,7 +1,7 @@
 'use client';
 
 import { QK } from '@/api-lib';
-import { deleteService } from '@/api-lib/query';
+import { deleteReferrer } from '@/api-lib/query';
 import { DeleteDialog } from '@/components/shared';
 import { errorMessageGen } from '@/helper';
 import { usePopupState } from '@/hooks';
@@ -9,22 +9,22 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 interface IProps {
-  serviceId: string;
+  referrerId: string;
   onActionDropdownChange(open: boolean): void;
 }
 
-export const DeleteService = ({ serviceId, onActionDropdownChange }: IProps) => {
+export const DeleteReferrer = ({ referrerId, onActionDropdownChange }: IProps) => {
+  const mutationKey = `${QK.REFERRER}_DELETE_${referrerId}`;
+
   const { open, onOpenChange } = usePopupState();
   const qc = useQueryClient();
-  const mutationKey = `${QK.SERVICE}_DELETE_${serviceId}`;
 
   const { mutate } = useMutation({
     mutationKey: [mutationKey],
-    mutationFn: deleteService,
-    onSuccess: (response) => {
-      qc.invalidateQueries({ queryKey: [QK.SERVICE] });
-      toast.success(response.message);
-      onOpenChange(false);
+    mutationFn: deleteReferrer,
+    onSuccess: (res) => {
+      toast.success(res.message);
+      qc.invalidateQueries({ queryKey: [QK.REFERRER] });
       onActionDropdownChange(false);
     },
     onError: (error) => {
@@ -34,12 +34,12 @@ export const DeleteService = ({ serviceId, onActionDropdownChange }: IProps) => 
 
   return (
     <DeleteDialog
-      mutationKey={mutationKey}
-      title="Delete Service"
-      description="Once you delete this service you can be found in trash"
-      onDelete={() => mutate(serviceId)}
       open={open}
       onOpenChange={onOpenChange}
+      mutationKey={mutationKey}
+      title="Delete Referrer"
+      description="Once you have deleted a referrer, it can be found in trash page"
+      onDelete={() => mutate(referrerId)}
     />
   );
 };

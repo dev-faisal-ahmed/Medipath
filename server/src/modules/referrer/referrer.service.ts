@@ -1,7 +1,7 @@
 import { generateMeta, getExactMatchQuery, getPageParams, getSearchQuery } from '../../helpers';
+import { TAddReferrerPayload, TUpdateReferrerPayload } from './referrer.validation';
 import { TObject } from '../../utils/type';
 import { Referrer } from './referrer.model';
-import { TAddReferrerPayload, TUpdateReferrerPayload } from './referrer.validation';
 
 const addReferrer = async (payload: TAddReferrerPayload) => {
   await Referrer.create(payload);
@@ -28,4 +28,9 @@ const updateReferrer = async (payload: TUpdateReferrerPayload, referrerId: strin
   return 'Referrer updated';
 };
 
-export const referrerService = { addReferrer, getReferrers, updateReferrer };
+const deleteReferrer = async (referrerId: string) => {
+  await Referrer.deleteOne({ _id: referrerId });
+  return 'Referrer Deleted';
+};
+
+export const referrerService = { addReferrer, getReferrers, updateReferrer, deleteReferrer };

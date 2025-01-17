@@ -11,6 +11,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 import { UpdateReferrer } from './update-referrer';
+import { DeleteReferrer } from './delete-referrer';
 
 const LIMIT = '20';
 
@@ -34,6 +35,7 @@ export const ReferrerTable = () => {
     return [
       { id: 'serial', header: 'SL.', cell: ({ row }) => <span>{offset + row.index + 1}</span> },
       { accessorKey: 'name', header: 'Name' },
+      { accessorKey: 'type', header: 'Type' },
       { accessorKey: 'designation', header: 'Designation' },
       {
         accessorKey: 'phone',
@@ -60,6 +62,7 @@ const ActionDropdown = (referrer: IReferrer) => {
   return (
     <DataTableAction open={open} onOpenChange={onOpenChange}>
       <UpdateReferrer referrer={referrer} onActionDropdownChange={onOpenChange} />
+      <DeleteReferrer referrerId={referrer._id} onActionDropdownChange={onOpenChange} />
     </DataTableAction>
   );
 };
