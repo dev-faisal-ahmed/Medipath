@@ -1,7 +1,7 @@
 import { generateMeta, getExactMatchQuery, getPageParams, getSearchQuery } from '../../helpers';
 import { TObject } from '../../utils/type';
 import { Referrer } from './referrer.model';
-import { TAddReferrerPayload } from './referrer.validation';
+import { TAddReferrerPayload, TUpdateReferrerPayload } from './referrer.validation';
 
 const addReferrer = async (payload: TAddReferrerPayload) => {
   await Referrer.create(payload);
@@ -23,4 +23,9 @@ const getReferrers = async (query: TObject) => {
   return { referrers, meta };
 };
 
-export const referrerService = { addReferrer, getReferrers };
+const updateReferrer = async (payload: TUpdateReferrerPayload, referrerId: string) => {
+  await Referrer.updateOne({ _id: referrerId }, { $set: payload });
+  return 'Referrer updated';
+};
+
+export const referrerService = { addReferrer, getReferrers, updateReferrer };

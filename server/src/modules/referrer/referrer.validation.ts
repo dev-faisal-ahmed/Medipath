@@ -9,6 +9,14 @@ const addReferrerSchema = z.object({
   phone: z.string().min(11, { message: 'Invalid phone' }).optional(),
 });
 
-export const referrerValidation = { addReferrerSchema };
+const updateReferrerSchema = z.object({
+  name: z.string().min(1, { message: 'Referrer name is required' }).optional(),
+  designation: z.string().min(1, { message: 'Designation can not be empty string' }).optional(),
+  type: zodEnum({ options: Object.values(REFERRER_TYPE), message: 'Invalid referrer type' }).optional(),
+  phone: z.string().min(11, { message: 'Invalid phone' }).optional(),
+});
+
+export const referrerValidation = { addReferrerSchema, updateReferrerSchema };
 
 export type TAddReferrerPayload = z.infer<typeof addReferrerSchema>;
+export type TUpdateReferrerPayload = z.infer<typeof updateReferrerSchema>;

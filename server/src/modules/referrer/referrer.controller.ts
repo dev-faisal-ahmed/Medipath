@@ -13,4 +13,9 @@ const getReferrers = catchAsync(async (req, res) => {
   sendSuccessResponse(res, { message: 'Referrers retrieved successfully', meta, data: referrers });
 });
 
-export const referrerController = { addReferrer, getReferrers };
+const updateReferrer = catchAsync(async (req, res) => {
+  const message = await referrerService.updateReferrer(req.body, req.params.referrerId);
+  sendSuccessResponse(res, { message, data: null });
+});
+
+export const referrerController = { addReferrer, getReferrers, updateReferrer };

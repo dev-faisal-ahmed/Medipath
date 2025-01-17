@@ -13,6 +13,13 @@ referrerRouter.post(
   referrerController.addReferrer,
 );
 
+referrerRouter.patch(
+  '/:referrerId',
+  authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
+  validationHandler(referrerValidation.updateReferrerSchema),
+  referrerController.updateReferrer,
+);
+
 export const referrersRouter = Router();
 
 referrersRouter.get('/', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), referrerController.getReferrers);
