@@ -23,4 +23,9 @@ const deleteReferrer = catchAsync(async (req, res) => {
   sendSuccessResponse(res, { message, data: null });
 });
 
-export const referrerController = { addReferrer, getReferrers, updateReferrer, deleteReferrer };
+const getReferrersList = catchAsync(async (req, res) => {
+  const { meta, referrers } = await referrerService.getReferrersList(req.query as TObject);
+  sendSuccessResponse(res, { message: 'Referrers list retrieved successfully', meta, data: referrers });
+});
+
+export const referrerController = { addReferrer, getReferrers, updateReferrer, deleteReferrer, getReferrersList };

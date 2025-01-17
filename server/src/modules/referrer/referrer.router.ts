@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { authGuard, validationHandler } from '../../middlewares';
 import { USER_ROLE } from '../user/user.interface';
+import { authGuard, validationHandler } from '../../middlewares';
 import { referrerValidation } from './referrer.validation';
 import { referrerController } from './referrer.controller';
 
@@ -29,3 +29,4 @@ referrerRouter.delete(
 export const referrersRouter = Router();
 
 referrersRouter.get('/', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), referrerController.getReferrers);
+referrersRouter.get('/list', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), referrerController.getReferrersList);

@@ -33,4 +33,24 @@ const deleteReferrer = async (referrerId: string) => {
   return 'Referrer Deleted';
 };
 
-export const referrerService = { addReferrer, getReferrers, updateReferrer, deleteReferrer };
+// this will used to get referrer list on abb bill page
+const getReferrersList = async (query: TObject) => {
+  const dbQuery = {
+    isDeleted: false,
+    ...getSearchQuery(query, 'name', 'phone'),
+    ...getExactMatchQuery(query, 'type'),
+  };
+
+  const { page, limit, skip } = getPageParams(query);
+
+  const referrers = await Referrer.find(dbQuery, { _id: 1, name: 1, type: 1 })
+    .sort({ name: 1 })
+    .skip(skip)
+    .limit(limit);
+  const total = await Referrer.countDocuments(dbQuery);
+  const meta = generateMeta({ page, limit, total });
+
+  return { referrers, meta };
+};
+
+export const referrerService = { addReferrer, getReferrers, updateReferrer, deleteReferrer, getReferrersList };
