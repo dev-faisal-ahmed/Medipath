@@ -12,6 +12,7 @@ const config: Config = {
     extend: {
       height: {
         input: 'var(--height-input)',
+        badge: 'var(--height-badge)',
       },
       minHeight: {
         input: 'var(--height-input)',

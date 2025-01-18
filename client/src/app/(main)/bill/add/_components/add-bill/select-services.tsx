@@ -4,8 +4,8 @@ import { cn } from '@/lib/utils';
 import { QK } from '@/api-lib';
 import { useQuery } from '@tanstack/react-query';
 import { ChevronDownIcon, XIcon } from 'lucide-react';
-import { ReactNode, useMemo, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { MouseEvent, ReactNode, useMemo, useState } from 'react';
+import { ControllerRenderProps, useFormContext } from 'react-hook-form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { CommonFormFiled } from '@/components/shared/form';
@@ -13,9 +13,9 @@ import { SearchInput } from '@/components/ui/input';
 import { TAddBillForm } from './add-bill.schema';
 import { useDebounce } from '@/hooks';
 import { getServiceList } from '@/api-lib/query';
-import { TObject } from '@/types';
+import { IService, TObject } from '@/types';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Loading } from '@/components/ui/loader';
 
 export const SelectServices = () => {
   const [search, setSearch] = useState('');
@@ -23,8 +23,8 @@ export const SelectServices = () => {
   const searchTerm = useDebounce(search);
   const selectedServices = watch('services');
 
-  const { data: serviceData } = useQuery({
-    queryKey: [QK.SERVICE],
+  const { data: serviceData, isLoading } = useQuery({
+    queryKey: [QK.SERVICE, 'LIST'],
     queryFn: () => getServiceList(),
   });
 
@@ -35,12 +35,12 @@ export const SelectServices = () => {
     }, {});
 
     const searchLowerCase = searchTerm.toLowerCase();
+    const filteredServices = serviceData?.data.filter((service) => {
+      if (!selectedMap[service._id] && service.name.toLowerCase().includes(searchLowerCase)) return true;
+      else false;
+    });
 
-    return (
-      serviceData?.data.filter(
-        (service) => !selectedMap[service._id] && service.name.toLowerCase().includes(searchLowerCase),
-      ) || []
-    );
+    return filteredServices || [];
   }, [selectedServices, serviceData, searchTerm]);
 
   return (
@@ -49,49 +49,7 @@ export const SelectServices = () => {
         return (
           <Popover>
             <PopoverTrigger className="group w-full">
-              {selectedServices.length > 0 ? (
-                <TriggerContainer className="px-3 py-3">
-                  <div className="grid max-h-52 grid-rows-1">
-                    <ScrollArea className="h-full">
-                      <div className="flex flex-wrap gap-2">
-                        {selectedServices.map((service) => (
-                          <Badge key={service._id} className="flex items-center gap-3">
-                            {service.name}
-                            <div
-                              onClick={(e) => {
-                                e.preventDefault();
-                                const remServices = selectedServices.filter(
-                                  (eachService) => eachService._id !== service._id,
-                                );
-                                field.onChange(remServices);
-                              }}
-                              className="cursor-pointer rounded-md p-1 hover:bg-primary"
-                            >
-                              <XIcon size={16} />
-                            </div>
-                          </Badge>
-                        ))}
-                        {/* only show when it has more than 2 selected services */}
-                        {selectedServices.length > 2 && (
-                          <Badge
-                            onClick={(e) => {
-                              e.preventDefault();
-                              field.onChange([]);
-                            }}
-                            variant="destructive"
-                          >
-                            Remove All
-                          </Badge>
-                        )}
-                      </div>
-                    </ScrollArea>
-                  </div>
-                </TriggerContainer>
-              ) : (
-                <TriggerContainer className="justify-between">
-                  Select Services <ChevronDownIcon size={18} />
-                </TriggerContainer>
-              )}
+              <SelectedServiceList services={selectedServices} field={field} />
             </PopoverTrigger>
             <PopoverContent className="w-[--radix-popover-trigger-width] rounded-none p-0">
               <SearchInput
@@ -99,37 +57,105 @@ export const SelectServices = () => {
                 value={search}
                 onChange={(search) => setSearch(search)}
               />
-
-              <section className="grid max-h-64 grid-rows-1">
-                <ScrollArea className="h-full">
-                  <div className="flex flex-col">
-                    {serviceList.length > 0 ? (
-                      <>
-                        {serviceList.map((service) => (
-                          <button
-                            onClick={() => field.onChange([...selectedServices, service])}
-                            key={service._id}
-                            className="flex items-center justify-between px-4 py-1 text-start transition hover:bg-primary hover:text-white"
-                          >
-                            <div>
-                              <h1 className="mb-1 font-bold">{service.name}</h1>
-                              <p>Room : {service.roomNo}</p>
-                            </div>
-                            <p className="text-lg font-semibold">{service.price} ৳</p>
-                          </button>
-                        ))}
-                      </>
-                    ) : (
-                      <div className="p-8 text-center font-semibold">No Service Found</div>
-                    )}
-                  </div>
-                </ScrollArea>
-              </section>
+              <ServiceList
+                services={serviceList}
+                isLoading={isLoading}
+                selectedServices={selectedServices}
+                field={field}
+              />
             </PopoverContent>
           </Popover>
         );
       }}
     </CommonFormFiled>
+  );
+};
+
+interface IServiceProps {
+  services: IService[];
+  field: ControllerRenderProps<TAddBillForm>;
+}
+
+const SelectedServiceList = ({ field, services }: IServiceProps) => {
+  if (services.length === 0)
+    return (
+      <TriggerContainer className="justify-between">
+        Select Services <ChevronDownIcon size={18} />
+      </TriggerContainer>
+    );
+
+  const onRemoveService = (e: MouseEvent<HTMLDivElement>, serviceId: string) => {
+    e.preventDefault();
+    const remServices = services.filter((service) => service._id !== serviceId);
+    field.onChange(remServices);
+  };
+
+  const onRemoveAll = (e: MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    field.onChange([]);
+  };
+
+  return (
+    <TriggerContainer className="px-3 py-3">
+      <div className="grid max-h-52 grid-rows-1">
+        <ScrollArea className="h-full">
+          <div className="flex flex-wrap gap-2">
+            {services.map((service) => (
+              <Badge key={service._id} className="flex items-center gap-3">
+                {service.name}
+                <div
+                  onClick={(e) => onRemoveService(e, service._id)}
+                  className="cursor-pointer rounded-md p-1 hover:bg-primary"
+                >
+                  <XIcon size={16} />
+                </div>
+              </Badge>
+            ))}
+
+            {/* only show when it has more than 2 selected services */}
+            {services.length > 2 && (
+              <Badge onClick={onRemoveAll} variant="destructive" className="flex h-[30px] items-center">
+                Remove All
+              </Badge>
+            )}
+          </div>
+        </ScrollArea>
+      </div>
+    </TriggerContainer>
+  );
+};
+
+interface IServiceListProps {
+  isLoading: boolean;
+  services: IService[];
+  selectedServices: IService[];
+  field: ControllerRenderProps<TAddBillForm>;
+}
+
+const ServiceList = ({ isLoading, services, selectedServices, field }: IServiceListProps) => {
+  if (isLoading) return <Loading />;
+  if (services.length === 0) return <div className="p-8 text-center font-semibold">No Service Found</div>;
+
+  return (
+    <section className="grid max-h-64 grid-rows-1">
+      <ScrollArea className="h-full">
+        <div className="mt-2 flex flex-col">
+          {services.map((service) => (
+            <button
+              onClick={() => field.onChange([...selectedServices, service])}
+              key={service._id}
+              className="flex items-center justify-between px-4 py-1 text-start transition hover:bg-primary hover:text-white"
+            >
+              <div>
+                <h1 className="mb-1 font-semibold">{service.name}</h1>
+                <p>Room : {service.roomNo}</p>
+              </div>
+              <p className="text-lg font-semibold">{service.price} ৳</p>
+            </button>
+          ))}
+        </div>
+      </ScrollArea>
+    </section>
   );
 };
 

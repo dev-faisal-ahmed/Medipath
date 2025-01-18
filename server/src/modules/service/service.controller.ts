@@ -23,4 +23,9 @@ const deleteService = catchAsync(async (req, res) => {
   sendSuccessResponse(res, { message, data: null });
 });
 
-export const serviceController = { addService, getServices, updateService, deleteService };
+const getServiceList = catchAsync(async (req, res) => {
+  const services = await serviceService.getServiceList(req.query as TObject);
+  sendSuccessResponse(res, { message: 'Service list retrieved successfully', data: services });
+});
+
+export const serviceController = { addService, getServices, updateService, deleteService, getServiceList };

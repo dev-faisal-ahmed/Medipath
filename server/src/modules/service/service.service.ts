@@ -39,4 +39,11 @@ const deleteService = async (serviceId: string) => {
   return 'Service Deleted';
 };
 
-export const serviceService = { addService, getServices, updateService, deleteService };
+// for add bill page
+const getServiceList = async (query: TObject) => {
+  const dbQuery = { isDeleted: false, ...getSearchQuery(query, 'name') };
+  const services = await Service.find(dbQuery, { updatedAt: 0, __v: 0, isDeleted: 0, createdAt: 0 }).sort({ name: 1 });
+  return services;
+};
+
+export const serviceService = { addService, getServices, updateService, deleteService, getServiceList };

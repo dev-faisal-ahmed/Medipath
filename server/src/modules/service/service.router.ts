@@ -25,3 +25,4 @@ serviceRouter.delete('/:serviceId', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_A
 export const servicesRouter = Router();
 
 servicesRouter.get('/', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), serviceController.getServices);
+servicesRouter.get('/list', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), serviceController.getServiceList);
