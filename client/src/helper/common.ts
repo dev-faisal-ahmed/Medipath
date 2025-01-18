@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 export const removeEmptyProperty = (payload: Record<string, unknown>) => {
   return Object.keys(payload).reduce((acc: Record<string, unknown>, key) => {
-    if (payload[key]) acc[key] = JSON.stringify(payload[key]);
+    if (payload[key]) acc[key] = payload[key];
     return acc;
   }, {});
 };

@@ -1,7 +1,7 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '../button';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 
 interface ITabelPaginationProps {
@@ -53,7 +53,8 @@ export const TablePagination = ({ page, totalPages }: ITabelPaginationProps) => 
                 {pageNumber}
               </Button>
             );
-          else return <span key={index}> ... </span>;
+          else if (pageNumber === 2 || pageNumber === totalPages - 1) return <span key={index}> ... </span>;
+          else return null;
         })}
       </div>
       <Button onClick={goNext} disabled={page === totalPages} variant="outline">

@@ -13,7 +13,7 @@ import { useSearchParams } from 'next/navigation';
 import { UpdateService } from './update-service';
 import { DeleteService } from './delete-service';
 
-const LIMIT = '20';
+const LIMIT = '15';
 
 export const ServicesTable = () => {
   const { searchTerm } = useTopbarContext();

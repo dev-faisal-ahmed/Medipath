@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 import { TAddBillPayload } from './bill.validation';
-import { Service } from '../service/service.model';
 import { AppError } from '../../utils';
 import { billHelper } from './bill.helper';
 import { Bill } from './bill.model';
@@ -14,14 +13,10 @@ const addBill = async (payload: TAddBillPayload) => {
   try {
     session.startTransaction();
     // calculating total price for all services
-    const serviceIds = payload.serviceIds.map((serviceId) => new mongoose.Types.ObjectId(serviceId));
-    const [totalPrice] = await Service.aggregate([
-      { $match: { _id: { $in: serviceIds } } },
-      { $group: { _id: null, total: { $sum: '$price' } } },
-      { $project: { _id: 0 } },
-    ]);
-
-    const price = totalPrice.total || 0;
+    const price = payload.services.reduce((total: number, service) => {
+      total += service.price;
+      return total;
+    }, 0);
 
     // validations
     const discount = payload.discount || 0;

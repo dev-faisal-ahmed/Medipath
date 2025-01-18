@@ -1,4 +1,4 @@
-import { AGENT_TITLE, GENDER, IBill, IPatient } from './bill.interface';
+import { AGENT_TITLE, GENDER, IBill, IPatient, TBillService } from './bill.interface';
 import { model, Schema } from 'mongoose';
 import { MODEL } from '../model-names';
 
@@ -14,12 +14,21 @@ const patientSubSchema = new Schema<IPatient>(
   { _id: false },
 );
 
+const servicesSubSchema = new Schema<TBillService>(
+  {
+    name: { type: String, required: true },
+    roomNo: { type: String },
+    price: { type: Number, required: true },
+  },
+  { _id: false },
+);
+
 const billSchema = new Schema<IBill>(
   {
     referrerId: { type: Schema.Types.ObjectId, ref: MODEL.REFERRER },
     visitorId: { type: Schema.Types.ObjectId, ref: MODEL.REFERRER },
     billId: { type: String, required: true, unique: true },
-    serviceIds: [{ type: Schema.Types.ObjectId }],
+    services: { type: [servicesSubSchema], required: true, minlength: 1 },
     patientInfo: { type: patientSubSchema, required: true },
     date: { type: Date, default: new Date() },
     price: { type: Number, min: 0 },

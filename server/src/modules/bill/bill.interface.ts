@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose';
+import { IService } from '../service/service.interface';
 
 export enum AGENT_TITLE {
   YEAR = 'YEAR',
@@ -22,13 +23,15 @@ export interface IPatient {
   gender: GENDER;
 }
 
+export type TBillService = Pick<IService, 'name' | 'roomNo' | 'price'>;
+
 export interface IBill {
   _id: Schema.Types.ObjectId;
   referrerId: Schema.Types.ObjectId;
   visitorId: Schema.Types.ObjectId;
   billId: string;
   patientInfo: IPatient;
-  serviceIds: Schema.Types.ObjectId;
+  services: TBillService[];
   date: Date;
   price: number;
   discount: number;
