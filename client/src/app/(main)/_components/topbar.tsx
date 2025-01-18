@@ -18,7 +18,7 @@ export const Topbar = () => {
 
   return (
     <>
-      <nav className="sticky top-0 z-20 flex items-center gap-3 border-b bg-background p-6">
+      <nav className="sticky top-0 z-20 flex items-center gap-3 border-b bg-gray-50 p-6">
         <>
           {isSearchbarShown ? (
             <SearchInput

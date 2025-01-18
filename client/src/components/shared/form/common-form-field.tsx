@@ -9,6 +9,7 @@ interface IProps<TFieldValues extends FieldValues, TName extends FieldPath<TFiel
   description?: string;
   showMessage?: boolean;
   children: ControllerProps<TFieldValues, TName>['render'];
+  className?: { formItem?: string };
 }
 
 export const CommonFormFiled = <TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues>>({
@@ -16,13 +17,14 @@ export const CommonFormFiled = <TFieldValues extends FieldValues, TName extends 
   description,
   children,
   showMessage = true,
+  className,
   ...props
 }: IProps<TFieldValues, TName>) => {
   return (
     <FormField
       {...props}
       render={(fieldProps) => (
-        <FormItem>
+        <FormItem className={className?.formItem}>
           {label && <FormLabel className="font-semibold">{label}</FormLabel>}
           <FormControl>{children(fieldProps)}</FormControl>
           {description && <FormDescription>{description}</FormDescription>}

@@ -44,7 +44,7 @@ export const SelectServices = () => {
   }, [selectedServices, serviceData, searchTerm]);
 
   return (
-    <CommonFormFiled control={control} name="services" label="Services">
+    <CommonFormFiled control={control} name="services" label="Services" className={{ formItem: 'sm:col-span-2' }}>
       {({ field }) => {
         return (
           <Popover>

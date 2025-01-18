@@ -1,5 +1,5 @@
 import { Header } from '@/components/shared';
-import { AddBillForm } from './_components/add-bill';
+import { AddBillForm } from './_components/add-bill.form';
 
 export default function AddBillPage() {
   return (
