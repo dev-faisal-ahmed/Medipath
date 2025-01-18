@@ -10,6 +10,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      height: {
+        input: 'var(--height-input)',
+      },
+      minHeight: {
+        input: 'var(--height-input)',
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

@@ -30,4 +30,3 @@ export const addBillFormSchema = z.object({
 });
 
 export type TAddBillForm = z.infer<typeof addBillFormSchema>;
-export type TServiceSubSchema = z.infer<typeof serviceSubSchema>;

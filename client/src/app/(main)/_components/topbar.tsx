@@ -3,8 +3,8 @@
 import Link from 'next/link';
 
 import { useAuth } from '@/hooks';
-import { Input } from '@/components/ui/input';
-import { PlusIcon, SearchIcon, XIcon } from 'lucide-react';
+import { SearchInput } from '@/components/ui/input';
+import { PlusIcon } from 'lucide-react';
 import { ProfileMenu } from './profile-menu';
 import { ProfileIcon } from '@/components/shared';
 import { TooltipContainer } from '@/components/ui/tooltip';
@@ -21,21 +21,11 @@ export const Topbar = () => {
       <nav className="sticky top-0 z-20 flex items-center gap-3 border-b bg-background p-6">
         <>
           {isSearchbarShown ? (
-            <div className="relative w-full max-w-96">
-              <SearchIcon className="absolute left-2 top-1/2 size-5 -translate-y-1/2 text-primary" />
-              <Input
-                className="w-full border-secondary pl-10"
-                value={search}
-                onChange={(e) => updateSearch(e.target.value)}
-                placeholder="Search here..."
-              />
-              {search && (
-                <XIcon
-                  onClick={() => updateSearch('')}
-                  className="absolute right-2 top-1/2 size-5 -translate-y-1/2 cursor-pointer text-primary"
-                />
-              )}
-            </div>
+            <SearchInput
+              value={search}
+              onChange={(search) => updateSearch(search)}
+              className={{ container: 'max-w-96' }}
+            />
           ) : (
             <>
               {typeof headerTitle === 'string' ? <h1 className="text-base font-bold">{headerTitle}</h1> : headerTitle}

@@ -5,12 +5,13 @@ export const apiUrl = {
   loginWithCredentials: `${SERVER_ADDRESS}/auth/login/credentials`,
   // service
   addService: `${SERVER_ADDRESS}/service`,
-  getServices: (searchParams: string) => `${SERVER_ADDRESS}/services?${searchParams}`,
+  getServices: (searchParams: string) => `${SERVER_ADDRESS}/services${searchParams}`,
   deleteService: (serviceId: string) => `${SERVER_ADDRESS}/service/${serviceId}`,
   updateService: (serviceId: string) => `${SERVER_ADDRESS}/service/${serviceId}`,
+  getServiceList: `${SERVER_ADDRESS}/services/list`,
   // referrer
   addReferrer: `${SERVER_ADDRESS}/referrer`,
-  getReferrers: (searchParams: string) => `${SERVER_ADDRESS}/referrers?${searchParams}`,
+  getReferrers: (searchParams: string) => `${SERVER_ADDRESS}/referrers${searchParams}`,
   updateReferrer: (referrerId: string) => `${SERVER_ADDRESS}/referrer/${referrerId}`,
   deleteReferrer: (referrerId: string) => `${SERVER_ADDRESS}/referrer/${referrerId}`,
 };

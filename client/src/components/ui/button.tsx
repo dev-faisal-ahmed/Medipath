@@ -87,11 +87,11 @@ const ACTION_BUTTON_CONFIG: IActionButtonConfig = {
 };
 
 const ActionButton = React.forwardRef<HTMLButtonElement, IActionButtonProps>(
-  ({ label, actionType, className, ...props }) => {
+  ({ label, actionType, className, ...props }, ref) => {
     const config = ACTION_BUTTON_CONFIG[actionType];
 
     return (
-      <Button {...props} className={cn(config.className, className)} variant={config.variant || 'default'}>
+      <Button ref={ref} {...props} className={cn(config.className, className)} variant={config.variant || 'default'}>
         {config.icon} {label}
       </Button>
     );

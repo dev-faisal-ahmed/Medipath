@@ -1,6 +1,6 @@
+import { apiUrl } from '../api-url';
 import { removeEmptyProperty } from '@/helper';
 import { IServerResponse, TObject, IReferrer } from '@/types';
-import { apiUrl } from '../api-url';
 import { axiosInstance } from '@/lib/axios';
 
 type TAddReferrerPayload = Pick<IReferrer, 'name' | 'designation' | 'type' | 'phone'>;
@@ -12,8 +12,8 @@ export const addReferrer = async (payload: TAddReferrerPayload): Promise<IServer
 
 export const getReferrers = async (args: TObject): Promise<IServerResponse<IReferrer[]>> => {
   const refinedArgs = removeEmptyProperty(args);
-  const searchParams = new URLSearchParams(refinedArgs).toString();
-  const { data } = await axiosInstance.get(apiUrl.getReferrers(searchParams));
+  const searchParams = new URLSearchParams(refinedArgs as TObject).toString();
+  const { data } = await axiosInstance.get(apiUrl.getReferrers(searchParams ? `?${searchParams}` : ''));
   return data;
 };
 

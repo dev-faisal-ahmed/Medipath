@@ -12,4 +12,4 @@ export interface IServerResponse<IData> {
   meta?: IMeta;
 }
 
-export type TObject = Record<string, string>;
+export type TObject<TData = string> = Record<string, TData>;
