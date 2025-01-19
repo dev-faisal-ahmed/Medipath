@@ -29,3 +29,9 @@ export const deleteReferrer = async (referrerId: string): Promise<IServerRespons
   const { data } = await axiosInstance.delete(apiUrl.deleteReferrer(referrerId));
   return data;
 };
+
+export type TReferrerList = Pick<IReferrer, '_id' | 'name' | 'type' | 'designation'>;
+export const getReferrerList = async (): Promise<IServerResponse<TReferrerList[]>> => {
+  const { data } = await axiosInstance.get(apiUrl.getReferrerList);
+  return data;
+};

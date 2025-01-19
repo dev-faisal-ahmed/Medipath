@@ -37,7 +37,7 @@ export const SelectServices = () => {
     const searchLowerCase = searchTerm.toLowerCase();
     const filteredServices = serviceData?.data.filter((service) => {
       if (!selectedMap[service._id] && service.name.toLowerCase().includes(searchLowerCase)) return true;
-      else false;
+      return false;
     });
 
     return filteredServices || [];
@@ -168,7 +168,7 @@ const TriggerContainer = ({ children, className }: ITriggerContainerProps) => {
   return (
     <div
       className={cn(
-        'min-h-input flex items-center rounded-md border px-3 py-1 group-data-[state=open]:border-ring',
+        'flex min-h-input items-center rounded-md border px-3 py-1 group-data-[state=open]:border-ring',
         className,
       )}
     >

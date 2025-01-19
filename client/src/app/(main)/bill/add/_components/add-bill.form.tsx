@@ -7,6 +7,7 @@ import { Form } from '@/components/ui/form';
 import { addBillFormSchema, TAddBillForm } from './add-bill.schema';
 import { SelectServices } from './select-services';
 import { PatientInfo } from './patient-info';
+import { SelectReferrers } from './select-referrers';
 
 export const AddBillForm = () => {
   const form = useForm<TAddBillForm>({
@@ -29,6 +30,7 @@ export const AddBillForm = () => {
         <form className="grid gap-4 sm:grid-cols-2">
           <SelectServices />
           <PatientInfo />
+          <SelectReferrers />
         </form>
       </Form>
     </div>
