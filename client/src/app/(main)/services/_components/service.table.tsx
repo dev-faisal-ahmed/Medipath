@@ -12,6 +12,7 @@ import { usePopupState, useTopbarContext } from '@/hooks';
 import { useSearchParams } from 'next/navigation';
 import { UpdateService } from './update-service';
 import { DeleteService } from './delete-service';
+import { CONST } from '@/lib/const';
 
 const LIMIT = '15';
 
@@ -45,7 +46,11 @@ export const ServicesTable = () => {
       {
         accessorKey: 'price',
         header: () => <div className="text-center">Price</div>,
-        cell: ({ getValue }) => <div className="text-center">{getValue<number>()}</div>,
+        cell: ({ getValue }) => (
+          <div className="text-center">
+            {getValue<number>()} {CONST.TAKA}
+          </div>
+        ),
       },
       {
         accessorKey: 'roomNo',
