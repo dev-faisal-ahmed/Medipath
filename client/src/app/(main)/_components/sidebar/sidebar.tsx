@@ -9,15 +9,17 @@ import { SidebarLink } from './sidebar-link';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAuth } from '@/hooks';
 import { ProfileIcon } from '@/components/shared';
+import { cn } from '@/lib/utils';
 
-export const Sidebar = () => {
+type SidebarProps = { className?: string };
+export const Sidebar = ({ className }: SidebarProps) => {
   const { sidebarLinks } = useSidebarLinks();
   const { data: session } = useAuth();
 
   const user = session?.user;
 
   return (
-    <aside className="hidden min-h-screen flex-col justify-between gap-12 border-r py-4 md:flex">
+    <aside className={cn('min-h-screen flex-col justify-between gap-12 border-r py-4', className)}>
       <Link href="/">
         <AppLogo className="mx-4 pt-2" />
       </Link>

@@ -67,11 +67,7 @@ export const ServicesTable = () => {
   if (isLoading) return <div>Loading....</div>;
   if (!servicesData) return <div> No Data Found</div>;
 
-  return (
-    <section className="h-full w-full">
-      <DataTable data={servicesData.data} pagination={{ page, totalPages }} columns={column} />
-    </section>
-  );
+  return <DataTable data={servicesData.data} pagination={{ page, totalPages }} columns={column} />;
 };
 
 const ActionDropdown = (service: IService) => {

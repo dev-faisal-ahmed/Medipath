@@ -4,11 +4,11 @@ import { AddService } from './_components/add-service';
 
 export default function Page() {
   return (
-    <main>
+    <>
       <Header showSearchBar>
         <AddService />
       </Header>
       <ServicesTable />
-    </main>
+    </>
   );
 }

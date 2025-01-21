@@ -5,20 +5,19 @@ import { PropsWithChildren } from 'react';
 import { Sidebar } from './sidebar';
 import { Topbar } from './topbar';
 import { TopbarProvider } from '@/components/providers';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 export const MainLayout = ({ children }: PropsWithChildren) => {
   useAuth();
 
   return (
-    <main className="grid h-dvh grid-cols-[280px_1fr]">
-      <Sidebar />
-      <ScrollArea className="h-dvh">
+    <main className="grid h-dvh md:grid-cols-[280px_1fr]">
+      <Sidebar className="hidden md:flex" />
+      <section className="flex h-dvh flex-col overflow-hidden">
         <TopbarProvider>
           <Topbar />
-          <section className="p-6"> {children}</section>
+          {children}
         </TopbarProvider>
-      </ScrollArea>
+      </section>
     </main>
   );
 };

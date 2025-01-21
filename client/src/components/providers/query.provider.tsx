@@ -26,7 +26,7 @@ export const QueryProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} position="bottom" buttonPosition="top-left" />
+      <ReactQueryDevtools initialIsOpen={false} position="bottom" buttonPosition="bottom-left" />
       {children}
     </QueryClientProvider>
   );

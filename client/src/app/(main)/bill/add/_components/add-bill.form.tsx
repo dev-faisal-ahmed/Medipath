@@ -10,6 +10,7 @@ import { PatientInfo } from './patient-info';
 import { SelectReferrers } from './select-referrers';
 import { BillPrice } from './bill-price';
 import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export const AddBillForm = () => {
   const form = useForm<TAddBillForm>({
@@ -27,21 +28,23 @@ export const AddBillForm = () => {
   });
 
   return (
-    <div className="mx-auto max-w-screen-lg">
-      <Form {...form}>
-        <form className="grid gap-4 sm:grid-cols-2">
-          <SelectServices />
-          <PatientInfo />
-          <SelectReferrers />
-          <BillPrice />
-          <div className="mt-2 flex items-center justify-end gap-2 sm:col-span-2 [&>button]:w-28">
-            <Button type="button" variant="destructive" onClick={() => form.reset()}>
-              Reset
-            </Button>
-            <Button type="submit">Generate Bill</Button>
-          </div>
-        </form>
-      </Form>
-    </div>
+    <ScrollArea className="grow">
+      <div className="mx-auto max-w-screen-lg p-6">
+        <Form {...form}>
+          <form className="grid gap-4 sm:grid-cols-2">
+            <SelectServices />
+            <PatientInfo />
+            <SelectReferrers />
+            <BillPrice />
+            <div className="mt-2 flex items-center justify-end gap-2 sm:col-span-2 [&>button]:w-28">
+              <Button type="button" variant="destructive" onClick={() => form.reset()}>
+                Reset
+              </Button>
+              <Button type="submit">Generate Bill</Button>
+            </div>
+          </form>
+        </Form>
+      </div>
+    </ScrollArea>
   );
 };

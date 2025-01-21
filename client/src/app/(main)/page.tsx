@@ -7,7 +7,7 @@ export default async function Home() {
   return (
     <>
       <Header title="Dashboard" />
-      <h1>Welcome to Medipath{JSON.stringify(session?.user)}</h1>
+      <h1 className="break-all">Welcome to Medipath{JSON.stringify(session?.user)}</h1>
     </>
   );
 }

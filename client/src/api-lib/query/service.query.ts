@@ -13,7 +13,6 @@ export const addService = async (payload: TAddServicePayload): Promise<IServerRe
 export const getServices = async (args: TObject): Promise<IServerResponse<IService[]>> => {
   const refinedArgs = removeEmptyProperty(args);
   const searchParams = new URLSearchParams(refinedArgs as TObject).toString();
-  console.log(refinedArgs);
   const { data } = await axiosInstance.get(apiUrl.getServices(searchParams ? `?${searchParams}` : ''));
   return data;
 };

@@ -49,11 +49,7 @@ export const ReferrerTable = () => {
   if (isLoading) return <div>Loading...</div>;
   if (!referrerData?.data) return <div>No Data Found</div>;
 
-  return (
-    <section className="h-full w-full p-6">
-      <DataTable data={referrerData?.data} pagination={{ page, totalPages }} columns={column} />
-    </section>
-  );
+  return <DataTable data={referrerData?.data} pagination={{ page, totalPages }} columns={column} />;
 };
 
 const ActionDropdown = (referrer: IReferrer) => {
