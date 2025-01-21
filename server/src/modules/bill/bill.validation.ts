@@ -1,13 +1,13 @@
 import { z } from 'zod';
 import { zodMongoObjectId } from '../../helpers';
-import { AGENT_TITLE, GENDER } from './bill.interface';
+import { AGE_TITLE, GENDER } from './bill.interface';
 
 const patientInfoSubSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   phone: z.string().optional(),
   address: z.string().optional(),
   age: z.number().positive().optional(),
-  ageTitle: z.nativeEnum(AGENT_TITLE, { message: 'Invalid age title' }).optional(),
+  ageTitle: z.nativeEnum(AGE_TITLE, { message: 'Invalid age title' }).optional(),
   gender: z.nativeEnum(GENDER, { message: 'Invalid gender.' }).optional(),
 });
 

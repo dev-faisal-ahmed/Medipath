@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 import { IService } from '../service/service.interface';
 
-export enum AGENT_TITLE {
+export enum AGE_TITLE {
   YEAR = 'YEAR',
   MONTH = 'MONTH',
   DAY = 'DAY',
@@ -19,7 +19,7 @@ export interface IPatient {
   phone?: string;
   address?: string;
   age: number;
-  ageTitle: AGENT_TITLE;
+  ageTitle: AGE_TITLE;
   gender: GENDER;
 }
 

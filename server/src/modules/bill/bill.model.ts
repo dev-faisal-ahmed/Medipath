@@ -1,4 +1,4 @@
-import { AGENT_TITLE, GENDER, IBill, IPatient, TBillService } from './bill.interface';
+import { AGE_TITLE, GENDER, IBill, IPatient, TBillService } from './bill.interface';
 import { model, Schema } from 'mongoose';
 import { MODEL } from '../model-names';
 
@@ -6,7 +6,7 @@ const patientSubSchema = new Schema<IPatient>(
   {
     name: { type: String, required: true },
     age: { type: Number },
-    ageTitle: { type: String, enum: Object.values(AGENT_TITLE), default: AGENT_TITLE.YEAR },
+    ageTitle: { type: String, enum: Object.values(AGE_TITLE), default: AGE_TITLE.YEAR },
     phone: { type: String },
     gender: { type: String, enum: Object.values(GENDER) },
     address: { type: String },

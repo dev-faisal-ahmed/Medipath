@@ -1,5 +1,4 @@
 import { wordCapitalize, zodNumber } from '@/helper';
-import { AGENT_TITLE } from '@/types';
 import { z } from 'zod';
 
 const serviceSubSchema = z.object({
@@ -12,7 +11,7 @@ const serviceSubSchema = z.object({
 const patientSubSchema = z.object({
   name: z.string().min(1, { message: 'Patient name is required' }),
   age: zodNumber({ min: 0, message: 'Age can not be negative' }).optional(),
-  ageTitle: z.nativeEnum(AGENT_TITLE).optional(),
+  ageTitle: z.string().optional(),
   phone: z.string().optional(),
   gender: z.string().optional(),
   address: z.string().optional(),

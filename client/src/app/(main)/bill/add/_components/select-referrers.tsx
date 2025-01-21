@@ -42,11 +42,11 @@ export const SelectReferrers = () => {
                 <Loading />
               ) : (
                 <>
-                  {referrers?.doctors.map((agent) => (
-                    <SelectItem key={agent._id} value={agent._id}>
-                      {agent.name}
-                      {agent.designation && (
-                        <span className="ml-2 text-xs text-muted-foreground">({agent.designation})</span>
+                  {referrers?.doctors.map((doctor) => (
+                    <SelectItem key={doctor._id} value={doctor._id}>
+                      {doctor.name}
+                      {doctor.designation && (
+                        <span className="ml-2 text-xs text-muted-foreground">({doctor.designation})</span>
                       )}
                     </SelectItem>
                   ))}
@@ -68,7 +68,7 @@ export const SelectReferrers = () => {
                 <Loading />
               ) : (
                 <>
-                  {referrers?.doctors.map((agent) => (
+                  {referrers?.agents.map((agent) => (
                     <SelectItem key={agent._id} value={agent._id}>
                       {agent.name}
                       {agent.designation && (

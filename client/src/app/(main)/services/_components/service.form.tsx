@@ -5,7 +5,7 @@ import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { wordCapitalize } from '@/helper';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useFrom } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 export const serviceFormSchema = z.object({

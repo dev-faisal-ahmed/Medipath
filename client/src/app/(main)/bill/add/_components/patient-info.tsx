@@ -4,7 +4,7 @@ import { CommonFormFiled, CommonSelect } from '@/components/shared/form';
 import { useFormContext } from 'react-hook-form';
 import { TAddBillForm } from './add-bill.schema';
 import { Input } from '@/components/ui/input';
-import { AGENT_TITLE, GENDER } from '@/types';
+import { AGE_TITLE, GENDER } from '@/types';
 
 export const PatientInfo = () => {
   const { control, setValue, watch } = useFormContext<TAddBillForm>();
@@ -18,13 +18,13 @@ export const PatientInfo = () => {
 
       <CommonFormFiled control={control} name="patientInfo.age" label="Age">
         {({ field }) => (
-          <div className="h-input group flex rounded-md border py-0 pl-3 focus-within:ring-1 focus-within:ring-ring">
+          <div className="group flex h-input rounded-md border py-0 pl-3 focus-within:ring-1 focus-within:ring-ring">
             <input className="w-full bg-transparent outline-none" type="number" placeholder="Input age" {...field} />
             <CommonSelect
-              options={Object.entries(AGENT_TITLE).map(([label, value]) => ({ label, value }))}
+              options={Object.entries(AGE_TITLE).map(([label, value]) => ({ label, value }))}
               placeholder="Select age title"
               selected={ageTitle || ''}
-              onSelectChange={(value) => setValue('patientInfo.ageTitle', value as AGENT_TITLE)}
+              onSelectChange={(value) => setValue('patientInfo.ageTitle', value as AGE_TITLE)}
               className={{ trigger: 'h-full rounded-none border-0 border-l focus:border-ring focus:ring-0' }}
             />
           </div>
