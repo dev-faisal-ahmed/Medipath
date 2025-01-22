@@ -1,5 +1,5 @@
 import { Header } from '@/components/shared';
-import { AddBill } from './_components/add-bill';
+import { AddBill } from './_ui/add-bill';
 
 export default function AddBillPage() {
   return (

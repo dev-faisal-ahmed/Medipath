@@ -1,6 +1,6 @@
 import { Header } from '@/components/shared';
-import { AddReferrer } from './_components/add-referrer';
-import { ReferrerTable } from './_components/referrer.table';
+import { AddReferrer } from './_ui/add-referrer';
+import { ReferrerTable } from './_ui/referrer.table';
 
 export default function ReferrersPage() {
   return (

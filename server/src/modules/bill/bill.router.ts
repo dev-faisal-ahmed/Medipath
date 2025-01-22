@@ -13,4 +13,5 @@ billRouter.post(
   billController.addBill,
 );
 
-billRouter.get('/:billId', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), billController.getBillDetails);
+// billRouter.get('/:billId', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), billController.getBillDetails);
+billRouter.get('/:billId', billController.getBillDetails);

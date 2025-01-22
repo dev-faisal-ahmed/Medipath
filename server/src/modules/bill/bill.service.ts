@@ -80,6 +80,7 @@ const getBillDetails = async (billId: string) => {
         from: 'referrers',
         localField: 'referrerId',
         foreignField: '_id',
+        pipeline: [{ $project: { name: 1 } }],
         as: 'agent',
       },
     },
@@ -88,11 +89,12 @@ const getBillDetails = async (billId: string) => {
         from: 'referrers',
         localField: 'visitorId',
         foreignField: '_id',
+        pipeline: [{ $project: { name: 1 } }],
         as: 'doctor',
       },
     },
     { $addFields: { agent: { $arrayElemAt: ['$agent', 0] }, doctor: { $arrayElemAt: ['$doctor', 0] } } },
-    { $project: { __v: 0, updatedAt: 0 } },
+    { $project: { __v: 0, updatedAt: 0, referrerCommission: 0, visitCommission: 0 } },
   ]);
 
   return billDetails;

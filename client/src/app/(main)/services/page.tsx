@@ -1,6 +1,6 @@
 import { Header } from '@/components/shared';
-import { ServicesTable } from './_components/service.table';
-import { AddService } from './_components/add-service';
+import { ServicesTable } from './_ui/service.table';
+import { AddService } from './_ui/add-service';
 
 export default function Page() {
   return (

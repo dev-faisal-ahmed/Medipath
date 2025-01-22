@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import { QK } from '@/api-lib/query-keys';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { getAuth } from '@/actions';
-import { MainLayout } from './_components/main-layout';
+import { MainLayout } from './_ui/main-layout';
 import { redirect } from 'next/navigation';
 
 export default async function Layout({ children }: PropsWithChildren) {

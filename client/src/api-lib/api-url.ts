@@ -17,4 +17,5 @@ export const apiUrl = {
   getReferrerList: `${SERVER_ADDRESS}/referrers/list`,
   // bill
   addBill: `${SERVER_ADDRESS}/bill`,
+  getBillDetails: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}`,
 };
