@@ -12,3 +12,5 @@ billRouter.post(
   validationHandler(billValidation.addBillSchema),
   billController.addBill,
 );
+
+billRouter.get('/:billId', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), billController.getBillDetails);

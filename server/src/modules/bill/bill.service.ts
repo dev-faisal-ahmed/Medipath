@@ -70,4 +70,32 @@ const addBill = async (payload: TAddBillPayload) => {
   }
 };
 
-export const billService = { addBill };
+const getBillDetails = async (billId: string) => {
+  const objectId = new mongoose.Types.ObjectId(billId);
+
+  const [billDetails] = await Bill.aggregate([
+    { $match: { _id: objectId } },
+    {
+      $lookup: {
+        from: 'referrers',
+        localField: 'referrerId',
+        foreignField: '_id',
+        as: 'agent',
+      },
+    },
+    {
+      $lookup: {
+        from: 'referrers',
+        localField: 'visitorId',
+        foreignField: '_id',
+        as: 'doctor',
+      },
+    },
+    { $addFields: { agent: { $arrayElemAt: ['$agent', 0] }, doctor: { $arrayElemAt: ['$doctor', 0] } } },
+    { $project: { __v: 0, updatedAt: 0 } },
+  ]);
+
+  return billDetails;
+};
+
+export const billService = { addBill, getBillDetails };

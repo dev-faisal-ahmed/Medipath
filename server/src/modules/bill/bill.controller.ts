@@ -7,4 +7,9 @@ const addBill = catchAsync(async (req, res) => {
   sendSuccessResponse(res, { message: 'Bill added successfully', data: { billId } });
 });
 
-export const billController = { addBill };
+const getBillDetails = catchAsync(async (req, res) => {
+  const billDetails = await billService.getBillDetails(req.params.billId);
+  sendSuccessResponse(res, { message: 'Bill details retrieved successfully', data: billDetails });
+});
+
+export const billController = { addBill, getBillDetails };
