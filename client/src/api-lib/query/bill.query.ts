@@ -10,15 +10,20 @@ export const addBill = async (payload: TAddServicePayload): Promise<IServerRespo
   return data;
 };
 
-export const getBills = async(args:TObject):Promise<IServerResponse<IBill[]>>=>{
+export const getBills = async (args: TObject): Promise<IServerResponse<IBill[]>> => {
   const refinedArgs = removeEmptyProperty(args);
   const searchParams = new URLSearchParams(refinedArgs as TObject).toString();
   const { data } = await axiosInstance.get(apiUrl.getBills(searchParams ? `?${searchParams}` : ''));
   return data;
-}
+};
 
 export const getBillDetails = async (billId: string): Promise<IServerResponse<IBillDetails>> => {
   const { data } = await axiosInstance.get(apiUrl.getBillDetails(billId));
+  return data;
+};
+
+export const takeDue = async ({ amount, billId }: TTakeDuePayload): Promise<IServerResponse<null>> => {
+  const { data } = await axiosInstance.patch(apiUrl.takeDue(billId), { amount });
   return data;
 };
 
@@ -51,4 +56,4 @@ interface IBillDetails {
   createdAt: string;
 }
 
-
+type TTakeDuePayload = { billId: string; amount: number };

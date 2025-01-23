@@ -27,9 +27,7 @@ export const DeleteService = ({ serviceId, onActionDropdownChange }: IProps) => 
       onOpenChange(false);
       onActionDropdownChange(false);
     },
-    onError: (error) => {
-      toast.error(errorMessageGen(error));
-    },
+    onError: (error) => toast.error(errorMessageGen(error)),
   });
 
   return (

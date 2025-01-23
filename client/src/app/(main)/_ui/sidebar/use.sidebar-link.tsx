@@ -31,7 +31,7 @@ export const useSidebarLinks = () => {
       {
         title: 'Bill',
         icon: <RiBillFill size={20} />,
-        isActive: matchList(['/bills', '/bill/add']),
+        isActive: matchList(['/bills', '/bill/add']) || partialMatch('/bill'),
         items: [
           { title: 'Bills', url: '/bills', isActive: exactMath('/bills') },
           { title: 'Bill Entry', url: '/bill/add', isActive: exactMath('/bill/add') },

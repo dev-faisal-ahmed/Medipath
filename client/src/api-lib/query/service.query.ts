@@ -29,7 +29,8 @@ export const deleteService = async (serviceId: string): Promise<IServerResponse<
   return data;
 };
 
-export const getServiceList = async (): Promise<IServerResponse<IService[]>> => {
+export type TServiceList = Pick<IService, '_id' | 'name' | 'price' | 'roomNo'>;
+export const getServiceList = async (): Promise<IServerResponse<TServiceList[]>> => {
   const { data } = await axiosInstance.get(apiUrl.getServiceList);
   return data;
 };

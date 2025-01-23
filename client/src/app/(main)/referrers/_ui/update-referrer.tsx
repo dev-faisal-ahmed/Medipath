@@ -30,9 +30,7 @@ export const UpdateReferrer = ({ referrer, onActionDropdownChange }: IProps) => 
       onOpenChange(false);
       onActionDropdownChange(false);
     },
-    onError: (error) => {
-      toast.error(errorMessageGen(error));
-    },
+    onError: (error) => toast.error(errorMessageGen(error)),
   });
 
   const onUpdateReferrer = (formData: TReferrerForm) => {

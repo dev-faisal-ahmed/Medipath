@@ -1,21 +1,23 @@
 'use client';
 
+import type { TServiceList } from '@/api-lib/query';
+
 import { cn } from '@/lib/utils';
 import { QK } from '@/api-lib';
+import { TObject } from '@/types';
+import { useDebounce } from '@/hooks';
 import { useQuery } from '@tanstack/react-query';
 import { ChevronDownIcon, XIcon } from 'lucide-react';
 import { MouseEvent, ReactNode, useMemo, useState } from 'react';
 import { ControllerRenderProps, useFormContext } from 'react-hook-form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { CommonFormFiled } from '@/components/shared/form';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { SearchInput } from '@/components/ui/input';
 import { TAddBillForm } from './add-bill.schema';
-import { useDebounce } from '@/hooks';
 import { getServiceList } from '@/api-lib/query';
-import { IService, TObject } from '@/types';
-import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loader';
+import { Badge } from '@/components/ui/badge';
 
 export const SelectServices = () => {
   const [search, setSearch] = useState('');
@@ -71,12 +73,12 @@ export const SelectServices = () => {
   );
 };
 
-interface IServiceProps {
-  services: IService[];
+interface ISelectedServiceListProps {
+  services: TServiceList[];
   field: ControllerRenderProps<TAddBillForm>;
 }
 
-const SelectedServiceList = ({ field, services }: IServiceProps) => {
+const SelectedServiceList = ({ field, services }: ISelectedServiceListProps) => {
   if (services.length === 0)
     return (
       <TriggerContainer className="justify-between">
@@ -127,8 +129,8 @@ const SelectedServiceList = ({ field, services }: IServiceProps) => {
 
 interface IServiceListProps {
   isLoading: boolean;
-  services: IService[];
-  selectedServices: IService[];
+  services: TServiceList[];
+  selectedServices: TServiceList[];
   field: ControllerRenderProps<TAddBillForm>;
 }
 

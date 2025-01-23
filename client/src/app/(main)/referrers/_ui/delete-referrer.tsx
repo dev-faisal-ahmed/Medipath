@@ -27,9 +27,7 @@ export const DeleteReferrer = ({ referrerId, onActionDropdownChange }: IProps) =
       qc.invalidateQueries({ queryKey: [QK.REFERRER] });
       onActionDropdownChange(false);
     },
-    onError: (error) => {
-      toast.error(errorMessageGen(error));
-    },
+    onError: (error) => toast.error(errorMessageGen(error)),
   });
 
   return (

@@ -24,9 +24,7 @@ export const AddService = () => {
       toast.success(response.message);
       onOpenChange(false);
     },
-    onError: (error) => {
-      toast.error(errorMessageGen(error));
-    },
+    onError: (error) => toast.error(errorMessageGen(error)),
   });
 
   const handleAddService = (formData: TServiceForm) => mutate({ ...formData, price: Number(formData.price) });

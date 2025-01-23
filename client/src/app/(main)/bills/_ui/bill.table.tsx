@@ -5,16 +5,17 @@ import Link from 'next/link';
 import { IBill } from '@/types';
 import { QK } from '@/api-lib';
 import { getBills } from '@/api-lib/query/bill.query';
-import { DataTable, DataTableAction } from '@/components/ui/data-table';
+import { DataTable } from '@/components/ui/data-table';
 import { FullSpaceLoader } from '@/components/ui/loader';
 import { removeEmptyProperty } from '@/helper';
-import { usePopupState, useTopbarContext } from '@/hooks';
+import { useTopbarContext } from '@/hooks';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { useSearchParams } from 'next/navigation';
 import { CONST } from '@/lib/const';
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
+import { TakeDue } from './take-due';
 
 const LIMIT = '20';
 
@@ -83,22 +84,25 @@ export const BillTable = () => {
       header: () => <div className="text-center">Date</div>,
       cell: ({ getValue }) => <div className="text-center">{format(getValue<string>(), 'dd MMM, yyyy')}</div>,
     },
-    { id: 'action', cell: ({ row }) => <ActionDropdown {...row.original} /> },
+    {
+      id: 'action',
+      cell: ({ row }) => {
+        const { paid, price, discount, _id } = row.original;
+        const due = price - (paid || 0) - (discount || 0);
+
+        return (
+          <div className="mx-auto flex w-fit flex-col gap-2">
+            <Button variant="outline" asChild>
+              <Link href={`/bill/${_id}`}>View Receipt</Link>
+            </Button>
+            {due ? <TakeDue billId={_id} /> : <Button variant="secondary">Already Paid</Button>}
+          </div>
+        );
+      },
+    },
   ];
 
   if (isLoading) return <FullSpaceLoader />;
 
   return <DataTable columns={column} data={billData?.data || []} pagination={{ page, totalPages }} />;
-};
-
-const ActionDropdown = (bill: IBill) => {
-  const { open, onOpenChange } = usePopupState();
-
-  return (
-    <DataTableAction open={open} onOpenChange={onOpenChange}>
-      <Link href={`/bill/${bill._id}`}>
-        <Button variant="outline">View Receipt</Button>
-      </Link>
-    </DataTableAction>
-  );
 };

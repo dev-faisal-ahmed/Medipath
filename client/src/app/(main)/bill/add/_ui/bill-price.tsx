@@ -31,7 +31,7 @@ export const BillPrice = () => {
         {({ field }) => <Input placeholder="Input amount" {...field} type="number" min={0} disabled={!visitor} />}
       </CommonFormFiled>
       <CommonFormFiled control={control} name="referrerCommission" label="Referrer Commission">
-        {({ field }) => <Input placeholder="Input amount" {...field} type="number" min={0} />}
+        {({ field }) => <Input placeholder="Input amount" {...field} type="number" min={0} disabled={!referrer} />}
       </CommonFormFiled>
       <CommonFormFiled control={control} name="discount" label="Discount">
         {({ field }) => <Input placeholder="Input amount" {...field} type="number" min={0} />}

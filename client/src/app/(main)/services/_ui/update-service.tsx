@@ -30,9 +30,7 @@ export const UpdateService = ({ service, onActionDropdownChange }: IProps) => {
       onOpenChange(false);
       onActionDropdownChange(false);
     },
-    onError: (error) => {
-      toast.error(errorMessageGen(error));
-    },
+    onError: (error) => toast.error(errorMessageGen(error)),
   });
 
   const handleUpdateService = (formData: TServiceForm) => {

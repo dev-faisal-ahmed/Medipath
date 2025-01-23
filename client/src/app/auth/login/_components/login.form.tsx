@@ -1,14 +1,34 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { z } from 'zod';
+import { toast } from 'sonner';
+import { errorMessageGen } from '@/helper';
+import { singInAction } from '@/actions';
 import { CommonFormFiled } from '@/components/shared/form';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input, PasswordInput } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { Input, PasswordInput } from '@/components/ui/input';
-import { useLogin } from './use.login';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 
 export const LoginForm = () => {
-  const { form, handleLogin, isLoading } = useLogin();
+  const router = useRouter();
+
+  const form = useForm<TLoginForm>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: { email: '', password: '' },
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: singInAction,
+    onSuccess: () => router.push('/'),
+    onError: (error) => toast.error(errorMessageGen(error)),
+  });
+
+  const handleLogin = form.handleSubmit((data) => mutate(data));
 
   return (
     <Card className="w-full max-w-md">
@@ -27,8 +47,8 @@ export const LoginForm = () => {
             <CommonFormFiled control={form.control} name="password" label="Password">
               {({ field }) => <PasswordInput {...field} placeholder="@: ------" />}
             </CommonFormFiled>
-            <Button disabled={isLoading} className="mt-2 w-full">
-              {isLoading ? 'Logging in...' : 'Login'}
+            <Button disabled={isPending} className="mt-2 w-full">
+              {isPending ? 'Logging in...' : 'Login'}
             </Button>
           </form>
         </Form>
@@ -36,3 +56,10 @@ export const LoginForm = () => {
     </Card>
   );
 };
+
+const loginFormSchema = z.object({
+  email: z.string().email({ message: 'Invalid email' }),
+  password: z.string().min(1, { message: 'Password is required' }),
+});
+
+type TLoginForm = z.infer<typeof loginFormSchema>;

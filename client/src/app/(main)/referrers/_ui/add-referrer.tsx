@@ -1,17 +1,16 @@
 'use client';
 
-import { QK } from '@/api-lib';
-import { FormDialog } from '@/components/shared/form';
-import { usePopupState } from '@/hooks';
-import { ReferrerForm, TReferrerForm } from './referrer.form';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addReferrer } from '@/api-lib/query';
 import { toast } from 'sonner';
+import { QK } from '@/api-lib';
+import { usePopupState } from '@/hooks';
 import { errorMessageGen } from '@/helper';
+import { FormDialog } from '@/components/shared/form';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ReferrerForm, TReferrerForm } from './referrer.form';
+import { addReferrer } from '@/api-lib/query';
 import { ActionButton } from '@/components/ui/button';
 
 const formId = QK.REFERRER + '_ADD';
-
 export const AddReferrer = () => {
   const { open, onOpenChange } = usePopupState();
   const qc = useQueryClient();
@@ -24,9 +23,7 @@ export const AddReferrer = () => {
       toast.success(res.message);
       onOpenChange(false);
     },
-    onError: (error) => {
-      toast.error(errorMessageGen(error));
-    },
+    onError: (error) => toast.error(errorMessageGen(error)),
   });
 
   const onSubmit = (formData: TReferrerForm) => mutate({ ...formData });

@@ -16,7 +16,7 @@ billRouter.post(
 billRouter.get('/:billId', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), billController.getBillDetails);
 
 billRouter.patch(
-  '/:billId',
+  '/:billId/take-due',
   authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
   validationHandler(billValidation.takeDueSchema),
   billController.takeDue,

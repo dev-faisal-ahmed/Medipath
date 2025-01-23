@@ -8,15 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-const referrerFormSchema = z.object({
-  name: z.string().min(1, { message: 'Referrer name is required' }),
-  designation: z.string().min(1, { message: 'Designation can not be empty string' }).optional(),
-  type: z.nativeEnum(REFERRER_TYPE),
-  phone: z.string().optional(),
-});
-
-export type TReferrerForm = z.infer<typeof referrerFormSchema>;
-
 interface IProps {
   formId: string;
   defaultValues?: TReferrerForm;
@@ -55,3 +46,12 @@ export const ReferrerForm = ({ formId, onSubmit, defaultValues }: IProps) => {
     </Form>
   );
 };
+
+const referrerFormSchema = z.object({
+  name: z.string().min(1, { message: 'Referrer name is required' }),
+  designation: z.string().min(1, { message: 'Designation can not be empty string' }).optional(),
+  type: z.nativeEnum(REFERRER_TYPE),
+  phone: z.string().optional(),
+});
+
+export type TReferrerForm = z.infer<typeof referrerFormSchema>;
