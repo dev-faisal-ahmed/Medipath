@@ -12,3 +12,11 @@ expenseCategoryRouter.post(
   validationHandler(expenseCategoryValidation.addExpenseCategory),
   expenseCategoryController.addExpenseCategory,
 );
+
+export const expenseCategoriesRouter = Router();
+
+expenseCategoriesRouter.get(
+  '/',
+  authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
+  expenseCategoryController.getExpenseCategories,
+);

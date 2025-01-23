@@ -1,10 +1,16 @@
+import { expenseCategoryService } from './expense-category.service';
 import { catchAsync } from '../../middlewares';
 import { sendSuccessResponse } from '../../helpers';
-import { expenseCategoryService } from './expense-category.service';
+import { TObject } from '../../utils/type';
 
 const addExpenseCategory = catchAsync(async (req, res) => {
   const message = await expenseCategoryService.addExpenseCategory(req.body);
   sendSuccessResponse(res, { message, data: null });
 });
 
-export const expenseCategoryController = { addExpenseCategory };
+const getExpenseCategories = catchAsync(async (req, res) => {
+  const { expenseCategories, meta } = await expenseCategoryService.getExpenseCategories(req.query as TObject);
+  sendSuccessResponse(res, { message: 'Expense categories retrieved successfully', meta, data: expenseCategories });
+});
+
+export const expenseCategoryController = { addExpenseCategory, getExpenseCategories };
