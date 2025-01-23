@@ -15,3 +15,11 @@ export const Loading = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
 ));
 
 Loading.displayName = 'Loading';
+
+export const FullSpaceLoader = () => {
+  return (
+    <div className="flex h-full items-center justify-center">
+      <Loading />
+    </div>
+  );
+};

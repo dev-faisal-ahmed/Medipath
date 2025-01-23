@@ -18,4 +18,5 @@ export const apiUrl = {
   // bill
   addBill: `${SERVER_ADDRESS}/bill`,
   getBillDetails: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}`,
+  getBills: (searchParams: string) => `${SERVER_ADDRESS}/bills${searchParams}`,
 };

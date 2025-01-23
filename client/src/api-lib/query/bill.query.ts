@@ -1,6 +1,6 @@
+import { IBill, IPatient, IServerResponse, IService, TObject } from '@/types';
 import { removeEmptyProperty } from '@/helper';
 import { axiosInstance } from '@/lib/axios';
-import { IBill, IPatient, IServerResponse, IService } from '@/types';
 import { apiUrl } from '../api-url';
 
 // **** query **** \\
@@ -9,6 +9,13 @@ export const addBill = async (payload: TAddServicePayload): Promise<IServerRespo
   const { data } = await axiosInstance.post(apiUrl.addBill, refinedPayload);
   return data;
 };
+
+export const getBills = async(args:TObject):Promise<IServerResponse<IBill[]>>=>{
+  const refinedArgs = removeEmptyProperty(args);
+  const searchParams = new URLSearchParams(refinedArgs as TObject).toString();
+  const { data } = await axiosInstance.get(apiUrl.getBills(searchParams ? `?${searchParams}` : ''));
+  return data;
+}
 
 export const getBillDetails = async (billId: string): Promise<IServerResponse<IBillDetails>> => {
   const { data } = await axiosInstance.get(apiUrl.getBillDetails(billId));
@@ -43,3 +50,5 @@ interface IBillDetails {
   doctor: { _id: string; name: string };
   createdAt: string;
 }
+
+

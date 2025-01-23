@@ -1,6 +1,6 @@
+import { IServerResponse, IService, TObject } from '@/types';
 import { removeEmptyProperty } from '@/helper';
 import { axiosInstance } from '@/lib/axios';
-import { IServerResponse, IService, TObject } from '@/types';
 import { apiUrl } from '../api-url';
 
 type TAddServicePayload = Pick<IService, 'name' | 'price' | 'roomNo'>;
