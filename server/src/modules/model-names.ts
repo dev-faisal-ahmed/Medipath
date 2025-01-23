@@ -4,4 +4,5 @@ export const MODEL = {
   SERVICE: 'service',
   TRANSACTION: 'transaction',
   USER: 'user',
+  EXPENSE_CATEGORY: 'expense-category',
 } as const;

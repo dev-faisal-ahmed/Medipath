@@ -4,6 +4,7 @@ import { userRouter } from '../modules/user/user.router';
 import { serviceRouter, servicesRouter } from '../modules/service/service.router';
 import { referrerRouter, referrersRouter } from '../modules/referrer/referrer.router';
 import { billRouter, billsRouter } from '../modules/bill/bill.router';
+import { expenseCategoryRouter } from '../modules/expense-category/expense-category.router';
 
 interface IRoute {
   path: string;
@@ -21,6 +22,7 @@ const routes: IRoute[] = [
   { path: '/referrers', router: referrersRouter },
   { path: '/bill', router: billRouter },
   { path: '/bills', router: billsRouter },
+  { path: '/expense-category', router: expenseCategoryRouter },
 ];
 
 routes.forEach(({ path, router }) => {
