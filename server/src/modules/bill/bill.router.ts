@@ -13,5 +13,8 @@ billRouter.post(
   billController.addBill,
 );
 
-// billRouter.get('/:billId', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), billController.getBillDetails);
-billRouter.get('/:billId', billController.getBillDetails);
+billRouter.get('/:billId', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), billController.getBillDetails);
+
+export const billsRouter = Router();
+
+billsRouter.get('/', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), billController.getBills);

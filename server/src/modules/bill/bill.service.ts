@@ -6,6 +6,8 @@ import { billHelper } from './bill.helper';
 import { Bill } from './bill.model';
 import { Transaction } from '../transaction/transaction.model';
 import { TRANSACTION_CATEGORY, TRANSACTION_TYPE } from '../transaction/transaction.interface';
+import { TObject } from '../../utils/type';
+import { generateMeta, getPageParams, getSearchQuery } from '../../helpers';
 
 const addBill = async (payload: TAddBillPayload) => {
   const session = await mongoose.startSession();
@@ -70,6 +72,15 @@ const addBill = async (payload: TAddBillPayload) => {
   }
 };
 
+const getBills = async (query: TObject) => {
+  const dbQuery = { ...getSearchQuery(query, 'billId', 'patientInfo.name') };
+  const { page, limit, skip } = getPageParams(query);
+  const bills = await Bill.find(dbQuery).sort({ createdAt: -1 }).skip(skip).limit(limit);
+  const total = await Bill.countDocuments(dbQuery);
+  const meta = generateMeta({ page, limit, total });
+  return { bills, meta };
+};
+
 const getBillDetails = async (billId: string) => {
   const objectId = new mongoose.Types.ObjectId(billId);
 
@@ -100,4 +111,4 @@ const getBillDetails = async (billId: string) => {
   return billDetails;
 };
 
-export const billService = { addBill, getBillDetails };
+export const billService = { addBill, getBillDetails, getBills };
