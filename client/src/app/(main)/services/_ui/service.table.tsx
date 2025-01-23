@@ -1,17 +1,17 @@
 'use client';
 
 import { QK } from '@/api-lib';
+import { CONST } from '@/lib/const';
+import { IService } from '@/types';
 import { getServices } from '@/api-lib/query';
 import { DataTable, DataTableAction } from '@/components/ui/data-table';
 import { removeEmptyProperty } from '@/helper';
-import { IService } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { usePopupState, useTopbarContext } from '@/hooks';
 import { useSearchParams } from 'next/navigation';
 import { UpdateService } from './update-service';
 import { DeleteService } from './delete-service';
-import { CONST } from '@/lib/const';
 import { FullSpaceLoader } from '@/components/ui/loader';
 
 const LIMIT = '15';
@@ -29,8 +29,8 @@ export const ServicesTable = () => {
   const page = servicesData?.meta?.page || 1;
   const limit = servicesData?.meta?.limit || 20;
   const totalPages = servicesData?.meta?.totalPages || 1;
-
   const offset = (page - 1) * limit;
+
   const column: ColumnDef<IService>[] = [
     { id: 'Serial', header: 'SL.', cell: ({ row }) => <span>{offset + (row.index + 1)}</span> },
     { accessorKey: 'name', header: 'Name' },

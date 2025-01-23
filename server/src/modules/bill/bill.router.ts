@@ -15,6 +15,13 @@ billRouter.post(
 
 billRouter.get('/:billId', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), billController.getBillDetails);
 
+billRouter.patch(
+  '/:billId',
+  authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
+  validationHandler(billValidation.takeDueSchema),
+  billController.takeDue,
+);
+
 export const billsRouter = Router();
 
 billsRouter.get('/', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), billController.getBills);

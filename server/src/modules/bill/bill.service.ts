@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { TAddBillPayload } from './bill.validation';
+import { TAddBillPayload, TTakeDuePayload } from './bill.validation';
 import { AppError } from '../../utils';
 import { billHelper } from './bill.helper';
 import { Bill } from './bill.model';
@@ -111,4 +111,17 @@ const getBillDetails = async (billId: string) => {
   return billDetails;
 };
 
-export const billService = { addBill, getBillDetails, getBills };
+const takeDue = async (payload: TTakeDuePayload, billId: string) => {
+  const billDetails = await Bill.findOne({ _id: billId }, { paid: 1, price: 1, discount: 1 });
+  if (!billDetails) throw new AppError('Bill not found', 404);
+
+  const { paid, price, discount } = billDetails;
+  const due = price - (paid || 0) - (discount || 0);
+  if (due < payload.amount) throw new AppError('Due amount is less than the amount you are trying to pay', 400);
+
+  await Bill.updateOne({ _id: billId }, { $inc: { paid: payload.amount } });
+
+  return 'Due taken success fully';
+};
+
+export const billService = { addBill, getBillDetails, getBills, takeDue };

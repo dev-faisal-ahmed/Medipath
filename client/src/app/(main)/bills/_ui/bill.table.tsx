@@ -31,7 +31,6 @@ export const BillTable = () => {
   const page = billData?.meta?.page || 1;
   const limit = billData?.meta?.limit || 20;
   const totalPages = billData?.meta?.totalPages || 1;
-
   const offset = (page - 1) * limit;
 
   const column: ColumnDef<IBill>[] = [

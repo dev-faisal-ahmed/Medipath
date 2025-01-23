@@ -28,6 +28,11 @@ const addBillSchema = z.object({
   visitCommission: z.number().positive().optional(),
 });
 
-export const billValidation = { addBillSchema };
+const takeDueSchema = z.object({
+  amount: z.number().positive({ message: 'Amount can not be negative' }),
+});
+
+export const billValidation = { addBillSchema, takeDueSchema };
 
 export type TAddBillPayload = z.infer<typeof addBillSchema>;
+export type TTakeDuePayload = z.infer<typeof takeDueSchema>;
