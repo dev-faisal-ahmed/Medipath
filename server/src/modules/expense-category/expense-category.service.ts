@@ -29,4 +29,9 @@ const getExpenseCategories = async (query: TObject) => {
   return { expenseCategories, meta };
 };
 
-export const expenseCategoryService = { addExpenseCategory, getExpenseCategories };
+const getExpenseCategoryList = async () => {
+  const expenseCategories = await ExpenseCategory.find({ isDeleted: false }, { _id: 1, name: 1 }).sort({ name: 1 });
+  return expenseCategories;
+};
+
+export const expenseCategoryService = { addExpenseCategory, getExpenseCategories, getExpenseCategoryList };

@@ -20,3 +20,9 @@ expenseCategoriesRouter.get(
   authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
   expenseCategoryController.getExpenseCategories,
 );
+
+expenseCategoriesRouter.get(
+  '/list',
+  authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
+  expenseCategoryController.getExpenseCategoryList,
+);

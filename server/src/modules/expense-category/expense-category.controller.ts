@@ -13,4 +13,9 @@ const getExpenseCategories = catchAsync(async (req, res) => {
   sendSuccessResponse(res, { message: 'Expense categories retrieved successfully', meta, data: expenseCategories });
 });
 
-export const expenseCategoryController = { addExpenseCategory, getExpenseCategories };
+const getExpenseCategoryList = catchAsync(async (_, res) => {
+  const expenseCategories = await expenseCategoryService.getExpenseCategoryList();
+  sendSuccessResponse(res, { message: 'Expense categories list retrieved successfully', data: expenseCategories });
+});
+
+export const expenseCategoryController = { addExpenseCategory, getExpenseCategories, getExpenseCategoryList };
