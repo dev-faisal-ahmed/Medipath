@@ -12,7 +12,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import { takeDue } from '@/api-lib/query/bill.query';
+import { takeDue } from '@/api-lib/query';
 import { PencilIcon } from 'lucide-react';
 
 export const TakeDue = ({ billId }: { billId: string }) => {

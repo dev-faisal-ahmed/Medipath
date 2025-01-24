@@ -11,6 +11,7 @@ import { addReferrer } from '@/api-lib/query';
 import { ActionButton } from '@/components/ui/button';
 
 const formId = QK.REFERRER + '_ADD';
+
 export const AddReferrer = () => {
   const { open, onOpenChange } = usePopupState();
   const qc = useQueryClient();

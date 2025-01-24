@@ -1,7 +1,7 @@
 'use client';
 
 import { useFormContext } from 'react-hook-form';
-import { TAddBillForm } from './add-bill.schema';
+import { TAddBillForm } from './add-bill-form.schema';
 import { CommonFormFiled } from '@/components/shared/form';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';

@@ -14,7 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { CommonFormFiled } from '@/components/shared/form';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { SearchInput } from '@/components/ui/input';
-import { TAddBillForm } from './add-bill.schema';
+import { TAddBillForm } from './add-bill-form.schema';
 import { getServiceList } from '@/api-lib/query';
 import { Loading } from '@/components/ui/loader';
 import { Badge } from '@/components/ui/badge';

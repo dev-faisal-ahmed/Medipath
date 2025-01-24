@@ -7,7 +7,7 @@ import { QK } from '@/api-lib';
 import { REFERRER_TYPE } from '@/types';
 import { CommonFormFiled } from '@/components/shared/form';
 import { useFormContext } from 'react-hook-form';
-import { TAddBillForm } from './add-bill.schema';
+import { TAddBillForm } from './add-bill-form.schema';
 import { useQuery } from '@tanstack/react-query';
 import { Loading } from '@/components/ui/loader';
 

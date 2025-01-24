@@ -1,10 +1,11 @@
 'use client';
 
+import { toast } from 'sonner';
+import { addBill } from '@/api-lib/query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { AGE_TITLE, GENDER } from '@/types';
 import { Form } from '@/components/ui/form';
-import { addBillFormSchema, TAddBillForm } from './add-bill.schema';
 import { SelectServices } from './select-services';
 import { PatientInfo } from './patient-info';
 import { SelectReferrers } from './select-referrers';
@@ -12,10 +13,9 @@ import { BillPrice } from './bill-price';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useMutation } from '@tanstack/react-query';
-import { addBill } from '@/api-lib/query/bill.query';
-import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { errorMessageGen } from '@/helper';
+import { addBillFormSchema, TAddBillForm } from './add-bill-form.schema';
 
 export const AddBill = () => {
   const router = useRouter();

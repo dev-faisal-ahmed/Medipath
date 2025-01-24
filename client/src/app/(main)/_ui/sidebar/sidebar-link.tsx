@@ -15,7 +15,7 @@ export const SidebarLink = ({ title, items, icon, isActive, url }: ISidebarLink)
         <CollapsibleTrigger className="group w-full px-4">
           <div
             className={cn(
-              'flex items-center gap-3 rounded-md border-r border-transparent p-3 duration-300 hover:bg-secondary/30 hover:text-primary',
+              'flex items-center gap-3 rounded-md border-r border-transparent p-2 duration-300 hover:bg-secondary/30 hover:text-primary',
               isActive && 'bg-secondary/30 font-semibold text-primary',
             )}
           >
@@ -54,7 +54,7 @@ const ActiveLink = ({ url, title, isActive, className, icon }: IActiveLinkProps)
     <Link
       href={url!}
       className={cn(
-        'mx-4 flex items-center gap-3 rounded-md p-3 duration-300 hover:bg-secondary/30 hover:text-primary',
+        'mx-4 flex items-center gap-3 rounded-md p-2 duration-300 hover:bg-secondary/30 hover:text-primary',
         className,
         isActive && 'bg-secondary/30 font-semibold text-primary',
       )}

@@ -1,7 +1,7 @@
 import { ReactNode, useMemo } from 'react';
 import { MdSpaceDashboard } from 'react-icons/md';
 import { FaXRay, FaUserDoctor } from 'react-icons/fa6';
-import { RiBillFill } from 'react-icons/ri';
+import { RiBillFill, RiWalletFill } from 'react-icons/ri';
 import { usePathname } from 'next/navigation';
 
 export interface ISidebarLink {
@@ -42,6 +42,14 @@ export const useSidebarLinks = () => {
         url: '/referrers',
         icon: <FaUserDoctor size={20} />,
         isActive: partialMatch('/referrers'),
+      },
+      {
+        title: 'Expense',
+        icon: <RiWalletFill size={20} />,
+        isActive: partialMatch('/expense'),
+        items: [
+          { title: 'Expense Categories', url: '/expense/categories', isActive: exactMath('/expense/categories') },
+        ],
       },
     ];
 

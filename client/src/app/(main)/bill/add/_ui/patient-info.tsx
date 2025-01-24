@@ -2,7 +2,7 @@
 
 import { CommonFormFiled, CommonSelect } from '@/components/shared/form';
 import { useFormContext } from 'react-hook-form';
-import { TAddBillForm } from './add-bill.schema';
+import { TAddBillForm } from './add-bill-form.schema';
 import { Input } from '@/components/ui/input';
 import { AGE_TITLE, GENDER } from '@/types';
 

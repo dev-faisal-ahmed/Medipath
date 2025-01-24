@@ -20,4 +20,6 @@ export const apiUrl = {
   getBillDetails: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}`,
   getBills: (searchParams: string) => `${SERVER_ADDRESS}/bills${searchParams}`,
   takeDue: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}/take-due`,
+  // expense category
+  addExpenseCategory: `${SERVER_ADDRESS}/expense-category`,
 };

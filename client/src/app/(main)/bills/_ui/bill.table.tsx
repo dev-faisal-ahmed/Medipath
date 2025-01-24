@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { IBill } from '@/types';
 import { QK } from '@/api-lib';
-import { getBills } from '@/api-lib/query/bill.query';
+import { getBills } from '@/api-lib/query';
 import { DataTable } from '@/components/ui/data-table';
 import { FullSpaceLoader } from '@/components/ui/loader';
 import { removeEmptyProperty } from '@/helper';
@@ -16,6 +16,7 @@ import { CONST } from '@/lib/const';
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { TakeDue } from './take-due';
+import { Badge } from '@/components/ui/badge';
 
 const LIMIT = '20';
 
@@ -77,6 +78,8 @@ export const BillTable = () => {
               {CONST.TAKA} {due}
             </span>
           );
+
+        return <Badge>Paid</Badge>;
       },
     },
     {
