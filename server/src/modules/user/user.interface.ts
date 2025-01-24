@@ -11,7 +11,7 @@ export enum PROVIDER {
 }
 
 export interface IUser {
-  _id: Schema.Types.ObjectId;
+  id: Schema.Types.ObjectId;
   email: string;
   name: string;
   password?: string;
@@ -22,14 +22,10 @@ export interface IUser {
 
 export interface IUserMethods {
   comparePassword(givenPassword: string): Promise<boolean>;
-  generateAccessToken(): string;
-  generateRefreshToken(): string;
 }
 
 export interface IUserModel extends Model<IUser, {}, IUserMethods> {
   verifyAccessToken(token: string): TAccessTokenData;
-  verifyRefreshToken(token: string): TRefreshTokenData;
 }
 
-export type TAccessTokenData = Pick<IUser, '_id' | 'email' | 'name' | 'role' | 'provider'>;
-export type TRefreshTokenData = Pick<IUser, '_id' | 'email'>;
+export type TAccessTokenData = Pick<IUser, 'id' | 'email' | 'name' | 'role' | 'provider'>;

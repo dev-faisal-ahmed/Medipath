@@ -26,7 +26,7 @@ export interface IPatient {
 export type TBillService = Pick<IService, 'name' | 'roomNo' | 'price'>;
 
 export interface IBill {
-  _id: Schema.Types.ObjectId;
+  id: Schema.Types.ObjectId;
   referrerId: Schema.Types.ObjectId;
   visitorId: Schema.Types.ObjectId;
   billId: string;

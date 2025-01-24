@@ -1,19 +1,11 @@
-import {
-  IUser,
-  IUserMethods,
-  PROVIDER,
-  TAccessTokenData,
-  TRefreshTokenData,
-  IUserModel,
-  USER_ROLE,
-} from './user.interface';
-
-import { CallbackError, model, Schema } from 'mongoose';
-import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../../app/config';
-import { MODEL } from '../model-names';
-
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+
+import { IUser, IUserMethods, PROVIDER, TAccessTokenData, IUserModel, USER_ROLE } from './user.interface';
+import { CallbackError, model, Schema } from 'mongoose';
+import { ACCESS_TOKEN_SECRET } from '../../app/config';
+import { MODEL } from '../model-names';
+import { transformJson } from '../../helpers';
 
 const userSchema = new Schema<IUser, IUserModel, IUserMethods>(
   {
@@ -31,24 +23,14 @@ const userSchema = new Schema<IUser, IUserModel, IUserMethods>(
         const isPasswordMatch = await bcrypt.compare(givenPassword, this.password!);
         return isPasswordMatch;
       },
-      generateAccessToken: function () {
-        const { _id, email, name, role, provider } = this;
-        return jwt.sign({ _id, email, name, role, provider }, ACCESS_TOKEN_SECRET!, { expiresIn: '30d' });
-      },
-      generateRefreshToken: function () {
-        const { _id, email } = this;
-        return jwt.sign({ _id, email }, REFRESH_TOKEN_SECRET!, { expiresIn: '30d' });
-      },
     },
     statics: {
       verifyAccessToken: function (token: string) {
         return jwt.verify(token, ACCESS_TOKEN_SECRET!) as TAccessTokenData;
       },
-      verifyRefreshToken: function (token: string) {
-        return jwt.verify(token, REFRESH_TOKEN_SECRET!) as TRefreshTokenData;
-      },
     },
     timestamps: true,
+    toJSON: { transform: transformJson },
   },
 );
 

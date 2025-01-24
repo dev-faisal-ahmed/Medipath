@@ -1,6 +1,7 @@
 import { AGE_TITLE, GENDER, IBill, IPatient, TBillService } from './bill.interface';
 import { model, Schema } from 'mongoose';
 import { MODEL } from '../model-names';
+import { transformJson } from '../../helpers';
 
 const patientSubSchema = new Schema<IPatient>(
   {
@@ -37,7 +38,7 @@ const billSchema = new Schema<IBill>(
     referrerCommission: { type: Number, default: 0 },
     visitCommission: { type: Number, default: 0 },
   },
-  { timestamps: true },
+  { timestamps: true, toJSON: { transform: transformJson } },
 );
 
 export const Bill = model<IBill>(MODEL.BILL, billSchema);

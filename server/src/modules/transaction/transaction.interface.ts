@@ -12,12 +12,13 @@ export enum TRANSACTION_CATEGORY {
 }
 
 export interface ITransaction {
-  _id: Schema.Types.ObjectId;
-  billId: Schema.Types.ObjectId;
-  referrerId: Schema.Types.ObjectId;
-  type: TRANSACTION_TYPE;
-  category: TRANSACTION_CATEGORY;
+  id: Schema.Types.ObjectId;
   amount: number;
   date: Date;
   description?: string;
+  type: TRANSACTION_TYPE;
+  // billId: Schema.Types.ObjectId;
+  // referrerId: Schema.Types.ObjectId;
+  // type: TRANSACTION_TYPE;
+  // category: TRANSACTION_CATEGORY;
 }

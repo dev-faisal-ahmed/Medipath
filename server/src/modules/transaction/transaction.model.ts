@@ -1,17 +1,18 @@
 import { model, Schema } from 'mongoose';
 import { ITransaction, TRANSACTION_TYPE } from './transaction.interface';
 import { MODEL } from '../model-names';
+import { transformJson } from '../../helpers';
 
 const transactionSchema = new Schema<ITransaction>(
   {
-    billId: { type: Schema.Types.ObjectId, ref: MODEL.BILL },
-    referrerId: { type: Schema.Types.ObjectId, ref: MODEL.REFERRER },
+    // billId: { type: Schema.Types.ObjectId, ref: MODEL.BILL },
+    // referrerId: { type: Schema.Types.ObjectId, ref: MODEL.REFERRER },
     type: { type: String, enum: Object.values(TRANSACTION_TYPE), required: true },
     amount: { type: Number, required: true, min: 0 },
     date: { type: Date, default: new Date() },
     description: { type: String },
   },
-  { timestamps: true },
+  { timestamps: true, toJSON: { transform: transformJson } },
 );
 
 export const Transaction = model<ITransaction>(MODEL.TRANSACTION, transactionSchema);

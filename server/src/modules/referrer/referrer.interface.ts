@@ -6,7 +6,7 @@ export enum REFERRER_TYPE {
 }
 
 export interface IReferrer {
-  _id: Schema.Types.ObjectId;
+  id: Schema.Types.ObjectId;
   name: string;
   designation?: string;
   type: REFERRER_TYPE;

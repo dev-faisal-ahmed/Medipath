@@ -1,6 +1,7 @@
+import { MODEL } from '../model-names';
 import { model, Schema } from 'mongoose';
 import { IReferrer, REFERRER_TYPE } from './referrer.interface';
-import { MODEL } from '../model-names';
+import { transformJson } from '../../helpers';
 
 const referrerSchema = new Schema<IReferrer>(
   {
@@ -10,7 +11,7 @@ const referrerSchema = new Schema<IReferrer>(
     phone: { type: String },
     isDeleted: { type: Boolean, default: false },
   },
-  { timestamps: true },
+  { timestamps: true, toJSON: { transform: transformJson } },
 );
 
 export const Referrer = model<IReferrer>(MODEL.REFERRER, referrerSchema);
