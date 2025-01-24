@@ -8,9 +8,8 @@ const loginWithCredentials = catchAsync(async (req, res) => {
 });
 
 const loginWithGoogle = catchAsync(async (req, res) => {
-  const { accessToken, refreshToken } = await authService.loginWithGoogle(req.body);
-  res.cookie('refresh_token', refreshToken, { httpOnly: true });
-  sendSuccessResponse(res, { message: 'Login successful', data: { accessToken } });
+  const user = await authService.loginWithGoogle(req.body);
+  sendSuccessResponse(res, { message: 'Login successful', data: user });
 });
 
 export const authController = { loginWithCredentials, loginWithGoogle };

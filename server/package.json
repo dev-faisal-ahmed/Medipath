@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/app/server.ts",
     "seed:super-admin": "ts-node-dev --transpile-only src/seed/seed-super-admin.ts",
-    "pretty": "npx prettier --write ."
+    "pretty": "npx prettier --write .",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
