@@ -38,7 +38,7 @@ const admissionTransactionSchema = new Schema<IAdmissionTransaction>({
 });
 
 const utilityExpenseTransactionSchema = new Schema<IUtilityExpenseTransaction>({
-  categoryId: { type: Schema.Types.ObjectId, ref: MODEL.EXPENSE_CATEGORY },
+  categoryId: { type: Schema.Types.ObjectId, ref: MODEL.CATEGORY },
 });
 
 const referrerExpenseTransactionSchema = new Schema<IReferrerExpenseTransaction>({

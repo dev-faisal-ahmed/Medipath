@@ -1,14 +1,16 @@
-import { IExpenseCategory } from './expense-category.interface';
 import { model, Schema } from 'mongoose';
+import { ICategory } from './category.interface';
+import { MODE } from '../../utils/type';
 import { MODEL } from '../model-names';
 import { transformJson } from '../../helpers';
 
-const expenseCategorySchema = new Schema<IExpenseCategory>(
+const categorySchema = new Schema<ICategory>(
   {
     name: { type: String, required: true },
+    mode: { type: String, enum: Object.values(MODE) },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true, toJSON: { transform: transformJson } },
 );
 
-export const ExpenseCategory = model<IExpenseCategory>(MODEL.EXPENSE_CATEGORY, expenseCategorySchema);
+export const Category = model<ICategory>(MODEL.CATEGORY, categorySchema);

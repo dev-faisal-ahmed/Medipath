@@ -13,3 +13,8 @@ export interface TServerResponse<TData> {
 }
 
 export type TObject<TData = string> = Record<string, TData>;
+
+export enum MODE {
+  CLINIC = 'CLINIC',
+  PATHOLOGY = 'PATHOLOGY',
+}
