@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 
-import { TAddBillPayload, TTakeDuePayload } from './bill.validation';
-import { AppError } from '../../utils';
-import { billHelper } from './bill.helper';
 import { Bill } from './bill.model';
-import { Transaction } from '../transaction/transaction.model';
-import { TRANSACTION_CATEGORY, TRANSACTION_TYPE } from '../transaction/transaction.interface';
-import { TObject } from '../../utils/type';
+import { billHelper } from './bill.helper';
+import { AppError } from '../../utils';
 import { generateMeta, getPageParams, getSearchQuery } from '../../helpers';
+import { TAddBillPayload, TTakeDuePayload } from './bill.validation';
+import { TRANSACTION_TYPE } from '../transaction/transaction.interface';
+import { BillTransaction } from '../transaction/transaction.model';
+import { TObject } from '../../utils/type';
 
 const addBill = async (payload: TAddBillPayload) => {
   const session = await mongoose.startSession();
@@ -47,12 +47,11 @@ const addBill = async (payload: TAddBillPayload) => {
     if (!bill) throw new AppError('Failed to create bill', 400);
 
     // creating transactions
-    const [transaction] = await Transaction.create(
+    const [transaction] = await BillTransaction.create(
       [
         {
           amount: payload.paid || 0,
           billId: bill._id,
-          category: TRANSACTION_CATEGORY.SERVICE_REVENUE,
           type: TRANSACTION_TYPE.REVENUE,
           description: `Collected Payment ${payload.paid} TK`,
         },
@@ -105,7 +104,7 @@ const getBillDetails = async (billId: string) => {
       },
     },
     { $addFields: { agent: { $arrayElemAt: ['$agent', 0] }, doctor: { $arrayElemAt: ['$doctor', 0] } } },
-    { $project: { __v: 0, updatedAt: 0, referrerCommission: 0, visitCommission: 0 } },
+    { $project: { referrerCommission: 0, visitCommission: 0 } },
   ]);
 
   return billDetails;

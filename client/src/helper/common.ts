@@ -31,7 +31,7 @@ interface IZodNumberArgs {
 }
 
 export const zodNumber = ({ min, message }: IZodNumberArgs) => {
-  return z.string().refine((value) => value && Number(value) >= min, { message });
+  return z.string().refine((value) => !value || Number(value) >= min, { message });
 };
 
 export const generateNextPageParams = (): GetNextPageParamFunction<number, TServerResponse<unknown>> => {

@@ -77,9 +77,9 @@ export const AddBill = () => {
             <PatientInfo />
             <SelectReferrers />
             <BillPrice />
-            <div className="mt-2 flex items-center justify-end gap-2 sm:col-span-2 [&>button]:w-28">
+            <div className="mt-2 flex items-center justify-end gap-2 sm:col-span-2">
               <Button type="button" variant="destructive" onClick={() => form.reset()}>
-                Reset
+                Reset Form
               </Button>
               <Button type="submit" isLoading={isPending}>
                 {isPending ? 'Generating' : 'Generate Bill'}

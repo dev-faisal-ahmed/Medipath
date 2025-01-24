@@ -5,20 +5,30 @@ export enum TRANSACTION_TYPE {
   EXPENSE = 'EXPENSE',
 }
 
-export enum TRANSACTION_CATEGORY {
-  SERVICE_REVENUE = 'SERVICE_REVENUE',
-  REFERER_EXPENSE = 'REFERER_EXPENSE',
-  UTILITY_EXPENSE = 'UTILITY_EXPENSE',
-}
-
 export interface ITransaction {
   id: Schema.Types.ObjectId;
   amount: number;
   date: Date;
   description?: string;
   type: TRANSACTION_TYPE;
-  // billId: Schema.Types.ObjectId;
-  // referrerId: Schema.Types.ObjectId;
-  // type: TRANSACTION_TYPE;
-  // category: TRANSACTION_CATEGORY;
+}
+
+export interface IBillTransaction extends ITransaction {
+  billId: Schema.Types.ObjectId;
+}
+
+export interface IAdmissionTransaction extends ITransaction {
+  admissionId: Schema.Types.ObjectId;
+}
+
+export interface IUtilityExpenseTransaction extends ITransaction {
+  categoryId: Schema.Types.ObjectId;
+}
+
+export interface IReferrerExpenseTransaction extends ITransaction {
+  referrerId: Schema.Types.ObjectId;
+}
+
+export interface IDoctorOperationTransaction extends ITransaction {
+  doctorId: Schema.Types.ObjectId;
 }

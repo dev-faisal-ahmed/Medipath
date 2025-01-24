@@ -1,8 +1,8 @@
 'use client';
 
 import { CommonFormFiled, CommonSelect } from '@/components/shared/form';
-import { useFormContext } from 'react-hook-form';
 import { TAddBillForm } from './add-bill-form.schema';
+import { useFormContext } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { AGE_TITLE, GENDER } from '@/types';
 
@@ -19,7 +19,12 @@ export const PatientInfo = () => {
       <CommonFormFiled control={control} name="patientInfo.age" label="Age">
         {({ field }) => (
           <div className="group flex h-input rounded-md border py-0 pl-3 focus-within:ring-1 focus-within:ring-ring">
-            <input className="w-full bg-transparent outline-none" type="number" placeholder="Input age" {...field} />
+            <input
+              className="w-full bg-transparent pr-2 outline-none"
+              type="number"
+              placeholder="Input age"
+              {...field}
+            />
             <CommonSelect
               options={Object.entries(AGE_TITLE).map(([label, value]) => ({ label, value }))}
               placeholder="Select age title"

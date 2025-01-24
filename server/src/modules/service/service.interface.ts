@@ -4,6 +4,6 @@ export interface IService {
   id: Schema.Types.ObjectId;
   name: string;
   price: number;
-  roomNo: string;
+  roomNo?: string;
   isDeleted: boolean;
 }

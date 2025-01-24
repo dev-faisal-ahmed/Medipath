@@ -10,6 +10,7 @@ import { useFormContext } from 'react-hook-form';
 import { TAddBillForm } from './add-bill-form.schema';
 import { useQuery } from '@tanstack/react-query';
 import { Loading } from '@/components/ui/loader';
+import { Message } from '@/components/shared';
 
 export const SelectReferrers = () => {
   const { control } = useFormContext<TAddBillForm>();
@@ -42,14 +43,20 @@ export const SelectReferrers = () => {
                 <Loading />
               ) : (
                 <>
-                  {referrers?.doctors.map((doctor) => (
-                    <SelectItem key={doctor.id} value={doctor.id}>
-                      {doctor.name}
-                      {doctor.designation && (
-                        <span className="ml-2 text-xs text-muted-foreground">({doctor.designation})</span>
-                      )}
-                    </SelectItem>
-                  ))}
+                  {referrers?.doctors?.length ? (
+                    <>
+                      {referrers?.doctors.map((doctor) => (
+                        <SelectItem key={doctor.id} value={doctor.id}>
+                          {doctor.name}
+                          {doctor.designation && (
+                            <span className="ml-2 text-xs text-muted-foreground">({doctor.designation})</span>
+                          )}
+                        </SelectItem>
+                      ))}
+                    </>
+                  ) : (
+                    <Message message="No doctor found" className="p-2 font-medium" />
+                  )}
                 </>
               )}
             </SelectContent>
@@ -68,14 +75,20 @@ export const SelectReferrers = () => {
                 <Loading />
               ) : (
                 <>
-                  {referrers?.agents.map((agent) => (
-                    <SelectItem key={agent.id} value={agent.id}>
-                      {agent.name}
-                      {agent.designation && (
-                        <span className="ml-2 text-xs text-muted-foreground">({agent.designation})</span>
-                      )}
-                    </SelectItem>
-                  ))}
+                  {referrers?.agents.length ? (
+                    <>
+                      {referrers?.agents.map((agent) => (
+                        <SelectItem key={agent.id} value={agent.id}>
+                          {agent.name}
+                          {agent.designation && (
+                            <span className="ml-2 text-xs text-muted-foreground">({agent.designation})</span>
+                          )}
+                        </SelectItem>
+                      ))}
+                    </>
+                  ) : (
+                    <Message message="No agent found" className="p-2 font-medium" />
+                  )}
                 </>
               )}
             </SelectContent>
