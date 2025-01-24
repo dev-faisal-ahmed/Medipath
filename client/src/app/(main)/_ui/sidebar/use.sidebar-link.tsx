@@ -18,7 +18,7 @@ export const useSidebarLinks = () => {
   const sidebarLinks = useMemo(() => {
     const exactMath = (link: string) => pathname === link;
     const partialMatch = (link: string) => pathname.startsWith(link);
-    const matchList = (links: string[]) => links.includes(pathname);
+    // const matchList = (links: string[]) => links.includes(pathname);
 
     const links: ISidebarLink[] = [
       { title: 'Dashboard', url: '/', icon: <MdSpaceDashboard size={20} />, isActive: exactMath('/') },
@@ -31,7 +31,7 @@ export const useSidebarLinks = () => {
       {
         title: 'Bill',
         icon: <RiBillFill size={20} />,
-        isActive: matchList(['/bills', '/bill/add']) || partialMatch('/bill'),
+        isActive: partialMatch('/bill'),
         items: [
           { title: 'Bills', url: '/bills', isActive: exactMath('/bills') },
           { title: 'Bill Entry', url: '/bill/add', isActive: exactMath('/bill/add') },
@@ -48,7 +48,8 @@ export const useSidebarLinks = () => {
         icon: <RiWalletFill size={20} />,
         isActive: partialMatch('/expense'),
         items: [
-          { title: 'Expense Categories', url: '/expense/categories', isActive: exactMath('/expense/categories') },
+          { title: 'Expense Categories', url: '/expense/categories', isActive: partialMatch('/expense/categories') },
+          { title: 'Expenses', url: '/expenses', isActive: partialMatch('/expenses') },
         ],
       },
     ];
