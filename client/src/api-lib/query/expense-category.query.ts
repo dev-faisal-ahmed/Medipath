@@ -7,4 +7,10 @@ export const addExpenseCategory = async (payload: TAddExpenseCategoryPayload): P
   return data;
 };
 
+export const getExpenseCategoryList = async (): Promise<IServerResponse<TExpenseCategoryList[]>> => {
+  const { data } = await axiosInstance.get(apiUrl.getExpenseCategoryList);
+  return data;
+};
+
 type TAddExpenseCategoryPayload = { name: string };
+type TExpenseCategoryList = { _id: string; name: string };

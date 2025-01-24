@@ -22,4 +22,5 @@ export const apiUrl = {
   takeDue: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}/take-due`,
   // expense category
   addExpenseCategory: `${SERVER_ADDRESS}/expense-category`,
+  getExpenseCategoryList: `${SERVER_ADDRESS}/expense-category/list`,
 };
