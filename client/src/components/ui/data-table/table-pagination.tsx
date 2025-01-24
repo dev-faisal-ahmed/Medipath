@@ -4,33 +4,28 @@ import { Button } from '../button';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 
-interface ITabelPaginationProps {
-  page: number;
-  totalPages: number;
-}
-
-export const TablePagination = ({ page, totalPages }: ITabelPaginationProps) => {
+export const TablePagination = ({ page, totalPages }: TTabelPaginationProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
-  function navigate(page: number) {
+  const navigate = (page: number) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', page.toString());
     router.replace(`${pathname}?${params.toString()}`);
-  }
+  };
 
-  function goNext() {
+  const goNext = () => {
     navigate(page + 1);
-  }
+  };
 
-  function goPrevious() {
+  const goPrevious = () => {
     navigate(page - 1);
-  }
+  };
 
-  function goTo(pageNumber: number) {
+  const goTo = (pageNumber: number) => {
     navigate(pageNumber);
-  }
+  };
 
   return (
     <div className="sticky bottom-0 flex h-16 items-center justify-between gap-4 border-t bg-neutral-100 px-4">
@@ -62,4 +57,9 @@ export const TablePagination = ({ page, totalPages }: ITabelPaginationProps) => 
       </Button>
     </div>
   );
+};
+
+type TTabelPaginationProps = {
+  page: number;
+  totalPages: number;
 };

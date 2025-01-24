@@ -4,23 +4,14 @@ import { FaXRay, FaUserDoctor } from 'react-icons/fa6';
 import { RiBillFill, RiWalletFill } from 'react-icons/ri';
 import { usePathname } from 'next/navigation';
 
-export interface ISidebarLink {
-  title: string;
-  icon: ReactNode;
-  isActive: boolean;
-  items?: { title: string; url: string; isActive: boolean }[];
-  url?: string;
-}
-
 export const useSidebarLinks = () => {
   const pathname = usePathname();
 
   const sidebarLinks = useMemo(() => {
     const exactMath = (link: string) => pathname === link;
     const partialMatch = (link: string) => pathname.startsWith(link);
-    // const matchList = (links: string[]) => links.includes(pathname);
 
-    const links: ISidebarLink[] = [
+    const links: TSidebarLink[] = [
       { title: 'Dashboard', url: '/', icon: <MdSpaceDashboard size={20} />, isActive: exactMath('/') },
       {
         title: 'Service',
@@ -58,4 +49,12 @@ export const useSidebarLinks = () => {
   }, [pathname]);
 
   return { sidebarLinks };
+};
+
+export type TSidebarLink = {
+  title: string;
+  icon: ReactNode;
+  isActive: boolean;
+  items?: { title: string; url: string; isActive: boolean }[];
+  url?: string;
 };

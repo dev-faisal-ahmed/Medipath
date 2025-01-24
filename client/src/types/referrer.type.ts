@@ -3,8 +3,8 @@ export enum REFERRER_TYPE {
   DOCTOR = 'DOCTOR',
 }
 
-export interface IReferrer {
-  _id: string;
+export interface TReferrer {
+  id: string;
   name: string;
   designation?: string;
   type: REFERRER_TYPE;

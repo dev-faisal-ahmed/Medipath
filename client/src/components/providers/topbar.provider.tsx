@@ -4,7 +4,7 @@ import { useDebounce } from '@/hooks';
 import { createContext, PropsWithChildren, useState, ReactNode, useCallback, useMemo, useEffect } from 'react';
 
 // context
-export const TopbarContext = createContext<ITopbarContext | null>(null);
+export const TopbarContext = createContext<TTopbarContext | null>(null);
 
 // provider
 export const TopbarProvider = ({ children }: PropsWithChildren) => {
@@ -51,7 +51,7 @@ export const TopbarProvider = ({ children }: PropsWithChildren) => {
 };
 
 // interface
-interface ITopbarContext {
+type TTopbarContext = {
   search: string;
   searchTerm: string;
   isSearchbarShown: boolean;
@@ -61,4 +61,4 @@ interface ITopbarContext {
   updateIsSearchbarShown(value: boolean): void;
   updateHeaderChild(child: ReactNode | null): void;
   updateHeaderTitle(title: ReactNode | string): void;
-}
+};

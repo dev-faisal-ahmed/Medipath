@@ -8,8 +8,8 @@ export enum PROVIDER {
   GOGGLE = 'GOOGLE',
 }
 
-export interface IUser {
-  _id: string;
+export interface TUser {
+  id: string;
   email: string;
   name: string;
   role: USER_ROLE;
@@ -17,4 +17,4 @@ export interface IUser {
   isDeleted: boolean;
 }
 
-export type TLoggedUser = Omit<IUser, 'isDeleted'>;
+export type TLoggedUser = Omit<TUser, 'isDeleted'>;

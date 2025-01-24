@@ -3,12 +3,12 @@
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
-import { ChevronDownIcon } from 'lucide-react';
-import { ISidebarLink } from './use.sidebar-link';
 import { ReactNode } from 'react';
+import { ChevronDownIcon } from 'lucide-react';
+import { TSidebarLink } from './use.sidebar-link';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
-export const SidebarLink = ({ title, items, icon, isActive, url }: ISidebarLink) => {
+export const SidebarLink = ({ title, items, icon, isActive, url }: TSidebarLink) => {
   if (items)
     return (
       <Collapsible>
@@ -41,15 +41,7 @@ export const SidebarLink = ({ title, items, icon, isActive, url }: ISidebarLink)
   return <ActiveLink title={title} url={url!} icon={icon} isActive={isActive} />;
 };
 
-interface IActiveLinkProps {
-  url: string;
-  title: string;
-  className?: string;
-  isActive?: boolean;
-  icon?: ReactNode;
-}
-
-const ActiveLink = ({ url, title, isActive, className, icon }: IActiveLinkProps) => {
+const ActiveLink = ({ url, title, isActive, className, icon }: TActiveLinkProps) => {
   return (
     <Link
       href={url!}
@@ -64,3 +56,6 @@ const ActiveLink = ({ url, title, isActive, className, icon }: IActiveLinkProps)
     </Link>
   );
 };
+
+// types
+type TActiveLinkProps = { url: string; title: string; className?: string; isActive?: boolean; icon?: ReactNode };

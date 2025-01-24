@@ -3,7 +3,7 @@
 import { QK } from '@/api-lib';
 import { FormDialog } from '@/components/shared/form';
 import { usePopupState } from '@/hooks';
-import { IReferrer } from '@/types';
+import { TReferrer } from '@/types';
 import { ReferrerForm, TReferrerForm } from './referrer.form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateReferrer } from '@/api-lib/query';
@@ -11,15 +11,10 @@ import { toast } from 'sonner';
 import { errorMessageGen } from '@/helper';
 import { ActionButton } from '@/components/ui/button';
 
-interface IProps {
-  referrer: IReferrer;
-  onActionDropdownChange(open: boolean): void;
-}
-
-export const UpdateReferrer = ({ referrer, onActionDropdownChange }: IProps) => {
+export const UpdateReferrer = ({ referrer, onActionDropdownChange }: TUpdateReferrerProps) => {
   const { open, onOpenChange } = usePopupState();
   const qc = useQueryClient();
-  const formId = `${QK.REFERRER}_UPDATE_${referrer._id}`;
+  const formId = `${QK.REFERRER}_UPDATE_${referrer.id}`;
 
   const { mutate } = useMutation({
     mutationKey: [formId],
@@ -34,7 +29,7 @@ export const UpdateReferrer = ({ referrer, onActionDropdownChange }: IProps) => 
   });
 
   const onUpdateReferrer = (formData: TReferrerForm) => {
-    mutate({ ...formData, _id: referrer._id });
+    mutate({ ...formData, id: referrer.id });
   };
 
   return (
@@ -63,3 +58,5 @@ export const UpdateReferrer = ({ referrer, onActionDropdownChange }: IProps) => 
     </>
   );
 };
+
+type TUpdateReferrerProps = { referrer: TReferrer; onActionDropdownChange(open: boolean): void };

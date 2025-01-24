@@ -13,17 +13,6 @@ import { Button } from '../../ui/button';
 import { useIsMutating } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 
-interface IProps {
-  formId: string;
-  title: string;
-  description?: string;
-  children: ReactNode;
-  submitButtonTitle?: string;
-  submitLoadingTitle?: string;
-  open: boolean;
-  onOpenChange(open: boolean): void;
-}
-
 export const FormDialog = ({
   formId,
   title,
@@ -33,7 +22,7 @@ export const FormDialog = ({
   submitLoadingTitle,
   open,
   onOpenChange,
-}: IProps) => {
+}: TFormDialogProps) => {
   const isMutating = useIsMutating({ mutationKey: [formId] });
 
   return (
@@ -55,4 +44,15 @@ export const FormDialog = ({
       </DialogContent>
     </Dialog>
   );
+};
+
+type TFormDialogProps = {
+  formId: string;
+  title: string;
+  description?: string;
+  children: ReactNode;
+  submitButtonTitle?: string;
+  submitLoadingTitle?: string;
+  open: boolean;
+  onOpenChange(open: boolean): void;
 };

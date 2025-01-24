@@ -32,13 +32,13 @@ export const SelectServices = () => {
 
   const serviceList = useMemo(() => {
     const selectedMap = selectedServices.reduce((acc: TObject<boolean>, service) => {
-      acc[service._id] = true;
+      acc[service.id] = true;
       return acc;
     }, {});
 
     const searchLowerCase = searchTerm.toLowerCase();
     const filteredServices = serviceData?.data.filter((service) => {
-      if (!selectedMap[service._id] && service.name.toLowerCase().includes(searchLowerCase)) return true;
+      if (!selectedMap[service.id] && service.name.toLowerCase().includes(searchLowerCase)) return true;
       return false;
     });
 
@@ -88,7 +88,7 @@ const SelectedServiceList = ({ field, services }: ISelectedServiceListProps) => 
 
   const onRemoveService = (e: MouseEvent<HTMLDivElement>, serviceId: string) => {
     e.preventDefault();
-    const remServices = services.filter((service) => service._id !== serviceId);
+    const remServices = services.filter((service) => service.id !== serviceId);
     field.onChange(remServices);
   };
 
@@ -103,10 +103,10 @@ const SelectedServiceList = ({ field, services }: ISelectedServiceListProps) => 
         <ScrollArea className="h-full">
           <div className="flex flex-wrap gap-2">
             {services.map((service) => (
-              <Badge key={service._id} className="flex items-center gap-3">
+              <Badge key={service.id} className="flex items-center gap-3">
                 {service.name}
                 <div
-                  onClick={(e) => onRemoveService(e, service._id)}
+                  onClick={(e) => onRemoveService(e, service.id)}
                   className="cursor-pointer rounded-md p-1 hover:bg-primary"
                 >
                   <XIcon size={16} />
@@ -145,7 +145,7 @@ const ServiceList = ({ isLoading, services, selectedServices, field }: IServiceL
           {services.map((service) => (
             <button
               onClick={() => field.onChange([...selectedServices, service])}
-              key={service._id}
+              key={service.id}
               className="flex items-center justify-between px-4 py-1 text-start transition hover:bg-primary hover:text-white"
             >
               <div>

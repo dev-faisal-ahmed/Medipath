@@ -14,16 +14,7 @@ import { ActionButton, Button } from '../ui/button';
 import { AlertDialogCancel } from '@radix-ui/react-alert-dialog';
 import { useIsMutating } from '@tanstack/react-query';
 
-interface IProps {
-  mutationKey: string;
-  title: string;
-  description: string;
-  onDelete(): void;
-  open: boolean;
-  onOpenChange(open: boolean): void;
-}
-
-export const DeleteDialog = ({ mutationKey, title, description, onDelete, open, onOpenChange }: IProps) => {
+export const DeleteDialog = ({ mutationKey, title, description, onDelete, open, onOpenChange }: TDeleteDialogProps) => {
   const isMutating = useIsMutating({ mutationKey: [mutationKey] });
 
   return (
@@ -47,4 +38,13 @@ export const DeleteDialog = ({ mutationKey, title, description, onDelete, open, 
       </AlertDialogContent>
     </AlertDialog>
   );
+};
+
+type TDeleteDialogProps = {
+  mutationKey: string;
+  title: string;
+  description: string;
+  onDelete(): void;
+  open: boolean;
+  onOpenChange(open: boolean): void;
 };

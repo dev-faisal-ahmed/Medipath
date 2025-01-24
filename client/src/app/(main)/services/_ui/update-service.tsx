@@ -1,7 +1,7 @@
 'use client';
 
 import { ActionButton } from '@/components/ui/button';
-import { IService } from '@/types';
+import { TService } from '@/types';
 import { ServiceForm, TServiceForm } from './service.form';
 import { QK } from '@/api-lib';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -11,13 +11,8 @@ import { errorMessageGen } from '@/helper';
 import { FormDialog } from '@/components/shared/form';
 import { usePopupState } from '@/hooks';
 
-interface IProps {
-  service: IService;
-  onActionDropdownChange(open: boolean): void;
-}
-
-export const UpdateService = ({ service, onActionDropdownChange }: IProps) => {
-  const formId = `${QK.SERVICE}_UPDATE_${service._id}`;
+export const UpdateService = ({ service, onActionDropdownChange }: TUpdateServiceProps) => {
+  const formId = `${QK.SERVICE}_UPDATE_${service.id}`;
   const { open, onOpenChange } = usePopupState();
 
   const qc = useQueryClient();
@@ -35,9 +30,9 @@ export const UpdateService = ({ service, onActionDropdownChange }: IProps) => {
 
   const handleUpdateService = (formData: TServiceForm) => {
     const price = Number(formData.price);
-    const serviceId = service._id;
+    const serviceId = service.id;
 
-    mutate({ _id: serviceId, ...formData, price });
+    mutate({ id: serviceId, ...formData, price });
   };
 
   return (
@@ -60,4 +55,9 @@ export const UpdateService = ({ service, onActionDropdownChange }: IProps) => {
       </FormDialog>
     </>
   );
+};
+
+type TUpdateServiceProps = {
+  service: TService;
+  onActionDropdownChange(open: boolean): void;
 };

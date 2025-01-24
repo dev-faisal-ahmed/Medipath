@@ -11,7 +11,6 @@ import { useAuth } from '@/hooks';
 import { ProfileIcon } from '@/components/shared';
 import { cn } from '@/lib/utils';
 
-type SidebarProps = { className?: string };
 export const Sidebar = ({ className }: SidebarProps) => {
   const { sidebarLinks } = useSidebarLinks();
   const { data: session } = useAuth();
@@ -46,3 +45,5 @@ export const Sidebar = ({ className }: SidebarProps) => {
     </aside>
   );
 };
+
+type SidebarProps = { className?: string };

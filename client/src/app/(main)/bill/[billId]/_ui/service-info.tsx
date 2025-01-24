@@ -1,10 +1,6 @@
-import { IService } from '@/types/service.type';
+import { TBillDetails } from '@/api-lib/query';
 
-type TProps = {
-  services: Omit<IService, '_id'>[];
-};
-
-export const ServicesInfo = ({ services }: TProps) => {
+export const ServicesInfo = ({ services }: TServicesInfoProps) => {
   return (
     <>
       <h3 className="mb-3 mt-8 text-lg font-bold">Services</h3>
@@ -31,3 +27,6 @@ export const ServicesInfo = ({ services }: TProps) => {
     </>
   );
 };
+
+// types
+type TServicesInfoProps = Pick<TBillDetails, 'services'>;

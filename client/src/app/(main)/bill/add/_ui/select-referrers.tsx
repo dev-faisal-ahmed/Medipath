@@ -43,7 +43,7 @@ export const SelectReferrers = () => {
               ) : (
                 <>
                   {referrers?.doctors.map((doctor) => (
-                    <SelectItem key={doctor._id} value={doctor._id}>
+                    <SelectItem key={doctor.id} value={doctor.id}>
                       {doctor.name}
                       {doctor.designation && (
                         <span className="ml-2 text-xs text-muted-foreground">({doctor.designation})</span>
@@ -69,7 +69,7 @@ export const SelectReferrers = () => {
               ) : (
                 <>
                   {referrers?.agents.map((agent) => (
-                    <SelectItem key={agent._id} value={agent._id}>
+                    <SelectItem key={agent.id} value={agent.id}>
                       {agent.name}
                       {agent.designation && (
                         <span className="ml-2 text-xs text-muted-foreground">({agent.designation})</span>

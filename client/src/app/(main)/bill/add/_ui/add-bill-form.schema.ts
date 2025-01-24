@@ -2,7 +2,7 @@ import { wordCapitalize, zodNumber } from '@/helper';
 import { z } from 'zod';
 
 const serviceSubSchema = z.object({
-  _id: z.string(),
+  id: z.string(),
   name: z.string().refine((value) => wordCapitalize(value)),
   price: z.number(),
   roomNo: z.string(),

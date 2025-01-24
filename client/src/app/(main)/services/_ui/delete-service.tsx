@@ -8,12 +8,7 @@ import { usePopupState } from '@/hooks';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-interface IProps {
-  serviceId: string;
-  onActionDropdownChange(open: boolean): void;
-}
-
-export const DeleteService = ({ serviceId, onActionDropdownChange }: IProps) => {
+export const DeleteService = ({ serviceId, onActionDropdownChange }: TDeleteServiceProps) => {
   const { open, onOpenChange } = usePopupState();
   const qc = useQueryClient();
   const mutationKey = `${QK.SERVICE}_DELETE_${serviceId}`;
@@ -41,3 +36,5 @@ export const DeleteService = ({ serviceId, onActionDropdownChange }: IProps) => 
     />
   );
 };
+
+type TDeleteServiceProps = { serviceId: string; onActionDropdownChange(open: boolean): void };

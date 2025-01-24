@@ -1,12 +1,7 @@
 import { cn } from '@/lib/utils';
 import { FaHandHoldingMedical } from 'react-icons/fa6';
 
-interface IProps {
-  className?: string;
-  hideTitle?: boolean;
-}
-
-export const AppLogo = ({ className, hideTitle }: IProps) => {
+export const AppLogo = ({ className, hideTitle }: TAppLogoProps) => {
   return (
     <div className={cn('flex items-center gap-2', className)}>
       <span className="text-primary">
@@ -21,3 +16,6 @@ export const AppLogo = ({ className, hideTitle }: IProps) => {
     </div>
   );
 };
+
+// types
+type TAppLogoProps = { className?: string; hideTitle?: boolean };

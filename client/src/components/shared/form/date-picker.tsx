@@ -7,7 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calender';
 import { CalendarDaysIcon } from 'lucide-react';
 
-export const DatePicker = ({ date, onChange, disabled }: IDatePickerProps) => {
+export const DatePicker = ({ date, onChange, disabled }: TDatePickerProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -26,8 +26,5 @@ export const DatePicker = ({ date, onChange, disabled }: IDatePickerProps) => {
   );
 };
 
-interface IDatePickerProps {
-  date: Date;
-  onChange(date: Date): void;
-  disabled?(date: Date): boolean;
-}
+// type
+type TDatePickerProps = { date: Date; onChange(date: Date): void; disabled?(date: Date): boolean };

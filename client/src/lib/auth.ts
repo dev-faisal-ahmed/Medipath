@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
 import { axiosInstance } from './axios';
-import { IServerResponse, PROVIDER, TLoggedUser, USER_ROLE } from '../types';
+import { TServerResponse, PROVIDER, TLoggedUser, USER_ROLE } from '../types';
 import { generateAccessToken } from '@/helper';
 import { AxiosError } from 'axios';
 import { apiUrl } from '@/api-lib';
@@ -14,7 +14,6 @@ declare module 'next-auth' {
   }
 
   interface User {
-    _id: string;
     role: USER_ROLE;
     provider: PROVIDER;
   }
@@ -28,7 +27,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         const { email, password } = credentials;
         try {
           const response = await axiosInstance.post(apiUrl.loginWithCredentials, { email, password });
-          const { data: userInfo } = response.data as IServerResponse<TLoggedUser>;
+          const { data: userInfo } = response.data as TServerResponse<TLoggedUser>;
           return userInfo;
         } catch (error) {
           let message = 'Invalid credentials';
@@ -43,7 +42,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
     jwt: ({ token, user }) => {
       if (user) {
-        const accessToken = generateAccessToken({ ...user, name: user.name!, email: user.email! });
+        const accessToken = generateAccessToken({ ...user, id: user.id!, name: user.name!, email: user.email! });
         Object.assign(token, { user, accessToken });
       }
       return token;

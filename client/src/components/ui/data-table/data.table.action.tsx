@@ -12,13 +12,7 @@ import { ReactNode } from 'react';
 import { Button } from '../button';
 import { EllipsisIcon } from 'lucide-react';
 
-interface IProps {
-  open: boolean;
-  onOpenChange(open: boolean): void;
-  children: ReactNode;
-}
-
-export const DataTableAction = ({ open, onOpenChange, children }: IProps) => {
+export const DataTableAction = ({ open, onOpenChange, children }: TDataTableActionProps) => {
   return (
     <DropdownMenu open={open} onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild>
@@ -34,3 +28,6 @@ export const DataTableAction = ({ open, onOpenChange, children }: IProps) => {
     </DropdownMenu>
   );
 };
+
+// type
+type TDataTableActionProps = { open: boolean; onOpenChange(open: boolean): void; children: ReactNode };

@@ -1,4 +1,4 @@
-import { IServerResponse } from '@/types';
+import { TServerResponse } from '@/types';
 import { GetNextPageParamFunction } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { z } from 'zod';
@@ -34,7 +34,7 @@ export const zodNumber = ({ min, message }: IZodNumberArgs) => {
   return z.string().refine((value) => value && Number(value) >= min, { message });
 };
 
-export const generateNextPageParams = (): GetNextPageParamFunction<number, IServerResponse<unknown>> => {
+export const generateNextPageParams = (): GetNextPageParamFunction<number, TServerResponse<unknown>> => {
   return (lastPage) => {
     if (!lastPage) return undefined;
 

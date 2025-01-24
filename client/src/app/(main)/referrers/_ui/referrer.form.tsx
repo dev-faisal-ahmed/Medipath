@@ -8,13 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-interface IProps {
-  formId: string;
-  defaultValues?: TReferrerForm;
-  onSubmit(formData: TReferrerForm): void;
-}
-
-export const ReferrerForm = ({ formId, onSubmit, defaultValues }: IProps) => {
+export const ReferrerForm = ({ formId, onSubmit, defaultValues }: TReferrerFormProps) => {
   const form = useForm<TReferrerForm>({
     resolver: zodResolver(referrerFormSchema),
     defaultValues: defaultValues || { name: '', designation: '', phone: '' },
@@ -54,4 +48,6 @@ const referrerFormSchema = z.object({
   phone: z.string().optional(),
 });
 
+// type
 export type TReferrerForm = z.infer<typeof referrerFormSchema>;
+type TReferrerFormProps = { formId: string; defaultValues?: TReferrerForm; onSubmit(formData: TReferrerForm): void };

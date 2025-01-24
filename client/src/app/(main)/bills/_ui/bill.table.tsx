@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { IBill } from '@/types';
+import { TBill } from '@/types';
 import { QK } from '@/api-lib';
 import { getBills } from '@/api-lib/query';
 import { DataTable } from '@/components/ui/data-table';
@@ -35,7 +35,7 @@ export const BillTable = () => {
   const totalPages = billData?.meta?.totalPages || 1;
   const offset = (page - 1) * limit;
 
-  const column: ColumnDef<IBill>[] = [
+  const column: ColumnDef<TBill>[] = [
     { id: 'serial', header: 'SL.', cell: ({ row }) => <span>{offset + row.index + 1}</span> },
     { accessorKey: 'billId', header: 'Bill Id' },
     {
@@ -48,7 +48,7 @@ export const BillTable = () => {
       header: 'Services',
       cell: ({ getValue }) => (
         <div className="flex flex-col gap-2">
-          {getValue<IBill['services']>().map((service, index) => (
+          {getValue<TBill['services']>().map((service, index) => (
             <li key={index}>{service.name}</li>
           ))}
         </div>
@@ -90,15 +90,15 @@ export const BillTable = () => {
     {
       id: 'action',
       cell: ({ row }) => {
-        const { paid, price, discount, _id } = row.original;
+        const { paid, price, discount, id } = row.original;
         const due = price - (paid || 0) - (discount || 0);
 
         return (
           <div className="mx-auto flex w-fit flex-col gap-2">
             <Button variant="outline" asChild>
-              <Link href={`/bill/${_id}`}>View Receipt</Link>
+              <Link href={`/bill/${id}`}>View Receipt</Link>
             </Button>
-            {due ? <TakeDue billId={_id} /> : <Button variant="secondary">Already Paid</Button>}
+            {due ? <TakeDue billId={id} /> : <Button variant="secondary">Already Paid</Button>}
           </div>
         );
       },

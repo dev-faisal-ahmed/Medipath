@@ -9,8 +9,8 @@ import { ProfileMenu } from './profile-menu';
 import { ProfileIcon } from '@/components/shared';
 import { TooltipContainer } from '@/components/ui/tooltip';
 import { useTopbarContext } from '@/hooks';
-import { Sidebar } from './sidebar';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { Sidebar } from './sidebar';
 
 export const Topbar = () => {
   const { isSearchbarShown, headerTitle, headerChild, updateSearch, search } = useTopbarContext();

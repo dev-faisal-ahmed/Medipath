@@ -1,37 +1,40 @@
 import { apiUrl } from '../api-url';
 import { removeEmptyProperty } from '@/helper';
-import { IServerResponse, TObject, IReferrer } from '@/types';
 import { axiosInstance } from '@/lib/axios';
+import { TServerResponse, TObject, TReferrer } from '@/types';
 
-type TAddReferrerPayload = Pick<IReferrer, 'name' | 'designation' | 'type' | 'phone'>;
-export const addReferrer = async (payload: TAddReferrerPayload): Promise<IServerResponse<null>> => {
+// queries
+export const addReferrer = async (payload: TAddReferrerPayload): Promise<TServerResponse<null>> => {
   const refinedBody = removeEmptyProperty(payload);
   const { data } = await axiosInstance.post(apiUrl.addReferrer, refinedBody);
   return data;
 };
 
-export const getReferrers = async (args: TObject): Promise<IServerResponse<IReferrer[]>> => {
+export const getReferrers = async (args: TObject): Promise<TServerResponse<TReferrer[]>> => {
   const refinedArgs = removeEmptyProperty(args);
   const searchParams = new URLSearchParams(refinedArgs as TObject).toString();
   const { data } = await axiosInstance.get(apiUrl.getReferrers(searchParams ? `?${searchParams}` : ''));
   return data;
 };
 
-type TUpdateReferrerPayload = Pick<IReferrer, '_id' | 'name' | 'designation' | 'type' | 'phone'>;
-export const updateReferrer = async (payload: TUpdateReferrerPayload): Promise<IServerResponse<null>> => {
-  const { _id, ...rest } = payload;
+export const updateReferrer = async (payload: TUpdateReferrerPayload): Promise<TServerResponse<null>> => {
+  const { id, ...rest } = payload;
   const refinedBody = removeEmptyProperty(rest);
-  const { data } = await axiosInstance.patch(apiUrl.updateReferrer(_id), refinedBody);
+  const { data } = await axiosInstance.patch(apiUrl.updateReferrer(id), refinedBody);
   return data;
 };
 
-export const deleteReferrer = async (referrerId: string): Promise<IServerResponse<null>> => {
+export const deleteReferrer = async (referrerId: string): Promise<TServerResponse<null>> => {
   const { data } = await axiosInstance.delete(apiUrl.deleteReferrer(referrerId));
   return data;
 };
 
-export type TReferrerList = Pick<IReferrer, '_id' | 'name' | 'type' | 'designation'>;
-export const getReferrerList = async (): Promise<IServerResponse<TReferrerList[]>> => {
+export const getReferrerList = async (): Promise<TServerResponse<TReferrerList[]>> => {
   const { data } = await axiosInstance.get(apiUrl.getReferrerList);
   return data;
 };
+
+// type
+type TAddReferrerPayload = Pick<TReferrer, 'name' | 'designation' | 'type' | 'phone'>;
+type TUpdateReferrerPayload = Pick<TReferrer, 'id' | 'name' | 'designation' | 'type' | 'phone'>;
+export type TReferrerList = Pick<TReferrer, 'id' | 'name' | 'type' | 'designation'>;

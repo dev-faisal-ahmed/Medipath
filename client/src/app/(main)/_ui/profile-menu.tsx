@@ -1,26 +1,21 @@
 'use client';
 
+import { toast } from 'sonner';
+import { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { logOut } from '@/actions';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { EllipsisIcon, LockKeyholeIcon, LogOutIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ReactNode } from 'react';
-import { logOut } from '@/actions';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 
-interface IProps {
-  trigger?: ReactNode;
-  asChild?: boolean;
-  children?: ReactNode;
-}
-
-export const ProfileMenu = ({ trigger, asChild, children }: IProps) => {
+export const ProfileMenu = ({ trigger, asChild, children }: TProfileMenuProps) => {
   const router = useRouter();
-  async function onLogout() {
+
+  const onLogout = async () => {
     await logOut();
     toast.success('You have been logged out...');
     router.push('/auth/login');
-  }
+  };
 
   return (
     <DropdownMenu>
@@ -39,3 +34,6 @@ export const ProfileMenu = ({ trigger, asChild, children }: IProps) => {
     </DropdownMenu>
   );
 };
+
+// type
+type TProfileMenuProps = { trigger?: ReactNode; asChild?: boolean; children?: ReactNode };

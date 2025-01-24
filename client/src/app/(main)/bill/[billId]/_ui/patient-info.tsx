@@ -1,14 +1,7 @@
-import { IPatient } from '@/types';
+import { TBillDetails } from '@/api-lib/query';
 import { format } from 'date-fns';
 
-interface IProps {
-  billId: string;
-  date: Date | string;
-  patientInfo: IPatient;
-  doctor: { _id: string; name: string };
-}
-
-export const PatientInfo = ({ billId, date, patientInfo, doctor }: IProps) => {
+export const PatientInfo = ({ billId, date, patientInfo, doctor }: TPatientInfoProps) => {
   return (
     <div className="mt-8 grid grid-cols-[auto_1fr] gap-x-1 gap-y-2">
       {/* bill Id */}
@@ -58,3 +51,6 @@ export const PatientInfo = ({ billId, date, patientInfo, doctor }: IProps) => {
     </div>
   );
 };
+
+// types
+type TPatientInfoProps = Pick<TBillDetails, 'billId' | 'date' | 'patientInfo' | 'doctor'>;

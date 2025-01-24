@@ -3,16 +3,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useMemo } from 'react';
 import { Message } from '../message';
 
-interface IProps {
-  options: { label: string; value: string }[];
-  selected: string;
-  onSelectChange(value: string): void;
-  placeholder: string;
-  className?: { trigger?: string };
-  isLoading?: boolean;
-}
-
-export const CommonSelect = ({ options, selected, onSelectChange, placeholder, className, isLoading }: IProps) => {
+export const CommonSelect = ({
+  options,
+  selected,
+  onSelectChange,
+  placeholder,
+  className,
+  isLoading,
+}: TCommonSelectProps) => {
   const content = useMemo(() => {
     if (isLoading) return <Loading />;
     if (options.length === 0) return <Message message="No data found" />;
@@ -32,4 +30,14 @@ export const CommonSelect = ({ options, selected, onSelectChange, placeholder, c
       <SelectContent>{content}</SelectContent>
     </Select>
   );
+};
+
+// type
+type TCommonSelectProps = {
+  options: { label: string; value: string }[];
+  selected: string;
+  onSelectChange(value: string): void;
+  placeholder: string;
+  className?: { trigger?: string };
+  isLoading?: boolean;
 };

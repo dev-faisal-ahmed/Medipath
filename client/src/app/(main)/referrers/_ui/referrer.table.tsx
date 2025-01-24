@@ -1,7 +1,7 @@
 'use client';
 
 import { QK } from '@/api-lib';
-import { IReferrer } from '@/types';
+import { TReferrer } from '@/types';
 import { getReferrers } from '@/api-lib/query';
 import { DataTable, DataTableAction } from '@/components/ui/data-table';
 import { usePopupState, useTopbarContext } from '@/hooks';
@@ -30,7 +30,7 @@ export const ReferrerTable = () => {
   const totalPages = referrerData?.meta?.totalPages || 1;
   const offset = (page - 1) * limit;
 
-  const column: ColumnDef<IReferrer>[] = [
+  const column: ColumnDef<TReferrer>[] = [
     { id: 'serial', header: 'SL.', cell: ({ row }) => <span>{offset + row.index + 1}</span> },
     { accessorKey: 'name', header: 'Name' },
     { accessorKey: 'type', header: 'Type' },
@@ -49,13 +49,13 @@ export const ReferrerTable = () => {
   return <DataTable data={referrerData?.data} pagination={{ page, totalPages }} columns={column} />;
 };
 
-const ActionDropdown = (referrer: IReferrer) => {
+const ActionDropdown = (referrer: TReferrer) => {
   const { open, onOpenChange } = usePopupState();
 
   return (
     <DataTableAction open={open} onOpenChange={onOpenChange}>
       <UpdateReferrer referrer={referrer} onActionDropdownChange={onOpenChange} />
-      <DeleteReferrer referrerId={referrer._id} onActionDropdownChange={onOpenChange} />
+      <DeleteReferrer referrerId={referrer.id} onActionDropdownChange={onOpenChange} />
     </DataTableAction>
   );
 };

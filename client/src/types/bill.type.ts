@@ -1,4 +1,4 @@
-import { IService } from './service.type';
+import { TService } from './service.type';
 
 export enum AGE_TITLE {
   YEAR = 'YEAR',
@@ -13,26 +13,26 @@ export enum GENDER {
   OTHERS = 'OTHERS',
 }
 
-export interface IPatient {
+export type TPatient = {
   name: string;
   phone?: string;
   address?: string;
   age?: number;
   ageTitle?: AGE_TITLE;
   gender?: GENDER;
-}
+};
 
-export interface IBill {
-  _id: string;
+export type TBill = {
+  id: string;
   referrerId?: string;
   visitorId?: string;
   billId: string;
-  patientInfo: IPatient;
-  services: Pick<IService, 'name' | 'price' | 'roomNo'>[];
+  patientInfo: TPatient;
+  services: Pick<TService, 'name' | 'price' | 'roomNo'>[];
   date: Date;
   price: number;
   discount?: number;
   paid?: number;
   referrerCommission?: number;
   visitCommission?: number;
-}
+};

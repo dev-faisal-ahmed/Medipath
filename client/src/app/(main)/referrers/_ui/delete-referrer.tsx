@@ -8,12 +8,7 @@ import { usePopupState } from '@/hooks';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-interface IProps {
-  referrerId: string;
-  onActionDropdownChange(open: boolean): void;
-}
-
-export const DeleteReferrer = ({ referrerId, onActionDropdownChange }: IProps) => {
+export const DeleteReferrer = ({ referrerId, onActionDropdownChange }: TDeleteReferrerProps) => {
   const mutationKey = `${QK.REFERRER}_DELETE_${referrerId}`;
 
   const { open, onOpenChange } = usePopupState();
@@ -41,3 +36,6 @@ export const DeleteReferrer = ({ referrerId, onActionDropdownChange }: IProps) =
     />
   );
 };
+
+// type
+type TDeleteReferrerProps = { referrerId: string; onActionDropdownChange(open: boolean): void };

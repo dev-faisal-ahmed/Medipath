@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { useQuery } from '@tanstack/react-query';
 import { getExpenseCategoryList } from '@/api-lib/query';
 
-export const ExpenseForm = ({ formId, defaultValues, onSubmit }: IExpenseFormProps) => {
+export const ExpenseForm = ({ formId, defaultValues, onSubmit }: TExpenseFormProps) => {
   const form = useForm<TExpenseForm>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: defaultValues || { amount: '', expenseCategoryId: '', details: '', date: new Date() },
@@ -22,7 +22,7 @@ export const ExpenseForm = ({ formId, defaultValues, onSubmit }: IExpenseFormPro
   const { data: expenseCategoryList, isLoading } = useQuery({
     queryKey: [QK.EXPENSE_CATEGORY, 'LIST'],
     queryFn: () => getExpenseCategoryList(),
-    select: (response) => response.data.map((category) => ({ label: category.name, value: category._id })) || [],
+    select: (response) => response.data.map((category) => ({ label: category.name, value: category.id })) || [],
   });
 
   return (
@@ -66,10 +66,6 @@ const expenseFormSchema = z.object({
   date: z.date(),
 });
 
+// types
 export type TExpenseForm = z.infer<typeof expenseFormSchema>;
-
-interface IExpenseFormProps {
-  formId: string;
-  defaultValues?: TExpenseForm;
-  onSubmit(values: TExpenseForm): void;
-}
+type TExpenseFormProps = { formId: string; defaultValues?: TExpenseForm; onSubmit(values: TExpenseForm): void };

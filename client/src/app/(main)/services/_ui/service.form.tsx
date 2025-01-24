@@ -8,24 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-export const serviceFormSchema = z.object({
-  name: z
-    .string()
-    .min(1, { message: 'Service name is required' })
-    .transform((val) => wordCapitalize(val)),
-  price: z.string().refine((val) => Number(val) >= 50, { message: 'Minimum price is 50 tk' }),
-  roomNo: z.string().optional(),
-});
-
-export type TServiceForm = z.infer<typeof serviceFormSchema>;
-
-interface IProps {
-  formId: string;
-  defaultValues?: TServiceForm;
-  onSubmit(formData: TServiceForm): void;
-}
-
-export const ServiceForm = ({ formId, defaultValues, onSubmit }: IProps) => {
+export const ServiceForm = ({ formId, defaultValues, onSubmit }: TServiceFormProps) => {
   const form = useForm<TServiceForm>({
     resolver: zodResolver(serviceFormSchema),
     defaultValues: defaultValues || { name: '', price: '', roomNo: '' },
@@ -47,3 +30,15 @@ export const ServiceForm = ({ formId, defaultValues, onSubmit }: IProps) => {
     </Form>
   );
 };
+
+const serviceFormSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: 'Service name is required' })
+    .transform((val) => wordCapitalize(val)),
+  price: z.string().refine((val) => Number(val) >= 50, { message: 'Minimum price is 50 tk' }),
+  roomNo: z.string().optional(),
+});
+
+export type TServiceForm = z.infer<typeof serviceFormSchema>;
+type TServiceFormProps = { formId: string; defaultValues?: TServiceForm; onSubmit(formData: TServiceForm): void };

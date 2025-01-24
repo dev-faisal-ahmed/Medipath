@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { SERVER_ADDRESS } from '@/api-lib';
-import { getSession } from 'next-auth/react';
+import { getAuth } from '@/actions';
 
 export const axiosInstance = axios.create({
   baseURL: SERVER_ADDRESS,
@@ -10,7 +10,7 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const session = await getSession();
+    const session = await getAuth();
     const token = session?.accessToken;
     config.headers.Authorization = `Bearer ${token}`;
     return config;

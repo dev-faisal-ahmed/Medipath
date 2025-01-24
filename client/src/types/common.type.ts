@@ -1,15 +1,15 @@
-export interface IMeta {
+export interface TMeta {
   page: number;
   limit: number;
   total: number;
   totalPages: number;
 }
 
-export interface IServerResponse<IData> {
+export interface TServerResponse<TData> {
   ok: boolean;
   message: string;
-  data: IData;
-  meta?: IMeta;
+  data: TData;
+  meta?: TMeta;
 }
 
 export type TObject<TData = string> = Record<string, TData>;

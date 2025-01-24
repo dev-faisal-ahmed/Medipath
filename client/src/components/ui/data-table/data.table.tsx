@@ -5,18 +5,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { TablePagination } from './table-pagination';
 import { ScrollArea, ScrollBar } from '../scroll-area';
 
-interface IDataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  pagination?: { page: number; totalPages: number };
-}
-
-export const DataTable = <TData, TValue>({ columns, data, pagination }: IDataTableProps<TData, TValue>) => {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+export const DataTable = <TData, TValue>({ columns, data, pagination }: TDataTableProps<TData, TValue>) => {
+  const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel() });
 
   return (
     <div className="flex h-full flex-col overflow-x-auto">
@@ -78,4 +68,11 @@ export const DataTable = <TData, TValue>({ columns, data, pagination }: IDataTab
       </div>
     </div>
   );
+};
+
+// type
+type TDataTableProps<TData, TValue> = {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  pagination?: { page: number; totalPages: number };
 };

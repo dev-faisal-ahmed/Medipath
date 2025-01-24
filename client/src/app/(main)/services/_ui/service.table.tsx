@@ -2,7 +2,7 @@
 
 import { QK } from '@/api-lib';
 import { CONST } from '@/lib/const';
-import { IService } from '@/types';
+import { TService } from '@/types';
 import { getServices } from '@/api-lib/query';
 import { DataTable, DataTableAction } from '@/components/ui/data-table';
 import { removeEmptyProperty } from '@/helper';
@@ -31,7 +31,7 @@ export const ServicesTable = () => {
   const totalPages = servicesData?.meta?.totalPages || 1;
   const offset = (page - 1) * limit;
 
-  const column: ColumnDef<IService>[] = [
+  const column: ColumnDef<TService>[] = [
     { id: 'Serial', header: 'SL.', cell: ({ row }) => <span>{offset + (row.index + 1)}</span> },
     { accessorKey: 'name', header: 'Name' },
     {
@@ -57,13 +57,13 @@ export const ServicesTable = () => {
   return <DataTable data={servicesData.data} pagination={{ page, totalPages }} columns={column} />;
 };
 
-const ActionDropdown = (service: IService) => {
+const ActionDropdown = (service: TService) => {
   const { open, onOpenChange } = usePopupState();
 
   return (
     <DataTableAction open={open} onOpenChange={onOpenChange}>
       <UpdateService service={service} onActionDropdownChange={onOpenChange} />
-      <DeleteService serviceId={service._id} onActionDropdownChange={onOpenChange} />
+      <DeleteService serviceId={service.id} onActionDropdownChange={onOpenChange} />
     </DataTableAction>
   );
 };
