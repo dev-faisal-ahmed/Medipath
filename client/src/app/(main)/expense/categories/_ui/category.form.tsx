@@ -7,9 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-export const ExpenseCategoryForm = ({ formId, onSubmit, defaultValues }: TExpenseCategoryFormProps) => {
-  const form = useForm<TExpenseCategoryForm>({
-    resolver: zodResolver(expenseCategoryFormSchema),
+export const CategoryForm = ({ formId, onSubmit, defaultValues }: TCategoryFormProps) => {
+  const form = useForm<TCategoryForm>({
+    resolver: zodResolver(categoryFormSchema),
     defaultValues: defaultValues || { name: '' },
   });
 
@@ -24,11 +24,11 @@ export const ExpenseCategoryForm = ({ formId, onSubmit, defaultValues }: TExpens
   );
 };
 
-const expenseCategoryFormSchema = z.object({ name: z.string().min(1, { message: 'Category name is required' }) });
-export type TExpenseCategoryForm = z.infer<typeof expenseCategoryFormSchema>;
+const categoryFormSchema = z.object({ name: z.string().min(1, { message: 'Category name is required' }) });
+export type TCategoryForm = z.infer<typeof categoryFormSchema>;
 
-type TExpenseCategoryFormProps = {
+type TCategoryFormProps = {
   formId: string;
-  onSubmit(values: TExpenseCategoryForm): void;
-  defaultValues?: TExpenseCategoryForm;
+  onSubmit(values: TCategoryForm): void;
+  defaultValues?: TCategoryForm;
 };

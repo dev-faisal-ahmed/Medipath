@@ -39,7 +39,7 @@ export const useSidebarLinks = () => {
         icon: <RiWalletFill size={20} />,
         isActive: partialMatch('/expense'),
         items: [
-          { title: 'Expense Categories', url: '/expense/categories', isActive: partialMatch('/expense/categories') },
+          { title: 'Categories', url: '/expense/categories', isActive: partialMatch('/expense/categories') },
           { title: 'Expenses', url: '/expenses', isActive: partialMatch('/expenses') },
         ],
       },
