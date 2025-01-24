@@ -10,7 +10,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
       <input
         type={type}
         className={cn(
-          'h-input flex w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
+          'flex h-input w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
           className,
         )}
         ref={ref}
@@ -57,7 +57,7 @@ interface ISearchInputProps {
 
 const SearchInput = ({ value, onChange, className }: ISearchInputProps) => {
   return (
-    <div className={cn('relative w-full', className?.container)}>
+    <div className={cn('relative h-input w-full', className?.container)}>
       <SearchIcon className="absolute left-2 top-1/2 size-5 -translate-y-1/2 text-primary" />
       <Input
         className={cn('w-full border-secondary pl-10', className?.input)}

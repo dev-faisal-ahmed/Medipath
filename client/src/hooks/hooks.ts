@@ -1,8 +1,7 @@
 import { getAuth } from '@/actions';
 import { QK } from '@/api-lib';
 import { useQuery } from '@tanstack/react-query';
-import { TopbarContext } from '@/components/providers';
-import { useCallback, useContext } from 'react';
+import { useCallback } from 'react';
 import { useEffect, useState } from 'react';
 
 // use auth
@@ -25,13 +24,6 @@ export const useDebounce = <TData>(value: TData, delay: number = 500) => {
   }, [value, delay]);
 
   return debouncedValue;
-};
-
-// useTopBarContext
-export const useTopbarContext = () => {
-  const context = useContext(TopbarContext);
-  if (!context) throw new Error('You can not access the context form outside');
-  return context;
 };
 
 // usePopupState

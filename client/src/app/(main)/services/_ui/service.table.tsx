@@ -8,16 +8,17 @@ import { DataTable, DataTableAction } from '@/components/ui/data-table';
 import { removeEmptyProperty } from '@/helper';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
-import { usePopupState, useTopbarContext } from '@/hooks';
+import { usePopupState } from '@/hooks';
 import { useSearchParams } from 'next/navigation';
 import { UpdateService } from './update-service';
 import { DeleteService } from './delete-service';
 import { FullSpaceLoader } from '@/components/ui/loader';
+import { useTopbarStore } from '@/stores/topbar';
 
 const LIMIT = '15';
 
 export const ServicesTable = () => {
-  const { searchTerm } = useTopbarContext();
+  const searchTerm = useTopbarStore((state) => state.searchTerm);
   const searchParams = useSearchParams();
   const pageParams = searchParams.get('page') || '1';
 

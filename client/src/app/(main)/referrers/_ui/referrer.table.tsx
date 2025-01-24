@@ -4,7 +4,7 @@ import { QK } from '@/api-lib';
 import { TReferrer } from '@/types';
 import { getReferrers } from '@/api-lib/query';
 import { DataTable, DataTableAction } from '@/components/ui/data-table';
-import { usePopupState, useTopbarContext } from '@/hooks';
+import { usePopupState } from '@/hooks';
 import { removeEmptyProperty } from '@/helper';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
@@ -12,11 +12,12 @@ import { useSearchParams } from 'next/navigation';
 import { UpdateReferrer } from './update-referrer';
 import { DeleteReferrer } from './delete-referrer';
 import { FullSpaceLoader } from '@/components/ui/loader';
+import { useTopbarStore } from '@/stores/topbar';
 
 const LIMIT = '20';
 
 export const ReferrerTable = () => {
-  const { searchTerm } = useTopbarContext();
+  const searchTerm = useTopbarStore((state) => state.searchTerm);
   const searchParams = useSearchParams();
   const pageParams = searchParams.get('page') || '1';
 

@@ -1,10 +1,13 @@
 'use client';
 
-import { useTopbarContext } from '@/hooks';
+import { useTopbarStore } from '@/stores/topbar';
 import { memo, ReactNode, useEffect } from 'react';
 
 export const Header = memo(({ title = 'Medipath', children, showSearchBar = false }: THeaderProps) => {
-  const { updateHeaderTitle, updateHeaderChild, updateSearch, updateIsSearchbarShown } = useTopbarContext();
+  const updateHeaderTitle = useTopbarStore((state) => state.updateHeaderTitle);
+  const updateHeaderChild = useTopbarStore((state) => state.updateHeaderChild);
+  const updateIsSearchbarShown = useTopbarStore((state) => state.updateIsSearchbarShown);
+  const updateSearch = useTopbarStore((state) => state.updateSearch);
 
   useEffect(() => {
     if (title) updateHeaderTitle(title);

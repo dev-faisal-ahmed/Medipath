@@ -13,6 +13,9 @@ const config: Config = {
       minHeight: {
         input: 'var(--height-input)',
       },
+      size: {
+        input: 'var(--height-input)',
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
