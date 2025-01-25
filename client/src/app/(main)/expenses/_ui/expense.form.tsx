@@ -28,7 +28,7 @@ export const ExpenseForm = ({ formId, defaultValues, onSubmit }: TExpenseFormPro
             <DatePicker
               date={field.value}
               onChange={field.onChange}
-              disabled={(date) => date.getTime() <= new Date('2025-01-01').getTime()}
+              disabled={(date) => date.getTime() <= new Date('2024-01-01').getTime()}
             />
           )}
         </CommonFormFiled>

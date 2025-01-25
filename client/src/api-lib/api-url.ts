@@ -29,4 +29,5 @@ export const apiUrl = {
   deleteCategory: (categoryId: string) => `${SERVER_ADDRESS}/category/${categoryId}`,
   // transaction
   addExpense: `${SERVER_ADDRESS}/transaction/expense`,
+  getMonthlyExpenses: (searchParams: string) => `${SERVER_ADDRESS}/transactions/expenses/monthly${searchParams}`,
 };

@@ -9,8 +9,10 @@ const addExpense = catchAsync(async (req, res) => {
 });
 
 const getMonthlyExpenses = catchAsync(async (req, res) => {
-  const { expenses, firstExpenseDate } = await transactionService.getMonthlyExpenses(req.query as TObject);
-  sendSuccessResponse(res, { message: 'Expenses fetched', data: { expenses, firstExpenseDate } });
+  const { expenses, firstExpenseDate, lastExpenseDate } = await transactionService.getMonthlyExpenses(
+    req.query as TObject,
+  );
+  sendSuccessResponse(res, { message: 'Expenses fetched', data: { firstExpenseDate, lastExpenseDate, expenses } });
 });
 
 export const transactionController = { addExpense, getMonthlyExpenses };
