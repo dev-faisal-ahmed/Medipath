@@ -20,6 +20,12 @@ categoryRouter.patch(
   categoryController.updateCategory,
 );
 
+categoryRouter.delete(
+  '/:categoryId',
+  authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
+  categoryController.deleteCategory,
+);
+
 export const categoriesRouter = Router();
 
 categoriesRouter.get('/', authGuard(USER_ROLE.SUPER_ADMIN, USER_ROLE.ADMIN), categoryController.getCategories);

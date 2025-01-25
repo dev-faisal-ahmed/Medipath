@@ -25,4 +25,9 @@ const updateCategory = async (payload: TUpdateCategoryPayload, categoryId: strin
   return 'Category updated';
 };
 
-export const categoryService = { addCategory, getCategories, updateCategory };
+const deleteCategory = async (categoryId: string) => {
+  await Category.updateOne({ _id: categoryId }, { $set: { isDeleted: true } });
+  return 'Category deleted';
+};
+
+export const categoryService = { addCategory, getCategories, updateCategory, deleteCategory };

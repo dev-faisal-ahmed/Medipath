@@ -18,10 +18,7 @@ const getServices = async (query: TObject) => {
   const dbQuery = { isDeleted: false, ...getSearchQuery(query, 'name') };
   const { page, limit, skip } = getPageParams(query);
 
-  const services = await Service.find(dbQuery, { updatedAt: 0, __v: 0, isDeleted: 0 })
-    .sort({ createdAt: -1 })
-    .skip(skip)
-    .limit(limit);
+  const services = await Service.find(dbQuery, { updatedAt: 0 }).sort({ createdAt: -1 }).skip(skip).limit(limit);
 
   const total = await Service.countDocuments(dbQuery);
   const meta = generateMeta({ page, limit, total });
@@ -42,7 +39,7 @@ const deleteService = async (serviceId: string) => {
 // for add bill page
 const getServiceList = async (query: TObject) => {
   const dbQuery = { isDeleted: false, ...getSearchQuery(query, 'name') };
-  const services = await Service.find(dbQuery, { updatedAt: 0, __v: 0, isDeleted: 0, createdAt: 0 }).sort({ name: 1 });
+  const services = await Service.find(dbQuery, { _id: 1, name: 1, price: 1, roomNo: 1 }).sort({ name: 1 });
   return services;
 };
 

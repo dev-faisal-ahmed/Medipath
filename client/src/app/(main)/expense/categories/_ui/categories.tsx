@@ -7,6 +7,7 @@ import { FullSpaceLoader } from '@/components/ui/loader';
 import { useTopbarStore } from '@/stores/topbar';
 import { useQuery } from '@tanstack/react-query';
 import { UpdateCategory } from './update-category';
+import { DeleteCategory } from './delete-category';
 
 export const Categories = () => {
   const mode = useTopbarStore((state) => state.mode);
@@ -25,6 +26,7 @@ export const Categories = () => {
       {categories.map(({ id, name }) => (
         <div className="flex w-full items-center gap-3 rounded-md border bg-white p-2" key={id}>
           <h4 className="ml-1 mr-auto font-bold">{name}</h4>
+          <DeleteCategory categoryId={id} />
           <UpdateCategory id={id} name={name} />
         </div>
       ))}

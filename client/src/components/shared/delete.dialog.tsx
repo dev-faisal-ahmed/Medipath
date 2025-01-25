@@ -1,5 +1,6 @@
 'use client';
 
+import { ReactNode } from 'react';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -14,13 +15,21 @@ import { ActionButton, Button } from '../ui/button';
 import { AlertDialogCancel } from '@radix-ui/react-alert-dialog';
 import { useIsMutating } from '@tanstack/react-query';
 
-export const DeleteDialog = ({ mutationKey, title, description, onDelete, open, onOpenChange }: TDeleteDialogProps) => {
+export const DeleteDialog = ({
+  triggerButton,
+  mutationKey,
+  title,
+  description,
+  onDelete,
+  open,
+  onOpenChange,
+}: TDeleteDialogProps) => {
   const isMutating = useIsMutating({ mutationKey: [mutationKey] });
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogTrigger asChild>
-        <ActionButton label={title} actionType="DELETE" />
+        {triggerButton ? triggerButton : <ActionButton label={title} actionType="DELETE" />}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -41,6 +50,7 @@ export const DeleteDialog = ({ mutationKey, title, description, onDelete, open, 
 };
 
 type TDeleteDialogProps = {
+  triggerButton?: ReactNode;
   mutationKey: string;
   title: string;
   description: string;

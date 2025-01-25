@@ -19,6 +19,11 @@ export const updateCategory = async (payload: TUpdateCategory): Promise<TServerR
   return data;
 };
 
+export const deleteCategory = async (categoryId: TCategory['id']): Promise<TServerResponse<null>> => {
+  const { data } = await axiosInstance.delete(apiUrl.deleteCategory(categoryId));
+  return data;
+};
+
 // type
 type TAddExpenseCategoryPayload = Pick<TCategory, 'name' | 'mode'>;
 type TExpenseCategoryList = Pick<TCategory, 'id' | 'name' | 'mode'>;
