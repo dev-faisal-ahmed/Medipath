@@ -1,4 +1,5 @@
 import { AppError } from '../../utils';
+import { TObject } from '../../utils/type';
 import { Category } from './category.model';
 import { TAddCategoryPayload } from './category.validation';
 
@@ -10,4 +11,10 @@ const addCategory = async (payload: TAddCategoryPayload) => {
   return 'Category added';
 };
 
-export const categoryService = { addCategory };
+const getCategories = async (query: TObject) => {
+  const mode = query.mode;
+  const categories = await Category.find({ isDeleted: false, mode }, { isDeleted: 0 });
+  return categories;
+};
+
+export const categoryService = { addCategory, getCategories };

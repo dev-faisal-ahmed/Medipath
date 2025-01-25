@@ -1,12 +1,14 @@
 import { Header } from '@/components/shared';
-import { AddExpenseCategory } from './_ui/add-category';
+import { AddCategory } from './_ui/add-category';
+import { Categories } from './_ui/categories';
 
 export default function ExpenseCategoriesPage() {
   return (
     <>
       <Header showSearchBar>
-        <AddExpenseCategory />
+        <AddCategory />
       </Header>
+      <Categories />
     </>
   );
 }

@@ -1,3 +1,5 @@
+import { TCategory } from '@/types';
+
 export const SERVER_ADDRESS = 'http://localhost:5000/api/v1';
 
 export const apiUrl = {
@@ -21,6 +23,6 @@ export const apiUrl = {
   getBills: (searchParams: string) => `${SERVER_ADDRESS}/bills${searchParams}`,
   takeDue: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}/take-due`,
   // expense category
-  addExpenseCategory: `${SERVER_ADDRESS}/expense-category`,
-  getExpenseCategoryList: `${SERVER_ADDRESS}/expense-category/list`,
+  addCategory: `${SERVER_ADDRESS}/category`,
+  getCategories: (mode: TCategory['mode']) => `${SERVER_ADDRESS}/categories?mode=${mode}`,
 };

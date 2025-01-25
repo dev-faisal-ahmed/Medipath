@@ -12,3 +12,7 @@ categoryRouter.post(
   validationHandler(categoryValidation.addCategorySchema),
   categoryController.addCategory,
 );
+
+export const categoriesRouter = Router();
+
+categoriesRouter.get('/', authGuard(USER_ROLE.SUPER_ADMIN, USER_ROLE.ADMIN), categoryController.getCategories);

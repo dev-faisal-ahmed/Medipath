@@ -7,27 +7,29 @@ import { FormDialog } from '@/components/shared/form';
 import { ActionButton } from '@/components/ui/button';
 import { CategoryForm, TCategoryForm } from './category.form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addExpenseCategory } from '@/api-lib/query';
+import { addCategory } from '@/api-lib/query';
 import { errorMessageGen } from '@/helper';
+import { useTopbarStore } from '@/stores/topbar';
 
-const formId = QK.EXPENSE_CATEGORY + '_ADD';
+const formId = QK.CATEGORY + '_ADD';
 
-export const AddExpenseCategory = () => {
+export const AddCategory = () => {
   const { open, onOpenChange } = usePopupState();
+  const mode = useTopbarStore((state) => state.mode);
   const qc = useQueryClient();
 
   const { mutate } = useMutation({
     mutationKey: [formId],
-    mutationFn: addExpenseCategory,
+    mutationFn: addCategory,
     onSuccess: (res) => {
       toast.success(res.message);
-      qc.invalidateQueries({ queryKey: [QK.EXPENSE_CATEGORY] });
+      qc.invalidateQueries({ queryKey: [QK.CATEGORY] });
       onOpenChange(false);
     },
     onError: (error) => toast.error(errorMessageGen(error)),
   });
 
-  const handleAddExpenseCategory = (formData: TCategoryForm) => mutate({ ...formData });
+  const handleAddExpenseCategory = (formData: TCategoryForm) => mutate({ ...formData, mode });
 
   return (
     <>
