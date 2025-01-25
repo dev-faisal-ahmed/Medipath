@@ -1,25 +1,17 @@
 'use client';
 
-import { QK } from '@/api-lib';
-import { getCategories } from '@/api-lib/query';
 import { Message } from '@/components/shared';
 import { FullSpaceLoader } from '@/components/ui/loader';
-import { useTopbarStore } from '@/stores/topbar';
-import { useQuery } from '@tanstack/react-query';
 import { UpdateCategory } from './update-category';
 import { DeleteCategory } from './delete-category';
+import { useGetCategories } from '@/hooks';
 
 export const Categories = () => {
-  const mode = useTopbarStore((state) => state.mode);
-
-  const { data: categories, isLoading } = useQuery({
-    queryKey: [QK.CATEGORY, { mode }],
-    queryFn: () => getCategories(mode),
-    select: (response) => response.data || [],
-  });
+  const { data: categoriesData, isLoading } = useGetCategories();
+  const categories = categoriesData?.data || [];
 
   if (isLoading) return <FullSpaceLoader />;
-  if (!categories?.length) return <Message className="mt-6" message="No category found" />;
+  if (!categories.length) return <Message className="mt-6" message="No category found" />;
 
   return (
     <section className="grid gap-4 p-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">

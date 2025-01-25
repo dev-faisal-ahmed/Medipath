@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose';
+import { MODE } from '../../utils/type';
 
 export enum TRANSACTION_TYPE {
   REVENUE = 'REVENUE',
@@ -23,6 +24,7 @@ export interface IAdmissionTransaction extends ITransaction {
 
 export interface IUtilityExpenseTransaction extends ITransaction {
   categoryId: Schema.Types.ObjectId;
+  mode: MODE;
 }
 
 export interface IReferrerExpenseTransaction extends ITransaction {

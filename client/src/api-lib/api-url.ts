@@ -27,4 +27,6 @@ export const apiUrl = {
   getCategories: (mode: TCategory['mode']) => `${SERVER_ADDRESS}/categories?mode=${mode}`,
   updateCategory: (categoryId: string) => `${SERVER_ADDRESS}/category/${categoryId}`,
   deleteCategory: (categoryId: string) => `${SERVER_ADDRESS}/category/${categoryId}`,
+  // transaction
+  addExpense: `${SERVER_ADDRESS}/transaction/expense`,
 };

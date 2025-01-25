@@ -11,6 +11,7 @@ import {
 import { model, Schema } from 'mongoose';
 import { MODEL, TRANSACTION_CATEGORY_TYPE } from '../model-names';
 import { transformJson } from '../../helpers';
+import { MODE } from '../../utils/type';
 
 // base schema
 const transactionSchema = new Schema<ITransaction>(
@@ -39,6 +40,7 @@ const admissionTransactionSchema = new Schema<IAdmissionTransaction>({
 
 const utilityExpenseTransactionSchema = new Schema<IUtilityExpenseTransaction>({
   categoryId: { type: Schema.Types.ObjectId, ref: MODEL.CATEGORY },
+  mode: { type: String, enum: Object.values(MODE) },
 });
 
 const referrerExpenseTransactionSchema = new Schema<IReferrerExpenseTransaction>({

@@ -1,7 +1,6 @@
 'use client';
 
 import { z } from 'zod';
-import { QK } from '@/api-lib';
 import { zodNumber } from '@/helper';
 import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
@@ -10,20 +9,16 @@ import { CommonFormFiled, CommonSelect } from '@/components/shared/form';
 import { DatePicker } from '@/components/shared/form/date-picker';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import { useQuery } from '@tanstack/react-query';
-import { getExpenseCategoryList } from '@/api-lib/query';
+import { useGetCategories } from '@/hooks';
 
 export const ExpenseForm = ({ formId, defaultValues, onSubmit }: TExpenseFormProps) => {
   const form = useForm<TExpenseForm>({
     resolver: zodResolver(expenseFormSchema),
-    defaultValues: defaultValues || { amount: '', expenseCategoryId: '', details: '', date: new Date() },
+    defaultValues: defaultValues || { amount: '', categoryId: '', details: '', date: new Date() },
   });
 
-  const { data: expenseCategoryList, isLoading } = useQuery({
-    queryKey: [QK.EXPENSE_CATEGORY, 'LIST'],
-    queryFn: () => getExpenseCategoryList(),
-    select: (response) => response.data.map((category) => ({ label: category.name, value: category.id })) || [],
-  });
+  const { data: categoriesData, isLoading } = useGetCategories();
+  const categoriesList = categoriesData?.data.map((category) => ({ label: category.name, value: category.id })) || [];
 
   return (
     <Form {...form}>
@@ -37,10 +32,10 @@ export const ExpenseForm = ({ formId, defaultValues, onSubmit }: TExpenseFormPro
             />
           )}
         </CommonFormFiled>
-        <CommonFormFiled control={form.control} name="expenseCategoryId" label="Category">
+        <CommonFormFiled control={form.control} name="categoryId" label="Category">
           {({ field }) => (
             <CommonSelect
-              options={expenseCategoryList || []}
+              options={categoriesList}
               onSelectChange={field.onChange}
               placeholder="Select category"
               selected={field.value}
@@ -60,7 +55,7 @@ export const ExpenseForm = ({ formId, defaultValues, onSubmit }: TExpenseFormPro
 };
 
 const expenseFormSchema = z.object({
-  expenseCategoryId: z.string().min(1, { message: 'Expense category is required' }),
+  categoryId: z.string().min(1, { message: 'Expense category is required' }),
   amount: zodNumber({ min: 0, message: 'Amount can not be negative' }),
   details: z.string().optional(),
   date: z.date(),

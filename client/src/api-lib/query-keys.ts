@@ -4,4 +4,5 @@ export const QK = {
   REFERRER: 'REFERRER',
   BILL: 'BILL',
   CATEGORY: 'CATEGORY',
+  EXPENSE: 'EXPENSE',
 } as const;
