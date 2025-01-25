@@ -13,6 +13,13 @@ export const getCategories = async (mode: TCategory['mode']): Promise<TServerRes
   return data;
 };
 
+export const updateCategory = async (payload: TUpdateCategory): Promise<TServerResponse<null>> => {
+  const { id, name } = payload;
+  const { data } = await axiosInstance.patch(apiUrl.updateCategory(id), { name });
+  return data;
+};
+
 // type
 type TAddExpenseCategoryPayload = Pick<TCategory, 'name' | 'mode'>;
 type TExpenseCategoryList = Pick<TCategory, 'id' | 'name' | 'mode'>;
+type TUpdateCategory = Pick<TCategory, 'id' | 'name'>;

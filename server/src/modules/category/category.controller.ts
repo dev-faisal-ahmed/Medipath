@@ -13,4 +13,9 @@ const getCategories = catchAsync(async (req, res) => {
   sendSuccessResponse(res, { message: 'Categories retrieved successfully', data: categories });
 });
 
-export const categoryController = { addCategory, getCategories };
+const updateCategory = catchAsync(async (req, res) => {
+  const message = await categoryService.updateCategory(req.body, req.params.categoryId);
+  sendSuccessResponse(res, { message, data: null });
+});
+
+export const categoryController = { addCategory, getCategories, updateCategory };

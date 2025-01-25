@@ -1,7 +1,7 @@
 import { AppError } from '../../utils';
 import { TObject } from '../../utils/type';
 import { Category } from './category.model';
-import { TAddCategoryPayload } from './category.validation';
+import { TAddCategoryPayload, TUpdateCategoryPayload } from './category.validation';
 
 const addCategory = async (payload: TAddCategoryPayload) => {
   const isCategoryExist = await Category.exists({ name: payload.name });
@@ -17,4 +17,12 @@ const getCategories = async (query: TObject) => {
   return categories;
 };
 
-export const categoryService = { addCategory, getCategories };
+const updateCategory = async (payload: TUpdateCategoryPayload, categoryId: string) => {
+  const category = await Category.exists({ _id: categoryId });
+  if (!category) throw new AppError('Category not found', 400);
+
+  await Category.updateOne({ _id: categoryId }, { $set: payload });
+  return 'Category updated';
+};
+
+export const categoryService = { addCategory, getCategories, updateCategory };

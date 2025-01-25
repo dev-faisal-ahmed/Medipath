@@ -6,6 +6,11 @@ const addCategorySchema = z.object({
   mode: z.nativeEnum(MODE),
 });
 
-export const categoryValidation = { addCategorySchema };
+const updateCategorySchema = z.object({
+  name: z.string().min(1, { message: 'Category name is required' }),
+});
+
+export const categoryValidation = { addCategorySchema, updateCategorySchema };
 
 export type TAddCategoryPayload = z.infer<typeof addCategorySchema>;
+export type TUpdateCategoryPayload = z.infer<typeof updateCategorySchema>;

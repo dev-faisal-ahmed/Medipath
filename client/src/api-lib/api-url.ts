@@ -25,4 +25,5 @@ export const apiUrl = {
   // expense category
   addCategory: `${SERVER_ADDRESS}/category`,
   getCategories: (mode: TCategory['mode']) => `${SERVER_ADDRESS}/categories?mode=${mode}`,
+  updateCategory: (categoryId: string) => `${SERVER_ADDRESS}/category/${categoryId}`,
 };
