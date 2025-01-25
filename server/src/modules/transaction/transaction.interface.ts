@@ -12,6 +12,7 @@ export interface ITransaction {
   date: Date;
   description?: string;
   type: TRANSACTION_TYPE;
+  createdAt: Date | string;
 }
 
 export interface IBillTransaction extends ITransaction {

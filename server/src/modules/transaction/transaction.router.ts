@@ -12,3 +12,11 @@ transactionRouter.post(
   validationHandler(transactionValidation.addExpenseSchema),
   transactionController.addExpense,
 );
+
+export const transactionsRouter = Router();
+
+transactionsRouter.get(
+  '/expenses',
+  authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
+  transactionController.getMonthlyExpenses,
+);
