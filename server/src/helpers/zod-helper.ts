@@ -15,7 +15,7 @@ export const zodMongoObjectId = (message: string = 'Invalid Object Id') => {
 };
 
 // parsing date
-const dateSchema = z.string().date();
+const dateSchema = z.union([z.string().date(), z.string().datetime()]);
 export const parseDate = (value: string) => {
   const { success } = dateSchema.safeParse(value);
   if (!success) return new Date();

@@ -14,7 +14,7 @@ import { useGetCategories } from '@/hooks';
 export const ExpenseForm = ({ formId, defaultValues, onSubmit }: TExpenseFormProps) => {
   const form = useForm<TExpenseForm>({
     resolver: zodResolver(expenseFormSchema),
-    defaultValues: defaultValues || { amount: '', categoryId: '', details: '', date: new Date() },
+    defaultValues: defaultValues || { amount: '', categoryId: '', description: '', date: new Date() },
   });
 
   const { data: categoriesData, isLoading } = useGetCategories();
@@ -46,7 +46,7 @@ export const ExpenseForm = ({ formId, defaultValues, onSubmit }: TExpenseFormPro
         <CommonFormFiled control={form.control} name="amount" label="Amount">
           {({ field }) => <Input placeholder="Input amount" type="number" {...field} />}
         </CommonFormFiled>
-        <CommonFormFiled control={form.control} name="details" label="Details">
+        <CommonFormFiled control={form.control} name="description" label="Details">
           {({ field }) => <Textarea placeholder="Write down description" {...field} />}
         </CommonFormFiled>
       </form>
@@ -57,7 +57,7 @@ export const ExpenseForm = ({ formId, defaultValues, onSubmit }: TExpenseFormPro
 const expenseFormSchema = z.object({
   categoryId: z.string().min(1, { message: 'Expense category is required' }),
   amount: zodNumber({ min: 0, message: 'Amount can not be negative' }),
-  details: z.string().optional(),
+  description: z.string().optional(),
   date: z.date(),
 });
 

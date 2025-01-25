@@ -12,7 +12,7 @@ const addExpense = async (payload: TAddExpensePayload) => {
 
 const getMonthlyExpenses = async (query: TObject) => {
   const mode = query.mode;
-  const dateTime = query['date-time'];
+  const dateTime = query.dateTime;
   const date = parseDate(dateTime);
   const month = date.getMonth();
   const year = date.getFullYear();
@@ -31,7 +31,7 @@ const getMonthlyExpenses = async (query: TObject) => {
           { $match: { ...dbQuery, date: getMonthRangeQuery(year, month) } },
           { $lookup: { from: 'categories', localField: 'categoryId', foreignField: '_id', as: 'category' } },
           { $addFields: { categoryName: { $arrayElemAt: ['$category.name', 0] }, id: '$_id' } },
-          { $project: { category: 0, __v: 0, createdAt: 0, updatedAt: 0 } },
+          { $project: { _id: 0, __v: 0, category: 0, createdAt: 0, updatedAt: 0 } },
         ],
       },
     },
