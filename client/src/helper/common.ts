@@ -45,3 +45,27 @@ export const generateNextPageParams = (): GetNextPageParamFunction<number, TServ
     return undefined;
   };
 };
+
+export const hasPerviousMonth = ({ currentDate, targetDate }: { currentDate: Date; targetDate: Date }) => {
+  const currentMonth = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
+  const targetMonth = targetDate.getMonth();
+  const targetYear = targetDate.getFullYear();
+
+  if (currentYear > targetYear) return true;
+  if (currentYear === targetYear && currentMonth > targetMonth) return true;
+
+  return false;
+};
+
+export const hasNextMonth = ({ currentDate, targetDate }: { currentDate: Date; targetDate: Date }) => {
+  const currentMonth = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
+  const targetMonth = targetDate.getMonth();
+  const targetYear = targetDate.getFullYear();
+
+  if (currentYear < targetYear) return true;
+  if (currentYear === targetYear && currentMonth < targetMonth) return true;
+
+  return false;
+};

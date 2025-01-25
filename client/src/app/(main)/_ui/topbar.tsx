@@ -37,7 +37,7 @@ export const Topbar = () => {
             className={{ container: 'w-full max-w-96' }}
           />
         ) : (
-          <h1 className="text-base font-bold">{headerTitle}</h1>
+          <h1 className="text-xl font-bold">{headerTitle}</h1>
         )}
       </div>
 

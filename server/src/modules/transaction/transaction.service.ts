@@ -25,8 +25,8 @@ const getMonthlyExpenses = async (query: TObject) => {
   const [result] = await UtilityExpenseTransaction.aggregate([
     {
       $facet: {
-        firstExpense: [{ $match: dbQuery }, { $sort: { createdAt: 1 } }, { $limit: 1 }],
-        lastExpense: [{ $match: dbQuery }, { $sort: { createdAt: -1 } }, { $limit: 1 }],
+        firstExpense: [{ $match: dbQuery }, { $sort: { date: 1 } }, { $limit: 1 }],
+        lastExpense: [{ $match: dbQuery }, { $sort: { date: -1 } }, { $limit: 1 }],
         expenses: [
           { $match: { ...dbQuery, date: getMonthRangeQuery(year, month) } },
           { $lookup: { from: 'categories', localField: 'categoryId', foreignField: '_id', as: 'category' } },

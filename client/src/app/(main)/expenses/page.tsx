@@ -5,7 +5,7 @@ import { Expenses } from './_ui/expenses';
 export default function ExpensesPage() {
   return (
     <>
-      <Header showSearchBar>
+      <Header title="Expenses">
         <AddExpense />
       </Header>
       <Expenses />
