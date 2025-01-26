@@ -118,9 +118,40 @@ const takeDue = async (payload: TTakeDuePayload, billId: string) => {
   const due = price - (paid || 0) - (discount || 0);
   if (due < payload.amount) throw new AppError('Due amount is less than the amount you are trying to pay', 400);
 
-  await Bill.updateOne({ _id: billId }, { $inc: { paid: payload.amount } });
+  const session = await mongoose.startSession();
 
-  return 'Due taken success fully';
+  // transactions
+  try {
+    session.startTransaction();
+    const result = await Bill.updateOne({ _id: billId }, { $inc: { paid: payload.amount } }, { session });
+    if (!result.modifiedCount) throw new AppError('Failed to updated bill', 400);
+
+    // now updating transactions
+    const [transaction] = await BillTransaction.create(
+      [
+        {
+          amount: payload.amount,
+          billId: billId,
+          type: TRANSACTION_TYPE.REVENUE,
+          description: `Take due payment ${payload.amount} TK`,
+        },
+      ],
+      { session },
+    );
+
+    if (!transaction) throw new AppError('Failed to create transaction', 400);
+
+    await session.commitTransaction();
+
+    return 'Due taken successfully';
+  } catch (error) {
+    await session.abortTransaction();
+    let message = 'Something went wrong';
+    if (error instanceof AppError) message = error.message;
+    throw new AppError(message, 400);
+  } finally {
+    await session.endSession();
+  }
 };
 
 export const billService = { addBill, getBillDetails, getBills, takeDue };
