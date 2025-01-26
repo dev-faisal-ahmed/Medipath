@@ -45,6 +45,7 @@ const utilityExpenseTransactionSchema = new Schema<IUtilityExpenseTransaction>({
 
 const referrerExpenseTransactionSchema = new Schema<IReferrerExpenseTransaction>({
   referrerId: { type: Schema.Types.ObjectId, ref: MODEL.REFERRER },
+  billId: { type: Schema.Types.ObjectId, ref: MODEL.BILL },
 });
 
 const doctorOperationTransactionSchema = new Schema<IDoctorOperationTransaction>({

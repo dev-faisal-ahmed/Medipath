@@ -30,6 +30,7 @@ export interface IUtilityExpenseTransaction extends ITransaction {
 
 export interface IReferrerExpenseTransaction extends ITransaction {
   referrerId: Schema.Types.ObjectId;
+  billId: Schema.Types.ObjectId;
 }
 
 export interface IDoctorOperationTransaction extends ITransaction {
