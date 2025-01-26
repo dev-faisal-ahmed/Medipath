@@ -43,7 +43,7 @@ export const ReferrerForm = ({ formId, onSubmit, defaultValues }: TReferrerFormP
 
 const referrerFormSchema = z.object({
   name: z.string().min(1, { message: 'Referrer name is required' }),
-  designation: z.string().min(1, { message: 'Designation can not be empty string' }).optional(),
+  designation: z.string().optional(),
   type: z.nativeEnum(REFERRER_TYPE),
   phone: z.string().optional(),
 });

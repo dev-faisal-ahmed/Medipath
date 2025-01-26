@@ -16,7 +16,49 @@ const getReferrers = async (query: TObject) => {
   };
 
   const { page, limit, skip } = getPageParams(query);
-  const referrers = await Referrer.find(dbQuery).sort({ createdAt: -1 }).skip(skip).limit(limit);
+  const referrers = await Referrer.aggregate([
+    { $match: dbQuery },
+    {
+      $lookup: {
+        from: 'bills',
+        localField: '_id',
+        foreignField: 'visitorId',
+        pipeline: [{ $project: { visitCommission: 1, _id: 0 } }],
+        as: 'visit',
+      },
+    },
+    {
+      $lookup: {
+        from: 'bills',
+        localField: '_id',
+        foreignField: 'referrerId',
+        pipeline: [{ $project: { referrerCommission: 1, _id: 0 } }],
+        as: 'referrer',
+      },
+    },
+    {
+      $lookup: {
+        from: 'transactions',
+        localField: '_id',
+        foreignField: 'referrerId',
+        pipeline: [{ $project: { amount: 1 } }],
+        as: 'paid',
+      },
+    },
+    {
+      $addFields: {
+        paid: { $sum: '$paid.amount' },
+        visit: { $sum: '$visit.visitCommission' },
+        referrer: { $sum: '$referrer.referrerCommission' },
+        id: '$_id',
+      },
+    },
+    { $project: { _id: 0, __v: 0, updatedAt: 0, isDeleted: 0, createdAt: 0 } },
+    { $sort: { name: 1 } },
+    { $skip: skip },
+    { $limit: limit },
+  ]);
+
   const total = await Referrer.countDocuments(dbQuery);
   const meta = generateMeta({ page, limit, total });
 

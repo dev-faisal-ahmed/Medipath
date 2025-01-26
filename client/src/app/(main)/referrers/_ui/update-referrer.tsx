@@ -3,7 +3,6 @@
 import { QK } from '@/api-lib';
 import { FormDialog } from '@/components/shared/form';
 import { usePopupState } from '@/hooks';
-import { TReferrer } from '@/types';
 import { ReferrerForm, TReferrerForm } from './referrer.form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateReferrer } from '@/api-lib/query';
@@ -59,4 +58,4 @@ export const UpdateReferrer = ({ referrer, onActionDropdownChange }: TUpdateRefe
   );
 };
 
-type TUpdateReferrerProps = { referrer: TReferrer; onActionDropdownChange(open: boolean): void };
+type TUpdateReferrerProps = { referrer: TReferrerForm & { id: string }; onActionDropdownChange(open: boolean): void };

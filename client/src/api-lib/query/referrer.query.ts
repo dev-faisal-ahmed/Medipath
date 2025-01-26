@@ -10,7 +10,7 @@ export const addReferrer = async (payload: TAddReferrerPayload): Promise<TServer
   return data;
 };
 
-export const getReferrers = async (args: TObject): Promise<TServerResponse<TReferrer[]>> => {
+export const getReferrers = async (args: TObject): Promise<TServerResponse<TGetReferrersQueryResponse[]>> => {
   const refinedArgs = removeEmptyProperty(args);
   const searchParams = new URLSearchParams(refinedArgs as TObject).toString();
   const { data } = await axiosInstance.get(apiUrl.getReferrers(searchParams ? `?${searchParams}` : ''));
@@ -35,6 +35,12 @@ export const getReferrerList = async (): Promise<TServerResponse<TReferrerList[]
 };
 
 // type
+export type TGetReferrersQueryResponse = Pick<TReferrer, 'id' | 'name' | 'designation' | 'type' | 'phone'> & {
+  visit: number;
+  referrer: number;
+  paid: number;
+};
+
 type TAddReferrerPayload = Pick<TReferrer, 'name' | 'designation' | 'type' | 'phone'>;
 type TUpdateReferrerPayload = Pick<TReferrer, 'id' | 'name' | 'designation' | 'type' | 'phone'>;
 export type TReferrerList = Pick<TReferrer, 'id' | 'name' | 'type' | 'designation'>;

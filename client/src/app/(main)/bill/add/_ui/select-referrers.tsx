@@ -55,7 +55,7 @@ export const SelectReferrers = () => {
                       ))}
                     </>
                   ) : (
-                    <Message message="No doctor found" className="p-2 font-medium" />
+                    <Message message="No doctor found" className="mt-0 p-2 font-medium" />
                   )}
                 </>
               )}
@@ -87,7 +87,7 @@ export const SelectReferrers = () => {
                       ))}
                     </>
                   ) : (
-                    <Message message="No agent found" className="p-2 font-medium" />
+                    <Message message="No agent found" className="mt-0 p-2 font-medium" />
                   )}
                 </>
               )}

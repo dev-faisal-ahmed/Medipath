@@ -1,8 +1,7 @@
 'use client';
 
 import { QK } from '@/api-lib';
-import { TReferrer } from '@/types';
-import { getReferrers } from '@/api-lib/query';
+import { getReferrers, TGetReferrersQueryResponse } from '@/api-lib/query';
 import { DataTable, DataTableAction } from '@/components/ui/data-table';
 import { usePopupState } from '@/hooks';
 import { removeEmptyProperty } from '@/helper';
@@ -13,6 +12,7 @@ import { UpdateReferrer } from './update-referrer';
 import { DeleteReferrer } from './delete-referrer';
 import { FullSpaceLoader } from '@/components/ui/loader';
 import { useTopbarStore } from '@/stores/topbar';
+import { CONST } from '@/lib/const';
 
 const LIMIT = '20';
 
@@ -31,15 +31,35 @@ export const ReferrerTable = () => {
   const totalPages = referrerData?.meta?.totalPages || 1;
   const offset = (page - 1) * limit;
 
-  const column: ColumnDef<TReferrer>[] = [
+  const column: ColumnDef<TGetReferrersQueryResponse>[] = [
     { id: 'serial', header: 'SL.', cell: ({ row }) => <span>{offset + row.index + 1}</span> },
     { accessorKey: 'name', header: 'Name' },
     { accessorKey: 'type', header: 'Type' },
-    { accessorKey: 'designation', header: 'Designation' },
+    {
+      accessorKey: 'designation',
+      header: 'Designation',
+      cell: ({ getValue }) => <span>{getValue<string>() || 'N/A'}</span>,
+    },
     {
       accessorKey: 'phone',
       header: 'Phone',
       cell: ({ getValue }) => <div className="text-muted-foreground">{getValue<string>() || 'N/A'}</div>,
+    },
+    {
+      id: 'due',
+      header: 'Due',
+      cell: ({ row }) => {
+        const { visit, referrer, paid } = row.original;
+        const due = visit + referrer - paid;
+
+        if (!due) return <span>N/A</span>;
+
+        return (
+          <span>
+            {CONST.TAKA} {due}
+          </span>
+        );
+      },
     },
     { id: 'action', cell: ({ row }) => <ActionDropdown {...row.original} /> },
   ];
@@ -50,7 +70,7 @@ export const ReferrerTable = () => {
   return <DataTable data={referrerData?.data} pagination={{ page, totalPages }} columns={column} />;
 };
 
-const ActionDropdown = (referrer: TReferrer) => {
+const ActionDropdown = (referrer: TGetReferrersQueryResponse) => {
   const { open, onOpenChange } = usePopupState();
 
   return (
