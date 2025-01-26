@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { TBill } from '@/types';
 import { QK } from '@/api-lib';
 import { getBills } from '@/api-lib/query';
-import { DataTable } from '@/components/ui/data-table';
+import { DataTable, DataTableAction } from '@/components/ui/data-table';
 import { FullSpaceLoader } from '@/components/ui/loader';
 import { removeEmptyProperty } from '@/helper';
 import { useQuery } from '@tanstack/react-query';
@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { TakeDue } from './take-due';
 import { Badge } from '@/components/ui/badge';
 import { useTopbarStore } from '@/stores/topbar';
+import { usePopupState } from '@/hooks';
 
 const LIMIT = '20';
 
@@ -93,14 +94,7 @@ export const BillTable = () => {
         const { paid, price, discount, id } = row.original;
         const due = price - (paid || 0) - (discount || 0);
 
-        return (
-          <div className="mx-auto flex w-fit flex-col gap-2">
-            <Button variant="outline" asChild>
-              <Link href={`/bill/${id}`}>View Receipt</Link>
-            </Button>
-            {due ? <TakeDue billId={id} /> : <Button variant="secondary">Already Paid</Button>}
-          </div>
-        );
+        return <ActionMenu billId={id} due={due} />;
       },
     },
   ];
@@ -108,4 +102,17 @@ export const BillTable = () => {
   if (isLoading) return <FullSpaceLoader />;
 
   return <DataTable columns={column} data={billData?.data || []} pagination={{ page, totalPages }} />;
+};
+
+const ActionMenu = ({ billId, due }: { billId: string; due: number }) => {
+  const { open, onOpenChange } = usePopupState();
+
+  return (
+    <DataTableAction open={open} onOpenChange={onOpenChange} className={{ childContainer: 'gap-3 p-3' }}>
+      <Button variant="outline" asChild>
+        <Link href={`/bill/${billId}`}>View Receipt</Link>
+      </Button>
+      {due ? <TakeDue billId={billId} /> : <Button variant="secondary">Already Paid</Button>}
+    </DataTableAction>
+  );
 };

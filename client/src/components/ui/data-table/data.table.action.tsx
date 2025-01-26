@@ -11,8 +11,9 @@ import {
 import { ReactNode } from 'react';
 import { Button } from '../button';
 import { EllipsisIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-export const DataTableAction = ({ open, onOpenChange, children }: TDataTableActionProps) => {
+export const DataTableAction = ({ open, onOpenChange, className, children }: TDataTableActionProps) => {
   return (
     <DropdownMenu open={open} onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild>
@@ -20,14 +21,19 @@ export const DataTableAction = ({ open, onOpenChange, children }: TDataTableActi
           <EllipsisIcon />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent className={cn(className?.content)}>
         <DropdownMenuLabel className="text-center">Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <section className="flex flex-col gap-2">{children}</section>
+        <section className={cn('flex flex-col gap-2', className?.childContainer)}>{children}</section>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 };
 
 // type
-type TDataTableActionProps = { open: boolean; onOpenChange(open: boolean): void; children: ReactNode };
+type TDataTableActionProps = {
+  open: boolean;
+  onOpenChange(open: boolean): void;
+  children: ReactNode;
+  className?: { content?: string; childContainer?: string };
+};
