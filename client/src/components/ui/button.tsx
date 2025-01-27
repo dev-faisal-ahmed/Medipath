@@ -5,7 +5,6 @@ import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 import { Loading } from './loader';
-import { PenLineIcon, PlusIcon, TrashIcon } from 'lucide-react';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
@@ -68,37 +67,4 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 Button.displayName = 'Button';
 
-interface IActionButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string;
-  actionType: 'ADD' | 'UPDATE' | 'DELETE';
-}
-
-interface IActionButtonConfig {
-  [key: string]: {
-    icon: React.ReactNode;
-    className?: string;
-    variant?: 'primary-ghost' | 'destructive-ghost';
-  };
-}
-
-const ACTION_BUTTON_CONFIG: IActionButtonConfig = {
-  ADD: { icon: <PlusIcon /> },
-  UPDATE: { icon: <PenLineIcon />, className: 'justify-start', variant: 'primary-ghost' },
-  DELETE: { icon: <TrashIcon />, className: 'justify-start text-foreground', variant: 'destructive-ghost' },
-};
-
-const ActionButton = React.forwardRef<HTMLButtonElement, IActionButtonProps>(
-  ({ label, actionType, className, ...props }, ref) => {
-    const config = ACTION_BUTTON_CONFIG[actionType];
-
-    return (
-      <Button ref={ref} {...props} className={cn(config.className, className)} variant={config.variant || 'default'}>
-        {config.icon} {label}
-      </Button>
-    );
-  },
-);
-
-ActionButton.displayName = 'ActionButton';
-
-export { Button, buttonVariants, ActionButton };
+export { Button, buttonVariants };

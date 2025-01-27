@@ -8,7 +8,7 @@ import { FormDialog } from '@/components/shared/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ReferrerForm, TReferrerForm } from './referrer.form';
 import { addReferrer } from '@/api-lib/query';
-import { ActionButton } from '@/components/ui/button';
+import { ActionButton } from '@/components/shared';
 
 const formId = QK.REFERRER + '_ADD';
 

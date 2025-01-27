@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateReferrer } from '@/api-lib/query';
 import { toast } from 'sonner';
 import { errorMessageGen } from '@/helper';
-import { ActionButton } from '@/components/ui/button';
+import { ActionButton } from '@/components/shared';
 
 export const UpdateReferrer = ({ referrer, onActionDropdownChange }: TUpdateReferrerProps) => {
   const { open, onOpenChange } = usePopupState();

@@ -1,6 +1,6 @@
 'use client';
 
-import { ActionButton } from '@/components/ui/button';
+import { ActionButton } from '@/components/shared';
 import { TService } from '@/types';
 import { ServiceForm, TServiceForm } from './service.form';
 import { QK } from '@/api-lib';

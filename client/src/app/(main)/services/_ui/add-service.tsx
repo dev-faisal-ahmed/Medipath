@@ -3,7 +3,7 @@
 import { QK } from '@/api-lib';
 import { FormDialog } from '@/components/shared/form';
 import { ServiceForm, TServiceForm } from './service.form';
-import { ActionButton } from '@/components/ui/button';
+import { ActionButton } from '@/components/shared';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addService } from '@/api-lib/query';
 import { toast } from 'sonner';

@@ -4,7 +4,7 @@ import { QK } from '@/api-lib';
 import { toast } from 'sonner';
 import { usePopupState } from '@/hooks';
 import { FormDialog } from '@/components/shared/form';
-import { ActionButton } from '@/components/ui/button';
+import { ActionButton } from '@/components/shared';
 import { CategoryForm, TCategoryForm } from './category.form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addCategory } from '@/api-lib/query';

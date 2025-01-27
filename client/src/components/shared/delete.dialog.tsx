@@ -11,9 +11,10 @@ import {
   AlertDialogTrigger,
 } from '../ui/alert-dialog';
 
-import { ActionButton, Button } from '../ui/button';
+import { ActionButton } from '../shared';
 import { AlertDialogCancel } from '@radix-ui/react-alert-dialog';
 import { useIsMutating } from '@tanstack/react-query';
+import { Button } from '../ui/button';
 
 export const DeleteDialog = ({
   triggerButton,
