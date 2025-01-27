@@ -39,7 +39,7 @@ export const DataTable = <TData, TValue>({ columns, data, pagination }: TDataTab
                 {table.getRowModel().rows?.length ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow
-                      className="border-b even:bg-gray-50"
+                      className="border-b even:bg-gray-100"
                       key={row.id}
                       data-state={row.getIsSelected() && 'selected'}
                     >

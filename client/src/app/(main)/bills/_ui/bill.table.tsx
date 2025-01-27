@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { TBill } from '@/types';
 import { QK } from '@/api-lib';
-import { getBills } from '@/api-lib/query';
+import { getBills, TGetBillsResponse } from '@/api-lib/query';
 import { DataTable, DataTableAction } from '@/components/ui/data-table';
 import { FullSpaceLoader } from '@/components/ui/loader';
 import { removeEmptyProperty } from '@/helper';
@@ -18,6 +18,7 @@ import { TakeDue } from './take-due';
 import { Badge } from '@/components/ui/badge';
 import { useTopbarStore } from '@/stores/topbar';
 import { usePopupState } from '@/hooks';
+import { FaUserMd, FaUserSecret } from 'react-icons/fa';
 
 const LIMIT = '20';
 
@@ -36,7 +37,7 @@ export const BillTable = () => {
   const totalPages = billData?.meta?.totalPages || 1;
   const offset = (page - 1) * limit;
 
-  const column: ColumnDef<TBill>[] = [
+  const column: ColumnDef<TGetBillsResponse>[] = [
     { id: 'serial', header: 'SL.', cell: ({ row }) => <span>{offset + row.index + 1}</span> },
     { accessorKey: 'billId', header: 'Bill Id' },
     {
@@ -84,9 +85,35 @@ export const BillTable = () => {
       },
     },
     {
+      id: 'commission',
+      header: 'Commission',
+      cell: ({ row }) => {
+        const { referrerCommission, visitCommission, visitorId, referrerId, transactions } = row.original;
+
+        if (!visitCommission && !referrerCommission) return <span>Commission is not applicable</span>;
+
+        return (
+          <section className="space-y-2">
+            <RenderCommissionInfo
+              title="DOCTOR"
+              amount={visitCommission}
+              transactions={transactions}
+              userId={visitorId}
+            />
+            <RenderCommissionInfo
+              title="AGENT"
+              amount={referrerCommission}
+              transactions={transactions}
+              userId={referrerId}
+            />
+          </section>
+        );
+      },
+    },
+    {
       accessorKey: 'date',
-      header: () => <div className="text-center">Date</div>,
-      cell: ({ getValue }) => <div className="text-center">{format(getValue<string>(), 'dd MMM, yyyy')}</div>,
+      header: () => <span>Date</span>,
+      cell: ({ getValue }) => <span>{format(getValue<string>(), 'dd MMM, yyyy')}</span>,
     },
     {
       id: 'action',
@@ -104,6 +131,36 @@ export const BillTable = () => {
   return <DataTable columns={column} data={billData?.data || []} pagination={{ page, totalPages }} />;
 };
 
+// helper components
+const RenderCommissionInfo = ({ title, amount, userId, transactions }: TRenderCommissionInfo) => {
+  if (!amount || !userId) return null;
+
+  const transaction = transactions.find((transaction) => transaction._id === userId);
+  const paid = transaction?.totalAmount || 0;
+
+  return (
+    <div className="flex items-center gap-2">
+      <span className="rounded-full border p-2">
+        {title === 'DOCTOR' && <FaUserMd className="text-primary" size={18} />}
+        {title === 'AGENT' && <FaUserSecret className="text-primary" size={18} />}
+      </span>
+
+      <p>
+        Commission :{' '}
+        <span className="font-semibold">
+          {CONST.TAKA} {amount}
+        </span>
+      </p>
+      <p className="ml-4">
+        Paid :{' '}
+        <span className="font-semibold">
+          {CONST.TAKA} {paid}
+        </span>
+      </p>
+    </div>
+  );
+};
+
 const ActionMenu = ({ billId, due }: { billId: string; due: number }) => {
   const { open, onOpenChange } = usePopupState();
 
@@ -115,4 +172,12 @@ const ActionMenu = ({ billId, due }: { billId: string; due: number }) => {
       {due ? <TakeDue billId={billId} /> : <Button variant="secondary">Already Paid</Button>}
     </DataTableAction>
   );
+};
+
+// types
+type TRenderCommissionInfo = {
+  title: 'DOCTOR' | 'AGENT';
+  userId?: string;
+  amount?: number;
+  transactions: TGetBillsResponse['transactions'];
 };

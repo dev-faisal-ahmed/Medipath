@@ -1,4 +1,4 @@
-import { TBill, TServerResponse, TService, TObject, REFERRER_TYPE } from '@/types';
+import { TBill, TServerResponse, TObject, REFERRER_TYPE } from '@/types';
 import { removeEmptyProperty } from '@/helper';
 import { axiosInstance } from '@/lib/axios';
 import { apiUrl } from '../api-url';
@@ -10,7 +10,7 @@ export const addBill = async (payload: TAddServicePayload): Promise<TServerRespo
   return data;
 };
 
-export const getBills = async (args: TObject): Promise<TServerResponse<TBill[]>> => {
+export const getBills = async (args: TObject): Promise<TServerResponse<TGetBillsResponse[]>> => {
   const refinedArgs = removeEmptyProperty(args);
   const searchParams = new URLSearchParams(refinedArgs as TObject).toString();
   const { data } = await axiosInstance.get(apiUrl.getBills(searchParams ? `?${searchParams}` : ''));
@@ -46,10 +46,12 @@ type TAddServicePayload = Pick<
   | 'paid'
 >;
 
+export type TGetBillsResponse = TBill & { transactions: { _id: string; totalAmount: number }[] };
+
 export type TBillDetails = Pick<
   TBill,
-  'id' | 'billId' | 'referrerId' | 'visitorId' | 'patientInfo' | 'date' | 'price' | 'discount' | 'paid'
-> & { services: Omit<TService, 'id'>[]; agent: { id: string; name: string }; doctor: { id: string; name: string } };
+  'id' | 'billId' | 'referrerId' | 'visitorId' | 'patientInfo' | 'date' | 'price' | 'discount' | 'paid' | 'services'
+> & { agent: { id: string; name: string }; doctor: { id: string; name: string } };
 
 type TTakeDuePayload = { billId: string; amount: number };
 type TGiveCommissionPayload = { amount: number; referrerType: REFERRER_TYPE; referrerId: string; billId: string };
