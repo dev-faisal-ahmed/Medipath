@@ -19,9 +19,11 @@ import { Badge } from '@/components/ui/badge';
 import { useTopbarStore } from '@/stores/topbar';
 import { usePopupState } from '@/hooks';
 import { FaUserMd, FaUserSecret } from 'react-icons/fa';
+import { GiveCommission } from '@/components/shared/give-commission/give-commission';
 
 const LIMIT = '20';
 
+// main component
 export const BillTable = () => {
   const searchTerm = useTopbarStore((state) => state.searchTerm);
   const searchParams = useSearchParams();
@@ -118,10 +120,22 @@ export const BillTable = () => {
     {
       id: 'action',
       cell: ({ row }) => {
-        const { paid, price, discount, id } = row.original;
+        const { paid, price, discount, id, transactions, referrerCommission, visitCommission, referrerId, visitorId } =
+          row.original;
+
         const due = price - (paid || 0) - (discount || 0);
 
-        return <ActionMenu billId={id} due={due} />;
+        return (
+          <ActionMenu
+            billId={id}
+            due={due}
+            transactions={transactions}
+            referrerCommission={referrerCommission}
+            visitCommission={visitCommission}
+            referrerId={referrerId}
+            visitorId={visitorId}
+          />
+        );
       },
     },
   ];
@@ -161,7 +175,15 @@ const RenderCommissionInfo = ({ title, amount, userId, transactions }: TRenderCo
   );
 };
 
-const ActionMenu = ({ billId, due }: { billId: string; due: number }) => {
+const ActionMenu = ({
+  billId,
+  due,
+  transactions,
+  referrerCommission,
+  referrerId,
+  visitCommission,
+  visitorId,
+}: TActionMenuProps) => {
   const { open, onOpenChange } = usePopupState();
 
   return (
@@ -169,9 +191,43 @@ const ActionMenu = ({ billId, due }: { billId: string; due: number }) => {
       <Button variant="outline" asChild>
         <Link href={`/bill/${billId}`}>View Receipt</Link>
       </Button>
-      {due ? <TakeDue billId={billId} /> : <Button variant="secondary">Already Paid</Button>}
+
+      {due ? (
+        <TakeDue billId={billId} />
+      ) : (
+        <Button variant="secondary" className="w-full">
+          Already Paid
+        </Button>
+      )}
+
+      {!!visitCommission && (
+        <GiveCommission
+          billId={billId}
+          buttonLabel="Give Doctor Commission"
+          referrerId={visitorId!}
+          disabled={!hasDue({ amount: visitCommission, transactions: transactions, userId: visitorId! })}
+        />
+      )}
+
+      {!!referrerCommission && (
+        <GiveCommission
+          billId={billId}
+          buttonLabel="Give Agent Commission"
+          referrerId={referrerId!}
+          disabled={!hasDue({ amount: referrerCommission, transactions: transactions, userId: referrerId! })}
+        />
+      )}
     </DataTableAction>
   );
+};
+
+// helper functions
+const hasDue = ({ amount, transactions, userId }: THasDueArgs) => {
+  const transaction = transactions.find((transaction) => transaction?._id === userId);
+  const totalPaid = transaction?.totalAmount || 0;
+
+  if (amount <= totalPaid) return false;
+  return true;
 };
 
 // types
@@ -180,4 +236,16 @@ type TRenderCommissionInfo = {
   userId?: string;
   amount?: number;
   transactions: TGetBillsResponse['transactions'];
+};
+
+type THasDueArgs = { transactions: TGetBillsResponse['transactions']; userId: string; amount: number };
+
+type TActionMenuProps = {
+  billId: string;
+  due: number;
+  transactions: TGetBillsResponse['transactions'];
+  visitCommission?: number;
+  referrerCommission?: number;
+  visitorId?: string;
+  referrerId?: string;
 };

@@ -90,7 +90,7 @@ const getBills = async (query: TObject) => {
         as: 'transactions',
       },
     },
-    { $addFields: { id: '_id' } },
+    { $addFields: { id: '$_id' } },
     { $project: { _id: 0, createdAt: 0, updatedAt: 0, __v: 0 } },
     { $skip: skip },
     { $limit: limit },
@@ -217,8 +217,8 @@ const giveCommission = async (payload: TGiveCommissionPayload, billId: string) =
   */
 
   let commission: number;
-  if (referrerId === bill.referrerId.toString()) commission = referrerCommission;
-  else if (referrerId === bill.visitorId.toString()) commission = visitCommission;
+  if (referrerId === bill.referrerId?.toString()) commission = referrerCommission;
+  else if (referrerId === bill.visitorId?.toString()) commission = visitCommission;
   else throw new AppError('Invalid referrerId', 400);
 
   const due = commission - totalPaid;

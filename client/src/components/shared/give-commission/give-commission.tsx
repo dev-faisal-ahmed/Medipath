@@ -3,7 +3,6 @@
 import { z } from 'zod';
 import { QK } from '@/api-lib';
 import { toast } from 'sonner';
-import { REFERRER_TYPE } from '@/types';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { errorMessageGen, zodNumber } from '@/helper';
@@ -13,8 +12,9 @@ import { usePopupState } from '@/hooks';
 import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { giveCommission } from '@/api-lib/query';
+import { ActionButton } from '../action-button';
 
-export const GiveCommission = ({ billId, referrerId, referrerType }: TGiveCommissionProps) => {
+export const GiveCommission = ({ billId, referrerId, buttonLabel, disabled }: TGiveCommissionProps) => {
   const formId = `${QK.BILL}_GIVE_COMMISSION_${billId}`;
   const { open, onOpenChange } = usePopupState();
   const qc = useQueryClient();
@@ -36,27 +36,30 @@ export const GiveCommission = ({ billId, referrerId, referrerType }: TGiveCommis
   });
 
   const handleGiveCommission = form.handleSubmit((formData: TGiveCommissionForm) => {
-    mutate({ amount: Number(formData.amount), billId, referrerId, referrerType });
+    mutate({ amount: Number(formData.amount), billId, referrerId });
   });
 
   return (
-    <FormDialog
-      formId={formId}
-      open={open}
-      onOpenChange={onOpenChange}
-      title="Give Commission"
-      description="Provide amount to give commission"
-      submitButtonTitle="Proceed"
-      submitLoadingTitle="Pending..."
-    >
-      <Form {...form}>
-        <form id={formId} onSubmit={handleGiveCommission}>
-          <CommonFormFiled control={form.control} name="amount" label="Amount">
-            {({ field }) => <Input {...field} placeholder="Input amount" type="number" />}
-          </CommonFormFiled>
-        </form>
-      </Form>
-    </FormDialog>
+    <>
+      <ActionButton actionType="PAYMENT" label={buttonLabel} onClick={() => onOpenChange(true)} disabled={disabled} />
+      <FormDialog
+        formId={formId}
+        open={open}
+        onOpenChange={onOpenChange}
+        title="Give Commission"
+        description="Provide amount to give commission"
+        submitButtonTitle="Proceed"
+        submitLoadingTitle="Pending..."
+      >
+        <Form {...form}>
+          <form id={formId} onSubmit={handleGiveCommission}>
+            <CommonFormFiled control={form.control} name="amount" label="Amount">
+              {({ field }) => <Input {...field} placeholder="Input amount" type="number" />}
+            </CommonFormFiled>
+          </form>
+        </Form>
+      </FormDialog>
+    </>
   );
 };
 
@@ -68,7 +71,8 @@ const giveCommissionFormSchema = z.object({
 type TGiveCommissionProps = {
   billId: string;
   referrerId: string;
-  referrerType: REFERRER_TYPE;
+  buttonLabel: string;
+  disabled?: boolean;
 };
 
 type TGiveCommissionForm = z.infer<typeof giveCommissionFormSchema>;

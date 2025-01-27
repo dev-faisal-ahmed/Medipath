@@ -39,7 +39,7 @@ export const TakeDue = ({ billId }: { billId: string }) => {
 
   return (
     <>
-      <Button className="w-fit" onClick={() => onOpenChange(true)}>
+      <Button className="w-full" onClick={() => onOpenChange(true)}>
         <PencilIcon className="size-4" /> Take Due
       </Button>
 

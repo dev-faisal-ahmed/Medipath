@@ -1,4 +1,4 @@
-import { TBill, TServerResponse, TObject, REFERRER_TYPE } from '@/types';
+import { TBill, TServerResponse, TObject } from '@/types';
 import { removeEmptyProperty } from '@/helper';
 import { axiosInstance } from '@/lib/axios';
 import { apiUrl } from '../api-url';
@@ -54,4 +54,4 @@ export type TBillDetails = Pick<
 > & { agent: { id: string; name: string }; doctor: { id: string; name: string } };
 
 type TTakeDuePayload = { billId: string; amount: number };
-type TGiveCommissionPayload = { amount: number; referrerType: REFERRER_TYPE; referrerId: string; billId: string };
+type TGiveCommissionPayload = { amount: number; referrerId: string; billId: string };
