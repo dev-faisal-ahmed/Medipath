@@ -9,9 +9,10 @@ import {
 } from './transaction.interface';
 
 import { model, Schema } from 'mongoose';
-import { MODEL, TRANSACTION_CATEGORY_TYPE } from '../model-names';
+import { MODEL } from '../model-names';
 import { transformJson } from '../../helpers';
 import { MODE } from '../../utils/type';
+import { TRANSACTION_CATEGORY_TYPE } from './constants';
 
 // base schema
 const transactionSchema = new Schema<ITransaction>(

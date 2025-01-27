@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { zodMongoObjectId } from '../../helpers';
 import { AGE_TITLE, GENDER } from './bill.interface';
-import { REFERRER_TYPE } from '../referrer/referrer.interface';
 
 const patientInfoSubSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
@@ -35,7 +34,6 @@ const takeDueSchema = z.object({
 
 const giveCommissionSchema = z.object({
   amount: z.number().positive({ message: 'Amount can not be negative' }),
-  referrerType: z.nativeEnum(REFERRER_TYPE, { message: 'Invalid ' }),
   referrerId: zodMongoObjectId('Invalid referredId'),
 });
 

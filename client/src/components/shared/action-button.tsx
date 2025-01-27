@@ -1,4 +1,4 @@
-import { PenLineIcon, PlusIcon, TrashIcon } from 'lucide-react';
+import { PenLineIcon, PlusIcon, TrashIcon, WalletIcon } from 'lucide-react';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
@@ -22,12 +22,13 @@ const ACTION_BUTTON_CONFIG: TActionButtonConfig = {
   ADD: { icon: <PlusIcon /> },
   UPDATE: { icon: <PenLineIcon />, className: 'justify-start', variant: 'primary-ghost' },
   DELETE: { icon: <TrashIcon />, className: 'justify-start text-foreground', variant: 'destructive-ghost' },
+  PAYMENT: { icon: <WalletIcon />, className: 'justify-start text-foreground', variant: 'primary-ghost' },
 };
 
 // type
 type TActionButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   label: string;
-  actionType: 'ADD' | 'UPDATE' | 'DELETE';
+  actionType: 'ADD' | 'UPDATE' | 'DELETE' | 'PAYMENT';
 };
 
 type TActionButtonConfig = {

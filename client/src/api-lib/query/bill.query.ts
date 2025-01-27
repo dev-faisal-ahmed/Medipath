@@ -1,4 +1,4 @@
-import { TBill, TServerResponse, TService, TObject } from '@/types';
+import { TBill, TServerResponse, TService, TObject, REFERRER_TYPE } from '@/types';
 import { removeEmptyProperty } from '@/helper';
 import { axiosInstance } from '@/lib/axios';
 import { apiUrl } from '../api-url';
@@ -27,6 +27,12 @@ export const takeDue = async ({ amount, billId }: TTakeDuePayload): Promise<TSer
   return data;
 };
 
+export const giveCommission = async (payload: TGiveCommissionPayload): Promise<TServerResponse<null>> => {
+  const { billId, ...restPayload } = payload;
+  const { data } = await axiosInstance.patch(apiUrl.giveCommission(billId), restPayload);
+  return data;
+};
+
 // types
 type TAddServicePayload = Pick<
   TBill,
@@ -46,3 +52,4 @@ export type TBillDetails = Pick<
 > & { services: Omit<TService, 'id'>[]; agent: { id: string; name: string }; doctor: { id: string; name: string } };
 
 type TTakeDuePayload = { billId: string; amount: number };
+type TGiveCommissionPayload = { amount: number; referrerType: REFERRER_TYPE; referrerId: string; billId: string };

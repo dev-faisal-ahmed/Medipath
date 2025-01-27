@@ -3,7 +3,7 @@ import { TRANSACTION_TYPE } from './transaction.interface';
 import { getMonthRangeQuery, parseDate } from '../../helpers';
 import { UtilityExpenseTransaction } from './transaction.model';
 import { TAddExpensePayload } from './transaction.validation';
-import { TRANSACTION_CATEGORY_TYPE } from '../model-names';
+import { TRANSACTION_CATEGORY_TYPE } from './constants';
 
 const addExpense = async (payload: TAddExpensePayload) => {
   await UtilityExpenseTransaction.create({ ...payload, type: TRANSACTION_TYPE.EXPENSE });

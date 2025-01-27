@@ -36,3 +36,8 @@ export type TBill = {
   referrerCommission?: number;
   visitCommission?: number;
 };
+
+export enum BILL_REFER_TYPE {
+  AGENT = 'AGENT',
+  VISITOR = 'VISITOR',
+}

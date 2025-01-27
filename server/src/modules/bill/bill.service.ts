@@ -8,7 +8,7 @@ import { generateMeta, getPageParams, getSearchQuery } from '../../helpers';
 import { TAddBillPayload, TGiveCommissionPayload, TTakeDuePayload } from './bill.validation';
 import { TRANSACTION_TYPE } from '../transaction/transaction.interface';
 import { BillTransaction, ReferrerExpenseTransaction } from '../transaction/transaction.model';
-import { REFERRER_TYPE } from '../referrer/referrer.interface';
+import { TRANSACTION_CATEGORY_TYPE } from '../transaction/constants';
 
 const addBill = async (payload: TAddBillPayload) => {
   const session = await mongoose.startSession();
@@ -75,7 +75,26 @@ const addBill = async (payload: TAddBillPayload) => {
 const getBills = async (query: TObject) => {
   const dbQuery = { ...getSearchQuery(query, 'billId', 'patientInfo.name') };
   const { page, limit, skip } = getPageParams(query);
-  const bills = await Bill.find(dbQuery).sort({ createdAt: -1 }).skip(skip).limit(limit);
+  // const bills = await Bill.find(dbQuery).sort({ createdAt: -1 }).skip(skip).limit(limit);
+  const bills = await Bill.aggregate([
+    { $match: dbQuery },
+    {
+      $lookup: {
+        from: 'transactions',
+        localField: '_id',
+        foreignField: 'billId',
+        pipeline: [
+          { $match: { $expr: { $eq: ['$categoryType', TRANSACTION_CATEGORY_TYPE.REFERRER_TRANSACTION] } } },
+          { $group: { _id: '$referrerId', totalAmount: { $sum: '$amount' } } },
+        ],
+        as: 'transactions',
+      },
+    },
+    { $addFields: { id: '_id' } },
+    { $project: { _id: 0, createdAt: 0, updatedAt: 0, __v: 0 } },
+    { $skip: skip },
+    { $limit: limit },
+  ]);
   const total = await Bill.countDocuments(dbQuery);
   const meta = generateMeta({ page, limit, total });
   return { bills, meta };
@@ -156,8 +175,9 @@ const takeDue = async (payload: TTakeDuePayload, billId: string) => {
 };
 
 const giveCommission = async (payload: TGiveCommissionPayload, billId: string) => {
-  const { amount, referrerId, referrerType } = payload;
+  const { amount, referrerId } = payload;
   const objId = new mongoose.Types.ObjectId(billId);
+  const referredObjId = new mongoose.Types.ObjectId(referrerId);
 
   const [bill] = await Bill.aggregate([
     { $match: { _id: objId } },
@@ -166,19 +186,42 @@ const giveCommission = async (payload: TGiveCommissionPayload, billId: string) =
         from: 'transactions',
         localField: '_id',
         foreignField: 'billId',
-        pipeline: [{ $project: { amount: 1 } }],
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                // only extracting transactions for which belong to current referrer
+                $and: [
+                  { $eq: ['$categoryType', TRANSACTION_CATEGORY_TYPE.REFERRER_TRANSACTION] },
+                  { $eq: ['$referrerId', referredObjId] },
+                ],
+              },
+            },
+          },
+          { $group: { _id: null, totalPaid: { $sum: '$amount' } } },
+        ],
         as: 'transactions',
       },
     },
-    { $addFields: { totalPaid: { $sum: '$transactions.amount' } } },
-    { $project: { _id: 1, totalPaid: 1, referrerCommission: 1, visitCommission: 1 } },
+    { $addFields: { totalPaid: { $arrayElemAt: ['$transactions.totalPaid', 0] } } },
+    { $project: { _id: 1, totalPaid: 1, referrerCommission: 1, visitCommission: 1, referrerId: 1, visitorId: 1 } },
   ]);
 
   if (!bill) throw new AppError('Bill not found', 400);
   const { totalPaid, referrerCommission, visitCommission } = bill;
-  const commission = referrerType === REFERRER_TYPE.AGENT ? referrerCommission : visitCommission;
-  const due = commission - totalPaid;
 
+  /*
+    case 1 => current referrer is an agent
+    case 2 => current referrer is a doctor
+    case 3 => current user is not agent nor doctor
+  */
+
+  let commission: number;
+  if (referrerId === bill.referrerId.toString()) commission = referrerCommission;
+  else if (referrerId === bill.visitorId.toString()) commission = visitCommission;
+  else throw new AppError('Invalid referrerId', 400);
+
+  const due = commission - totalPaid;
   if (due < amount) throw new AppError(`Due is ${due} TK but you are giving ${payload.amount}`, 400);
 
   const transaction = await ReferrerExpenseTransaction.create({
@@ -190,7 +233,7 @@ const giveCommission = async (payload: TGiveCommissionPayload, billId: string) =
   });
 
   if (!transaction) throw new AppError('Failed to give commission', 400);
-  return 'Commission give successfully';
+  return 'Commission given successfully';
 };
 
 export const billService = { addBill, getBillDetails, getBills, takeDue, giveCommission };

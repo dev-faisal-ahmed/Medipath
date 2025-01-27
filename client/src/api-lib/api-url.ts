@@ -22,6 +22,7 @@ export const apiUrl = {
   getBillDetails: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}`,
   getBills: (searchParams: string) => `${SERVER_ADDRESS}/bills${searchParams}`,
   takeDue: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}/take-due`,
+  giveCommission: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}/give-commission`,
   // expense category
   addCategory: `${SERVER_ADDRESS}/category`,
   getCategories: (mode: TCategory['mode']) => `${SERVER_ADDRESS}/categories?mode=${mode}`,
