@@ -10,7 +10,7 @@ export default async function Layout({ children }: PropsWithChildren) {
   await queryClient.prefetchQuery({ queryKey: [QK.AUTH], queryFn: async () => await getAuth() });
 
   const session = await getAuth();
-  if (!session) redirect('/auth/login');
+  if (!session?.user) redirect('/auth/login');
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

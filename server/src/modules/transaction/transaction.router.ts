@@ -17,6 +17,12 @@ export const transactionsRouter = Router();
 
 transactionsRouter.get(
   '/expenses/monthly',
-  // authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
+  authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
   transactionController.getMonthlyExpenses,
+);
+
+transactionsRouter.get(
+  '/expenses/referrer',
+  authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
+  transactionController.getReferrerExpense,
 );

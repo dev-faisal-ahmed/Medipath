@@ -1,13 +1,10 @@
-import { getAuth } from '@/actions';
 import { Header } from '@/components/shared';
 
 export default async function Home() {
-  const session = await getAuth();
-
   return (
     <>
       <Header title="Dashboard" />
-      <h1 className="break-all">Welcome to Medipath{JSON.stringify(session?.user)}</h1>
+      <h1 className="break-all">Welcome to Medipath</h1>
     </>
   );
 }
