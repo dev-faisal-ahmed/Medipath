@@ -13,12 +13,7 @@ export const useSidebarLinks = () => {
 
     const links: TSidebarLink[] = [
       { title: 'Dashboard', url: '/', icon: <MdSpaceDashboard size={20} />, isActive: exactMath('/') },
-      {
-        title: 'Service',
-        url: '/services',
-        icon: <FaXRay size={20} />,
-        isActive: exactMath('/services'),
-      },
+      { title: 'Service', url: '/services', icon: <FaXRay size={20} />, isActive: exactMath('/services') },
       {
         title: 'Bill',
         icon: <RiBillFill size={20} />,
@@ -40,7 +35,9 @@ export const useSidebarLinks = () => {
         isActive: partialMatch('/expense'),
         items: [
           { title: 'Categories', url: '/expense/categories', isActive: partialMatch('/expense/categories') },
-          { title: 'Expenses', url: '/expenses', isActive: partialMatch('/expenses') },
+          { title: 'Expenses', url: '/expenses', isActive: exactMath('/expenses') },
+          { title: 'Referred Expenses', url: '/expenses/referred', isActive: partialMatch('/expenses/referred') },
+          { title: 'Doctors Pc Expenses', url: '/expenses/doctor-pc', isActive: partialMatch('/expenses/doctor-pc') },
         ],
       },
     ];
@@ -51,6 +48,7 @@ export const useSidebarLinks = () => {
   return { sidebarLinks };
 };
 
+// types
 export type TSidebarLink = {
   title: string;
   icon: ReactNode;

@@ -31,8 +31,12 @@ const getMonthlyExpenses = async (query: TObject) => {
         expenses: [
           { $match: { ...dbQuery, date: getMonthRangeQuery(year, month) } },
           { $lookup: { from: 'categories', localField: 'categoryId', foreignField: '_id', as: 'category' } },
-          { $addFields: { categoryName: { $arrayElemAt: ['$category.name', 0] }, id: '$_id' } },
+          { $addFields: { id: '$_id', categoryName: { $arrayElemAt: ['$category.name', 0] } } },
           { $project: { _id: 0, __v: 0, category: 0, createdAt: 0, updatedAt: 0 } },
+        ],
+        total: [
+          { $match: { ...dbQuery, date: getMonthRangeQuery(year, month) } },
+          { $group: { _id: null, total: { $sum: '$amount' } } },
         ],
       },
     },
@@ -40,6 +44,7 @@ const getMonthlyExpenses = async (query: TObject) => {
       $project: {
         firstExpenseDate: { $arrayElemAt: ['$firstExpense.date', 0] },
         lastExpenseDate: { $arrayElemAt: ['$lastExpense.date', 0] },
+        total: { $arrayElemAt: ['$total.total', 0] },
         expenses: '$expenses',
       },
     },
@@ -47,9 +52,10 @@ const getMonthlyExpenses = async (query: TObject) => {
 
   const firstExpenseDate = result?.firstExpenseDate || new Date();
   const lastExpenseDate = result?.lastExpenseDate || new Date();
+  const total = result.total || 0;
   const expenses = result?.expenses;
 
-  return { firstExpenseDate, lastExpenseDate, expenses };
+  return { firstExpenseDate, lastExpenseDate, total, expenses };
 };
 
 const getReferrerExpenses = async (query: TObject) => {
@@ -77,7 +83,12 @@ const getReferrerExpenses = async (query: TObject) => {
           { $limit: 1 },
         ],
         transactions: [
-          { $match: { categoryType: 'referrer-transaction', date: getMonthRangeQuery(year, month) } },
+          {
+            $match: {
+              categoryType: TRANSACTION_CATEGORY_TYPE.REFERRER_TRANSACTION,
+              date: getMonthRangeQuery(year, month),
+            },
+          },
           {
             $lookup: {
               from: 'referrers',
@@ -88,9 +99,40 @@ const getReferrerExpenses = async (query: TObject) => {
             },
           },
           { $unwind: { path: '$referrer' } },
-          { $match: { 'referrer.type': 'DOCTOR' } },
+          { $match: { 'referrer.type': referrerType } },
           { $addFields: { id: '$_id' } },
-          { $project: { _id: 0, createdAt: 0, updatedAt: 0, __v: 0 } },
+          {
+            $project: {
+              _id: 0,
+              __v: 0,
+              createdAt: 0,
+              updatedAt: 0,
+              type: 0,
+              categoryType: 0,
+              billId: 0,
+              referrerId: 0,
+            },
+          },
+        ],
+        total: [
+          {
+            $match: {
+              categoryType: TRANSACTION_CATEGORY_TYPE.REFERRER_TRANSACTION,
+              date: getMonthRangeQuery(year, month),
+            },
+          },
+          {
+            $lookup: {
+              from: 'referrers',
+              localField: 'referrerId',
+              foreignField: '_id',
+              as: 'referrer',
+              pipeline: [{ $project: { _id: 0, type: 1 } }],
+            },
+          },
+          { $unwind: { path: '$referrer' } },
+          { $match: { 'referrer.type': referrerType } },
+          { $group: { _id: null, total: { $sum: '$amount' } } },
         ],
       },
     },
@@ -98,6 +140,7 @@ const getReferrerExpenses = async (query: TObject) => {
       $project: {
         firstTransactionDate: { $arrayElemAt: ['$firstTransaction.date', 0] },
         lastTransactionDate: { $arrayElemAt: ['$lastTransaction.date', 0] },
+        total: { $arrayElemAt: ['$total.total', 0] },
         transactions: '$transactions',
       },
     },
@@ -105,9 +148,10 @@ const getReferrerExpenses = async (query: TObject) => {
 
   const firstTransactionDate = result?.firstTransactionDate || new Date();
   const lastTransactionDate = result?.lastTransactionDate || new Date();
+  const total = result.total || 0;
   const transactions = result?.transactions;
 
-  return { firstTransactionDate, lastTransactionDate, transactions };
+  return { firstTransactionDate, lastTransactionDate, total, transactions };
 };
 
 export const transactionService = { addExpense, getMonthlyExpenses, getReferrerExpenses };

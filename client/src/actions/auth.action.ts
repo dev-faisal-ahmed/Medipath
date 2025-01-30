@@ -6,10 +6,12 @@ import { auth, signIn, signOut } from '../lib/auth';
 export const singInAction = async (payload: { email: string; password: string }) => {
   try {
     const response = await signIn('credentials', { ...payload, redirect: false });
+    console.log(response);
     return { success: response };
   } catch (error) {
-    if (error instanceof AuthError) return { error: error.cause?.err?.message || 'Invalid credentials' };
-    return { error: 'Something went wrong' };
+    let message = 'Something went wrong';
+    if (error instanceof AuthError) message = error.cause?.err?.message || 'Invalid credentials';
+    throw new Error(message);
   }
 };
 

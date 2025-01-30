@@ -75,7 +75,7 @@ const addBill = async (payload: TAddBillPayload) => {
 const getBills = async (query: TObject) => {
   const dbQuery = { ...getSearchQuery(query, 'billId', 'patientInfo.name') };
   const { page, limit, skip } = getPageParams(query);
-  // const bills = await Bill.find(dbQuery).sort({ createdAt: -1 }).skip(skip).limit(limit);
+
   const bills = await Bill.aggregate([
     { $match: dbQuery },
     {
@@ -227,7 +227,7 @@ const giveCommission = async (payload: TGiveCommissionPayload, billId: string) =
   const transaction = await ReferrerExpenseTransaction.create({
     amount: amount,
     billId,
-    description: `Paid ${amount} referrer expense`,
+    description: `Paid ${amount} TK`,
     referrerId: referrerId,
     type: TRANSACTION_TYPE.EXPENSE,
   });

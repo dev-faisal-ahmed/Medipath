@@ -28,7 +28,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         try {
           const response = await axiosInstance.post(apiUrl.loginWithCredentials, { email, password });
           const { data: userInfo } = response.data as TServerResponse<TLoggedUser>;
-          return userInfo;
+          return { ...userInfo, role: userInfo.role, provider: PROVIDER.CREDENTIALS };
         } catch (error) {
           let message = 'Invalid credentials';
           if (error instanceof AxiosError) message = error.response?.data.message;

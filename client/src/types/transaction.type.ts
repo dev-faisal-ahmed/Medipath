@@ -16,5 +16,5 @@ export type TTransaction = {
 export type TBillTransaction = TTransaction & { billId: string };
 export type TAdmissionTransaction = TTransaction & { admissionId: string };
 export type TUtilityExpenseTransaction = TTransaction & { categoryId: string; mode: MODE };
-export type TReferrerExpenseTransaction = TTransaction & { referrerId: string };
+export type TReferrerExpenseTransaction = TTransaction & { referrerId: string; billId: string };
 export type TDoctorOperationTransaction = TTransaction & { doctorId: string };

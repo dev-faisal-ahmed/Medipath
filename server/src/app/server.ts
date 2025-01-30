@@ -7,10 +7,14 @@ import { app } from './app';
 let server: Server;
 
 const bootstrap = async () => {
-  await mongoose.connect(MONGO_URI!);
-  server = app.listen(PORT, () => {
-    console.log('App is listening on post', PORT);
-  });
+  try {
+    await mongoose.connect(MONGO_URI!);
+    server = app.listen(PORT, () => {
+      console.log('App is listening on post', PORT);
+    });
+  } catch (error) {
+    console.log('Error occurred while starting the server', error);
+  }
 };
 
 bootstrap();

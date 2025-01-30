@@ -9,10 +9,8 @@ import { ProfileMenu } from './profile-menu';
 import { ProfileIcon } from '@/components/shared';
 import { TooltipContainer } from '@/components/ui/tooltip';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { CommonSelect } from '@/components/shared/form';
 import { useTopbarStore } from '@/stores/topbar';
 import { Sidebar } from './sidebar';
-import { MODE } from '@/types';
 
 export const Topbar = () => {
   const isSearchbarShown = useTopbarStore((state) => state.isSearchbarShown);
@@ -20,8 +18,6 @@ export const Topbar = () => {
   const headerChild = useTopbarStore((state) => state.headerChild);
   const search = useTopbarStore((state) => state.search);
   const updateSearch = useTopbarStore((state) => state.updateSearch);
-  const mode = useTopbarStore((state) => state.mode);
-  const updateMode = useTopbarStore((state) => state.updateMode);
 
   const { data: session } = useAuth();
   const user = session?.user;
@@ -58,22 +54,29 @@ export const Topbar = () => {
           <p className="px-4 text-muted-foreground">{user?.email}</p>
           <div className="my-2 border-t" />
         </ProfileMenu>
-        {mode && (
-          <CommonSelect
-            className={{ trigger: 'flex h-input w-32 gap-3' }}
-            placeholder="Select mode"
-            onSelectChange={updateMode}
-            selected={mode}
-            options={[
-              { label: 'Pathology', value: MODE.PATHOLOGY },
-              { label: 'Clinic', value: MODE.CLINIC },
-            ]}
-          />
-        )}
+        {/* <ModeSwitcher /> */}
       </div>
     </nav>
   );
 };
+
+// const ModeSwitcher = () => {
+//   const mode = useTopbarStore((state) => state.mode);
+//   const updateMode = useTopbarStore((state) => state.updateMode);
+
+//   return (
+//     <CommonSelect
+//       className={{ trigger: 'flex h-input w-32 gap-3' }}
+//       placeholder="Select mode"
+//       onSelectChange={updateMode}
+//       selected={mode}
+//       options={[
+//         { label: 'Pathology', value: MODE.PATHOLOGY },
+//         { label: 'Clinic', value: MODE.CLINIC },
+//       ]}
+//     />
+//   );
+// };
 
 const MobileSidebar = () => {
   const { open, onOpenChange } = usePopupState();

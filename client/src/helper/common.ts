@@ -69,3 +69,8 @@ export const hasNextMonth = ({ currentDate, targetDate }: { currentDate: Date; t
 
   return false;
 };
+
+export const getDateForQueryKey = (date: Date) => {
+  const [datePart] = date.toISOString().split('T');
+  return datePart;
+};

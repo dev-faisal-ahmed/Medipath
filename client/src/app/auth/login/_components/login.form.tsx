@@ -24,7 +24,10 @@ export const LoginForm = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: singInAction,
-    onSuccess: () => router.push('/'),
+    onSuccess: () => {
+      toast.success('Logged in successfully');
+      router.push('/');
+    },
     onError: (error) => toast.error(errorMessageGen(error)),
   });
 

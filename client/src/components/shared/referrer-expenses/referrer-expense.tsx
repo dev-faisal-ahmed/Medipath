@@ -1,27 +1,27 @@
 'use client';
 
 import { QK } from '@/api-lib';
+import { getReferrerExpenses, TReferrerExpense } from '@/api-lib/query';
 import { FullSpaceLoader } from '@/components/ui/loader';
-import { getMonthlyExpenses, TMonthlyExpense } from '@/api-lib/query';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useTopbarStore } from '@/stores/topbar';
+import { getDateForQueryKey } from '@/helper';
+import { REFERRER_TYPE } from '@/types';
 import { useQuery } from '@tanstack/react-query';
-import { useCallback, useState } from 'react';
-import { Message, MonthPagination } from '@/components/shared';
 import { format } from 'date-fns';
+import { useCallback, useState } from 'react';
+import { MonthPagination } from '../month-pagination';
+import { Message } from '../message';
 import { GiWallet } from 'react-icons/gi';
 import { CONST } from '@/lib/const';
-import { getDateForQueryKey } from '@/helper';
 
-export const Expenses = () => {
-  const mode = useTopbarStore((state) => state.mode);
+export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }) => {
   const [date, setDate] = useState(new Date());
 
   const { data: response, isLoading } = useQuery({
-    queryKey: [QK.EXPENSE, { dateTime: getDateForQueryKey(date), mode }],
-    queryFn: () => getMonthlyExpenses({ dateTime: date.toISOString(), mode }),
+    queryKey: [QK.EXPENSE, { referrerType, dateTime: getDateForQueryKey(date) }],
+    queryFn: () => getReferrerExpenses({ darTime: date.toISOString(), referrerType }),
     select: (response) => ({
-      expenses: response.data.expenses || [],
+      transactions: response.data.transactions || [],
       firstExpenseDate: response.data.firstExpenseDate,
       lastExpenseDate: response.data.lastExpenseDate,
       total: response.data.total || 0,
@@ -32,7 +32,7 @@ export const Expenses = () => {
 
   if (isLoading) return <FullSpaceLoader />;
 
-  const expenses = response?.expenses || [];
+  const transactions = response?.transactions || [];
   const firstExpenseDate = response?.firstExpenseDate || new Date();
   const lastExpenseDate = response?.lastExpenseDate || new Date();
   const total = response?.total || 0;
@@ -47,8 +47,7 @@ export const Expenses = () => {
               Total : {CONST.TAKA} {total}
             </h2>
           </div>
-
-          <ExpenseList expenses={expenses} />
+          <TransactionList transactions={transactions} />
         </section>
       </ScrollArea>
 
@@ -62,18 +61,18 @@ export const Expenses = () => {
   );
 };
 
-export const ExpenseList = ({ expenses }: { expenses: TMonthlyExpense['expenses'] }) => {
-  if (!expenses.length) return <Message className="mt-6" message="No Expense Found" />;
+const TransactionList = ({ transactions }: { transactions: TReferrerExpense['transactions'] }) => {
+  if (!transactions.length) return <Message className="mt-6" message="No Transactions Found" />;
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-      {expenses.map(({ id, amount, categoryName, description, date }) => (
+      {transactions.map(({ id, amount, description, date, referrer }) => (
         <div key={id} className="flex items-center gap-4 rounded-md border bg-white p-3">
           <div>
             <GiWallet className="size-12" />
           </div>
           <div>
-            <h3 className="mb-1 font-semibold">{categoryName}</h3>
+            <h3 className="mb-1 font-semibold">{referrer.name}</h3>
             {description && <p className="line-clamp-1 break-all text-sm text-muted-foreground">{description}</p>}
             <p className="text-sm text-muted-foreground">{format(date, 'do MMM, yyyy')}</p>
           </div>
