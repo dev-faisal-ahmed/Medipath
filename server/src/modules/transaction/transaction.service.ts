@@ -24,18 +24,19 @@ const getMonthlyExpenses = async (query: TObject) => {
   };
 
   const [result] = await UtilityExpenseTransaction.aggregate([
+    { $match: dbQuery },
     {
       $facet: {
-        firstExpense: [{ $match: dbQuery }, { $sort: { date: 1 } }, { $limit: 1 }],
-        lastExpense: [{ $match: dbQuery }, { $sort: { date: -1 } }, { $limit: 1 }],
+        firstExpense: [{ $sort: { date: 1 } }, { $limit: 1 }],
+        lastExpense: [{ $sort: { date: -1 } }, { $limit: 1 }],
         expenses: [
-          { $match: { ...dbQuery, date: getMonthRangeQuery(year, month) } },
+          { $match: { date: getMonthRangeQuery(year, month) } },
           { $lookup: { from: 'categories', localField: 'categoryId', foreignField: '_id', as: 'category' } },
           { $addFields: { id: '$_id', categoryName: { $arrayElemAt: ['$category.name', 0] } } },
           { $project: { _id: 0, __v: 0, category: 0, createdAt: 0, updatedAt: 0 } },
         ],
         total: [
-          { $match: { ...dbQuery, date: getMonthRangeQuery(year, month) } },
+          { $match: { date: getMonthRangeQuery(year, month) } },
           { $group: { _id: null, total: { $sum: '$amount' } } },
         ],
       },
@@ -66,40 +67,23 @@ const getReferrerExpenses = async (query: TObject) => {
   const referrerType = query.referrerType || REFERRER_TYPE.AGENT;
 
   const [result] = await Transaction.aggregate([
+    { $match: { categoryType: TRANSACTION_CATEGORY_TYPE.REFERRER_TRANSACTION } },
+    {
+      $lookup: {
+        from: 'referrers',
+        localField: 'referrerId',
+        foreignField: '_id',
+        as: 'referrer',
+        pipeline: [{ $project: { id: '$_id', type: 1, _id: 0, name: 1, designation: 1 } }],
+      },
+    },
+    { $unwind: '$referrer' },
+    { $match: { 'referrer.type': referrerType } },
     {
       $facet: {
-        firstTransaction: [
-          { $lookup: { from: 'referrers', localField: 'referrerId', foreignField: '_id', as: 'referrer' } },
-          { $unwind: '$referrer' },
-          { $match: { 'referrer.type': referrerType } },
-          { $sort: { date: -1 } },
-          { $limit: 1 },
-        ],
-        lastTransaction: [
-          { $lookup: { from: 'referrers', localField: 'referrerId', foreignField: '_id', as: 'referrer' } },
-          { $unwind: '$referrer' },
-          { $match: { 'referrer.type': referrerType } },
-          { $sort: { date: 1 } },
-          { $limit: 1 },
-        ],
+        firstTransaction: [{ $sort: { date: -1 } }, { $limit: 1 }],
+        lastTransaction: [{ $sort: { date: 1 } }, { $limit: 1 }],
         transactions: [
-          {
-            $match: {
-              categoryType: TRANSACTION_CATEGORY_TYPE.REFERRER_TRANSACTION,
-              date: getMonthRangeQuery(year, month),
-            },
-          },
-          {
-            $lookup: {
-              from: 'referrers',
-              localField: 'referrerId',
-              foreignField: '_id',
-              as: 'referrer',
-              pipeline: [{ $project: { id: '$_id', type: 1, _id: 0, name: 1, designation: 1 } }],
-            },
-          },
-          { $unwind: { path: '$referrer' } },
-          { $match: { 'referrer.type': referrerType } },
           { $addFields: { id: '$_id' } },
           {
             $project: {
@@ -115,23 +99,7 @@ const getReferrerExpenses = async (query: TObject) => {
           },
         ],
         total: [
-          {
-            $match: {
-              categoryType: TRANSACTION_CATEGORY_TYPE.REFERRER_TRANSACTION,
-              date: getMonthRangeQuery(year, month),
-            },
-          },
-          {
-            $lookup: {
-              from: 'referrers',
-              localField: 'referrerId',
-              foreignField: '_id',
-              as: 'referrer',
-              pipeline: [{ $project: { _id: 0, type: 1 } }],
-            },
-          },
-          { $unwind: { path: '$referrer' } },
-          { $match: { 'referrer.type': referrerType } },
+          { $match: { date: getMonthRangeQuery(year, month) } },
           { $group: { _id: null, total: { $sum: '$amount' } } },
         ],
       },
