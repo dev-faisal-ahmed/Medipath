@@ -5,4 +5,5 @@ export const QK = {
   BILL: 'BILL',
   CATEGORY: 'CATEGORY',
   EXPENSE: 'EXPENSE',
+  OVERVIEW: 'OVERVIEW',
 } as const;

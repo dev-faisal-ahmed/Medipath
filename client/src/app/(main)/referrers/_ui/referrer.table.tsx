@@ -13,6 +13,7 @@ import { DeleteReferrer } from './delete-referrer';
 import { FullSpaceLoader } from '@/components/ui/loader';
 import { useTopbarStore } from '@/stores/topbar';
 import { CONST } from '@/lib/const';
+import { Badge } from '@/components/ui/badge';
 
 const LIMIT = '20';
 
@@ -38,12 +39,14 @@ export const ReferrerTable = () => {
     {
       accessorKey: 'designation',
       header: 'Designation',
-      cell: ({ getValue }) => <span>{getValue<string>() || 'N/A'}</span>,
+      cell: ({ getValue }) => <span>{getValue<string>() || <Badge variant="outline"> N/A</Badge>}</span>,
     },
     {
       accessorKey: 'phone',
       header: 'Phone',
-      cell: ({ getValue }) => <div className="text-muted-foreground">{getValue<string>() || 'N/A'}</div>,
+      cell: ({ getValue }) => (
+        <div className="text-muted-foreground">{getValue<string>() || <Badge variant="outline">N/A</Badge>}</div>
+      ),
     },
     {
       id: 'due',
@@ -52,7 +55,7 @@ export const ReferrerTable = () => {
         const { visit, referrer, paid } = row.original;
         const due = visit + referrer - paid;
 
-        if (!due) return <span>N/A</span>;
+        if (!due) return <Badge>No Due</Badge>;
 
         return (
           <span>

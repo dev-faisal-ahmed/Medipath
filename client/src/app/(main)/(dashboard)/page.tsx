@@ -1,10 +1,11 @@
 import { Header } from '@/components/shared';
+import { Dashboard } from './_ui/dashboard';
 
 export default async function Home() {
   return (
     <>
       <Header title="Dashboard" />
-      <h1 className="break-all">Welcome to Medipath</h1>
+      <Dashboard />
     </>
   );
 }

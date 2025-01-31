@@ -87,7 +87,7 @@ const MobileSidebar = () => {
         <MenuIcon size={24} />
       </button>
       <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent className="p-0">
+        <SheetContent className="p-0" side="left">
           <Sidebar className="flex border-0 md:hidden" />
         </SheetContent>
       </Sheet>

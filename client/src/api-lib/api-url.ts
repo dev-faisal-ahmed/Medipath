@@ -33,4 +33,6 @@ export const apiUrl = {
   addExpense: `${SERVER_ADDRESS}/transaction/expense`,
   getMonthlyExpenses: (searchParams: string) => `${SERVER_ADDRESS}/transactions/expenses/monthly${searchParams}`,
   getReferrerExpenses: (searchParams: string) => `${SERVER_ADDRESS}/transactions/expenses/referrer${searchParams}`,
+  // overview
+  getOverview: (searchParams: string) => `${SERVER_ADDRESS}/overview${searchParams}`,
 };
