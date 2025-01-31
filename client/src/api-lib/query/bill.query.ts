@@ -1,4 +1,4 @@
-import { TBill, TServerResponse, TObject } from '@/types';
+import { TBill, TServerResponse, TObject, TReferrer } from '@/types';
 import { removeEmptyProperty } from '@/helper';
 import { axiosInstance } from '@/lib/axios';
 import { apiUrl } from '../api-url';
@@ -46,7 +46,11 @@ type TAddServicePayload = Pick<
   | 'paid'
 >;
 
-export type TGetBillsResponse = TBill & { transactions: { _id: string; totalAmount: number }[] };
+export type TGetBillsResponse = TBill & {
+  transactions: { _id: string; totalAmount: number }[];
+  agent?: Pick<TReferrer, 'id' | 'name' | 'designation'>;
+  doctor?: Pick<TReferrer, 'id' | 'name' | 'designation'>;
+};
 
 export type TBillDetails = Pick<
   TBill,

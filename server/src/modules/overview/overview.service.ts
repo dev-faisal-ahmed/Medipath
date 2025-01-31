@@ -1,4 +1,6 @@
 import { MODE, TObject } from '../../utils/type';
+import { TRANSACTION_CATEGORY_TYPE } from '../transaction/constants';
+import { TRANSACTION_TYPE } from '../transaction/transaction.interface';
 import { Transaction } from '../transaction/transaction.model';
 
 enum OVERVIEW_TYPE {
@@ -14,13 +16,16 @@ const getOverview = async (query: TObject) => {
   const [result] = await Transaction.aggregate([
     {
       $facet: {
-        totalCollection: [{ $match: { type: 'REVENUE' } }, { $group: { _id: null, total: { $sum: '$amount' } } }],
+        totalCollection: [
+          { $match: { type: TRANSACTION_TYPE.REVENUE } },
+          { $group: { _id: null, total: { $sum: '$amount' } } },
+        ],
         expenses: [
-          { $match: { categoryType: 'utility-transaction' } },
+          { $match: { categoryType: TRANSACTION_CATEGORY_TYPE.UTILITY_TRANSACTION } },
           { $group: { _id: null, total: { $sum: '$amount' } } },
         ],
         referrerExpense: [
-          { $match: { categoryType: 'referrer-transaction' } },
+          { $match: { categoryType: TRANSACTION_CATEGORY_TYPE.REFERRER_TRANSACTION } },
           { $lookup: { from: 'referrers', localField: 'referrerId', foreignField: '_id', as: 'referrer' } },
           { $unwind: '$referrer' },
           { $group: { _id: '$referrer.type', total: { $sum: '$amount' } } },
@@ -37,10 +42,10 @@ const getOverview = async (query: TObject) => {
   ]);
 
   const referrerExpense = { referredExpense: 0, doctorsPcExpense: 0 };
-
   const totalCollection = result?.totalCollection || 0;
   const utilityExpense = result?.utilityExpense || 0;
 
+  // generating referrer expense
   result?.referrerExpense?.forEach((expense: { _id: string; total: number }) => {
     if (expense._id === 'AGENT') referrerExpense.referredExpense = expense.total;
     else if (expense._id === 'DOCTOR') referrerExpense.doctorsPcExpense = expense.total;

@@ -83,18 +83,37 @@ const getBills = async (query: TObject) => {
         from: 'transactions',
         localField: '_id',
         foreignField: 'billId',
+        as: 'transactions',
         pipeline: [
           { $match: { $expr: { $eq: ['$categoryType', TRANSACTION_CATEGORY_TYPE.REFERRER_TRANSACTION] } } },
           { $group: { _id: '$referrerId', totalAmount: { $sum: '$amount' } } },
         ],
-        as: 'transactions',
       },
     },
-    { $addFields: { id: '$_id' } },
+    {
+      $lookup: {
+        from: 'referrers',
+        localField: 'referrerId',
+        foreignField: '_id',
+        as: 'agent',
+        pipeline: [{ $project: { name: 1, designation: 1, id: '$_id', _id: 0 } }],
+      },
+    },
+    {
+      $lookup: {
+        from: 'referrers',
+        localField: 'visitorId',
+        foreignField: '_id',
+        as: 'doctor',
+        pipeline: [{ $project: { name: 1, designation: 1, id: '$_id', _id: 0 } }],
+      },
+    },
+    { $addFields: { id: '$_id', agent: { $arrayElemAt: ['$agent', 0] }, doctor: { $arrayElemAt: ['$doctor', 0] } } },
     { $project: { _id: 0, createdAt: 0, updatedAt: 0, __v: 0 } },
     { $skip: skip },
     { $limit: limit },
   ]);
+
   const total = await Bill.countDocuments(dbQuery);
   const meta = generateMeta({ page, limit, total });
   return { bills, meta };

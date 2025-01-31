@@ -19,7 +19,7 @@ import { Button } from '@/components/ui/button';
 import { TakeDue } from './take-due';
 import { useTopbarStore } from '@/stores/topbar';
 import { usePopupState } from '@/hooks';
-import { FaUserMd, FaUserSecret } from 'react-icons/fa';
+import { MdError } from 'react-icons/md';
 
 const LIMIT = '20';
 
@@ -41,7 +41,10 @@ export const BillTable = () => {
 
   const column: ColumnDef<TGetBillsResponse>[] = [
     { id: 'serial', header: 'SL.', cell: ({ row }) => <span>{offset + row.index + 1}</span> },
-    { accessorKey: 'billId', header: 'Bill Id' },
+    {
+      accessorKey: 'billId',
+      header: 'Bill Id',
+    },
     {
       accessorKey: 'patientInfo.name',
       header: 'Patient Name',
@@ -90,20 +93,28 @@ export const BillTable = () => {
       id: 'commission',
       header: 'Commission',
       cell: ({ row }) => {
-        const { referrerCommission, visitCommission, visitorId, referrerId, transactions } = row.original;
+        const { referrerCommission, visitCommission, visitorId, referrerId, transactions, doctor, agent } =
+          row.original;
 
-        if (!visitCommission && !referrerCommission) return <span>Commission is not applicable</span>;
+        if (!visitCommission && !referrerCommission)
+          return (
+            <span className="flex items-center gap-1 text-muted-foreground">
+              <MdError /> Commission is not applicable
+            </span>
+          );
 
         return (
           <section className="space-y-2">
             <RenderCommissionInfo
               title="DOCTOR"
+              name={doctor?.name}
               amount={visitCommission}
               transactions={transactions}
               userId={visitorId}
             />
             <RenderCommissionInfo
               title="AGENT"
+              name={agent?.name}
               amount={referrerCommission}
               transactions={transactions}
               userId={referrerId}
@@ -146,31 +157,32 @@ export const BillTable = () => {
 };
 
 // helper components
-const RenderCommissionInfo = ({ title, amount, userId, transactions }: TRenderCommissionInfo) => {
+const RenderCommissionInfo = ({ title, amount, userId, transactions, name }: TRenderCommissionInfo) => {
   if (!amount || !userId) return null;
 
   const transaction = transactions.find((transaction) => transaction._id === userId);
   const paid = transaction?.totalAmount || 0;
 
   return (
-    <div className="flex items-center gap-2">
-      <span className="rounded-full border p-2">
-        {title === 'DOCTOR' && <FaUserMd className="text-primary" size={18} />}
-        {title === 'AGENT' && <FaUserSecret className="text-primary" size={18} />}
-      </span>
-
-      <p>
-        Commission :{' '}
-        <span className="font-semibold">
-          {CONST.TAKA} {amount}
-        </span>
-      </p>
-      <p className="ml-4">
-        Paid :{' '}
-        <span className="font-semibold">
-          {CONST.TAKA} {paid}
-        </span>
-      </p>
+    <div className="space-y-1">
+      <div className="flex items-center gap-3">
+        <span>{title === 'AGENT' ? 'Referred By : ' : 'Visited By : '}</span>
+        <h2 className="font-semibold">{name}</h2>
+      </div>
+      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+        <p>
+          Commission :{' '}
+          <span className="font-semibold">
+            {CONST.TAKA} {amount}
+          </span>
+        </p>
+        <p>
+          Paid :{' '}
+          <span className="font-semibold">
+            {CONST.TAKA} {paid}
+          </span>
+        </p>
+      </div>
     </div>
   );
 };
@@ -233,6 +245,7 @@ const hasDue = ({ amount, transactions, userId }: THasDueArgs) => {
 // types
 type TRenderCommissionInfo = {
   title: 'DOCTOR' | 'AGENT';
+  name: string | undefined;
   userId?: string;
   amount?: number;
   transactions: TGetBillsResponse['transactions'];
