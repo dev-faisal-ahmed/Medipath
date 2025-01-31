@@ -57,3 +57,13 @@ export const getMonthRangeQuery = (year: number, month: number) => {
 
   return { $gte: startTimeInBangladesh, $lte: endTimeInBangladesh };
 };
+
+export const getDateRangeQuery = (date: Date) => {
+  // to convert bangladeshi time zone
+  const startDate = new Date(date.getTime() + OFFSET);
+  startDate.setHours(0, 0, 0, 0);
+  const endDate = new Date(date.getTime() + OFFSET);
+  endDate.setHours(23, 59, 59, 999);
+
+  return { $gte: startDate, $lte: endDate };
+};
