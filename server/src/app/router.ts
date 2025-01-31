@@ -6,6 +6,7 @@ import { referrerRouter, referrersRouter } from '../modules/referrer/referrer.ro
 import { billRouter, billsRouter } from '../modules/bill/bill.router';
 import { categoriesRouter, categoryRouter } from '../modules/category/category.router';
 import { transactionRouter, transactionsRouter } from '../modules/transaction/transaction.router';
+import { overviewRouter } from '../modules/overview/overview.router';
 
 interface IRoute {
   path: string;
@@ -27,8 +28,7 @@ const routes: IRoute[] = [
   { path: '/categories', router: categoriesRouter },
   { path: '/transaction', router: transactionRouter },
   { path: '/transactions', router: transactionsRouter },
+  { path: '/overview', router: overviewRouter },
 ];
 
-routes.forEach(({ path, router }) => {
-  appRouter.use(path, router);
-});
+routes.forEach(({ path, router }) => appRouter.use(path, router));
