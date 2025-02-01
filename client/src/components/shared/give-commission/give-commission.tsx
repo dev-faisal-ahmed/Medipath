@@ -30,6 +30,7 @@ export const GiveCommission = ({ billId, referrerId, buttonLabel, disabled }: TG
     onSuccess: (res) => {
       toast.success(res.message);
       qc.invalidateQueries({ queryKey: [QK.BILL] });
+      qc.invalidateQueries({ queryKey: [QK.OVERVIEW] });
       onOpenChange(false);
     },
     onError: (error) => toast.error(errorMessageGen(error)),

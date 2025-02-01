@@ -15,8 +15,6 @@ const getOverview = async (query: TObject) => {
   const dateTime = query.dataTime;
   const mode = query.mode || MODE.PATHOLOGY;
 
-  console.log(query);
-
   const date = parseDate(dateTime);
   const year = date.getFullYear();
   const month = date.getMonth();
@@ -24,8 +22,6 @@ const getOverview = async (query: TObject) => {
   const dateQuery = {
     date: type === OVERVIEW_TYPE.DAILY ? getDateRangeQuery(date) : getMonthRangeQuery(year, month),
   };
-
-  console.log(dateQuery);
 
   const [transactionResult] = await Transaction.aggregate([
     { $match: dateQuery },
@@ -113,17 +109,6 @@ const getOverview = async (query: TObject) => {
   });
 
   const { referredExpense, doctorsPcExpense } = referrerExpense;
-
-  console.log({
-    totalCollection,
-    utilityExpense,
-    referredExpense,
-    doctorsPcExpense,
-    revenue,
-    due,
-    referredCommissionToPay,
-    doctorPcCommissionToPay,
-  });
 
   return {
     totalCollection,

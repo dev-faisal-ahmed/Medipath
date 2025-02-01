@@ -11,6 +11,11 @@ import { useTopbarStore } from '@/stores/topbar';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useState } from 'react';
+import { CommissionCard } from './commission-card';
+import { amber, emerald } from 'tailwindcss/colors';
+
+const referredColors = { paid: emerald[800], due: emerald[600], total: emerald[900] };
+const doctorColors = { paid: amber[800], due: amber[600], total: amber[900] };
 
 export const Dashboard = () => {
   const [type] = useState(OVERVIEW_TYPE.DAILY);
@@ -49,16 +54,24 @@ export const Dashboard = () => {
           <DatePicker date={date} onChange={setDate} />
         </div>
       </div>
-      <section className="grid gap-4 px-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <section className="grid gap-4 px-6 sm:grid-cols-2 xl:grid-cols-4">
         <SummaryCard title="Balance" value={balance} />
         <SummaryCard title="Revenue" value={revenue} />
-        <SummaryCard title="Total Collection" value={totalCollection} />
+        <CommissionCard
+          title="Referred Commission"
+          paid={referredExpense || 0}
+          due={(referredCommissionToPay || 0) - (referredExpense || 0)}
+          colors={referredColors}
+        />
+        <CommissionCard
+          title="Doctor Pc Commission"
+          paid={doctorsPcExpense || 0}
+          due={(doctorPcCommissionToPay || 0) - (doctorsPcExpense || 0)}
+          colors={doctorColors}
+        />
         <SummaryCard title="Due" value={due} />
-        <SummaryCard title="Referred Expense" value={referredExpense} />
-        <SummaryCard title="Doctors PC Expense" value={doctorsPcExpense} />
+        <SummaryCard title="Total Collection" value={totalCollection} />
         <SummaryCard title="Utility Expense" value={utilityExpense} />
-        <SummaryCard title="Referred Commission Due" value={referredCommissionToPay - referredExpense} />
-        <SummaryCard title="Doctor PC Due" value={doctorPcCommissionToPay - doctorsPcExpense} />
       </section>
     </>
   );

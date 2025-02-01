@@ -110,6 +110,7 @@ const getBills = async (query: TObject) => {
     },
     { $addFields: { id: '$_id', agent: { $arrayElemAt: ['$agent', 0] }, doctor: { $arrayElemAt: ['$doctor', 0] } } },
     { $project: { _id: 0, createdAt: 0, updatedAt: 0, __v: 0 } },
+    { $sort: { date: -1 } },
     { $skip: skip },
     { $limit: limit },
   ]);
