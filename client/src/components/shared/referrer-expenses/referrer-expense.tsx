@@ -3,10 +3,9 @@
 import { QK } from '@/api-lib';
 import { getReferrerExpenses, TReferrerExpense } from '@/api-lib/query';
 import { FullSpaceLoader } from '@/components/ui/loader';
-import { getDateForQueryKey } from '@/helper';
+import { formatDate, getDateForQueryKey } from '@/helper';
 import { REFERRER_TYPE } from '@/types';
 import { useQuery } from '@tanstack/react-query';
-import { format } from 'date-fns';
 import { useCallback, useState } from 'react';
 import { MonthPagination } from '../month-pagination';
 import { Message } from '../message';
@@ -40,7 +39,7 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
     <div className="flex h-full flex-col">
       <section className="my-6 grow px-6">
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-lg font-bold">Month : {format(date, 'MMMM - yyyy')}</h2>
+          <h2 className="text-lg font-bold">Month : {formatDate(date)}</h2>
           <h2 className="text-lg font-bold">
             Total : {CONST.TAKA} {total}
           </h2>
@@ -71,7 +70,7 @@ const TransactionList = ({ transactions }: { transactions: TReferrerExpense['tra
           <div>
             <h3 className="mb-1 font-semibold">{referrer.name}</h3>
             {description && <p className="line-clamp-1 break-all text-sm text-muted-foreground">{description}</p>}
-            <p className="text-sm text-muted-foreground">{format(date, 'do MMM, yyyy')}</p>
+            <p className="text-sm text-muted-foreground">{formatDate(date)}</p>
           </div>
 
           <p className="ml-auto whitespace-nowrap text-lg font-semibold">

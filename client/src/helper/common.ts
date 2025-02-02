@@ -1,6 +1,7 @@
 import { TServerResponse } from '@/types';
 import { GetNextPageParamFunction } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { format } from 'date-fns';
 import { z } from 'zod';
 
 export const removeEmptyProperty = (payload: Record<string, unknown>) => {
@@ -74,3 +75,5 @@ export const getDateForQueryKey = (date: Date) => {
   const [datePart] = date.toISOString().split('T');
   return datePart;
 };
+
+export const formatDate = (date: Date | string) => format(new Date(date), 'dd MMM, yyyy');

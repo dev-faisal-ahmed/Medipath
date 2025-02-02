@@ -1,9 +1,9 @@
 'use client';
 
-import { format } from 'date-fns';
 import { TOverview } from '@/api-lib/query';
 import { Badge } from '@/components/ui/badge';
 import { DataTable } from '@/components/ui/data-table';
+import { formatDate } from '@/helper';
 import { CONST } from '@/lib/const';
 import { TBill } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
@@ -63,7 +63,7 @@ export const RecentBills = ({ bills }: TRecentBillsProps) => {
     {
       accessorKey: 'date',
       header: () => <span>Date</span>,
-      cell: ({ getValue }) => <span>{format(getValue<string>(), 'dd MMM, yyyy')}</span>,
+      cell: ({ getValue }) => <span>{formatDate(getValue<string>())}</span>,
     },
   ];
 

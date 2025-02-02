@@ -1,16 +1,16 @@
 'use client';
 
 import { QK } from '@/api-lib';
+import { format } from 'date-fns';
 import { FullSpaceLoader } from '@/components/ui/loader';
 import { getMonthlyExpenses, TMonthlyExpense } from '@/api-lib/query';
+import { formatDate, getDateForQueryKey } from '@/helper';
 import { useTopbarStore } from '@/stores/topbar';
 import { useQuery } from '@tanstack/react-query';
-import { useCallback, useState } from 'react';
 import { Message, MonthPagination } from '@/components/shared';
-import { format } from 'date-fns';
+import { useCallback, useState } from 'react';
 import { GiWallet } from 'react-icons/gi';
 import { CONST } from '@/lib/const';
-import { getDateForQueryKey } from '@/helper';
 
 export const Expenses = () => {
   const mode = useTopbarStore((state) => state.mode);
@@ -36,6 +36,17 @@ export const Expenses = () => {
   const lastExpenseDate = response?.lastExpenseDate || new Date();
   const total = response?.total || 0;
 
+  const expenseGroup = expenses.reduce((acc: TExpenseGroup, expense) => {
+    const key = formatDate(expense.date);
+    if (!acc[key]) acc[key] = { expenses: [expense], total: expense.amount };
+    else {
+      acc[key].expenses.push(expense);
+      acc[key].total += expense.amount;
+    }
+
+    return acc;
+  }, {});
+
   return (
     <div className="flex h-full flex-col">
       <div className="my-6 grow px-6">
@@ -46,7 +57,7 @@ export const Expenses = () => {
           </h2>
         </div>
 
-        <ExpenseList expenses={expenses} />
+        <ExpenseList expenseGroup={expenseGroup} />
       </div>
       <MonthPagination
         date={date}
@@ -58,27 +69,39 @@ export const Expenses = () => {
   );
 };
 
-export const ExpenseList = ({ expenses }: { expenses: TMonthlyExpense['expenses'] }) => {
-  if (!expenses.length) return <Message className="mt-6" message="No Expense Found" />;
+const today = formatDate(new Date());
+
+export const ExpenseList = ({ expenseGroup }: { expenseGroup: TExpenseGroup }) => {
+  const keys = Object.keys(expenseGroup);
+  if (!keys.length) return <Message className="mt-6" message="No Expense Found" />;
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-      {expenses.map(({ id, amount, categoryName, description, date }) => (
-        <div key={id} className="flex items-center gap-4 rounded-md border bg-white p-3">
-          <div>
-            <GiWallet className="size-12" />
+    <section className="space-y-5">
+      {keys.map((key) => (
+        <div key={key}>
+          <div className="mb-2 flex items-center gap-6">
+            <h2 className="text-base font-bold">
+              {key === today && 'Today,'} {key}
+            </h2>
+            <p className="font-semibold text-muted-foreground">
+              ( {CONST.TAKA} {expenseGroup[key]?.total})
+            </p>
           </div>
-          <div>
-            <h3 className="mb-1 font-semibold">{categoryName}</h3>
-            {description && <p className="line-clamp-1 break-all text-sm text-muted-foreground">{description}</p>}
-            <p className="text-sm text-muted-foreground">{format(date, 'do MMM, yyyy')}</p>
+          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+            {expenseGroup[key]?.expenses.map(({ id, categoryName, amount }) => (
+              <div key={id} className="flex items-center gap-4 rounded-md border bg-white p-3">
+                <GiWallet className="size-5" />
+                <h3 className="font-semibold">{categoryName}</h3>
+                <p className="ml-auto whitespace-nowrap font-semibold">
+                  {CONST.TAKA} {amount}
+                </p>
+              </div>
+            ))}
           </div>
-
-          <p className="ml-auto whitespace-nowrap text-lg font-semibold">
-            {CONST.TAKA} {amount}
-          </p>
         </div>
       ))}
-    </div>
+    </section>
   );
 };
+
+type TExpenseGroup = Record<string, { expenses: TMonthlyExpense['expenses']; total: number }>;

@@ -7,11 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import { getBills, TGetBillsResponse } from '@/api-lib/query';
 import { DataTable } from '@/components/ui/data-table';
 import { FullSpaceLoader } from '@/components/ui/loader';
-import { removeEmptyProperty } from '@/helper';
+import { formatDate, removeEmptyProperty } from '@/helper';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { useSearchParams } from 'next/navigation';
-import { format } from 'date-fns';
 import { useTopbarStore } from '@/stores/topbar';
 import { MdError } from 'react-icons/md';
 import { BillTableAction } from './bill-table.action';
@@ -121,7 +120,7 @@ export const BillTable = () => {
     {
       accessorKey: 'date',
       header: () => <span>Date</span>,
-      cell: ({ getValue }) => <span>{format(getValue<string>(), 'dd MMM, yyyy')}</span>,
+      cell: ({ getValue }) => <span>{formatDate(getValue<string>())}</span>,
     },
     {
       id: 'action',

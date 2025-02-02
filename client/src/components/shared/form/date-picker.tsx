@@ -1,11 +1,11 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calender';
 import { CalendarDaysIcon } from 'lucide-react';
+import { formatDate } from '@/helper';
 
 export const DatePicker = ({ date, onChange, disabled, className }: TDatePickerProps) => {
   return (
@@ -16,7 +16,7 @@ export const DatePicker = ({ date, onChange, disabled, className }: TDatePickerP
           className={cn('w-full justify-start text-left font-normal', !date && 'text-muted-foreground', className)}
         >
           <CalendarDaysIcon className="mr-2 size-4" />
-          {date ? format(date, 'PPP') : <span>Pick a date</span>}
+          {date ? formatDate(date) : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">

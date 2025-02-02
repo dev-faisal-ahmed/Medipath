@@ -4,7 +4,7 @@ import { QK } from '@/api-lib';
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { CONST } from '@/lib/const';
-import { getDateForQueryKey } from '@/helper';
+import { formatDate, getDateForQueryKey } from '@/helper';
 import { getOverview, OVERVIEW_TYPE } from '@/api-lib/query';
 import { DatePicker } from '@/components/shared/form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,6 +17,7 @@ import { SelectOverviewType } from './select-overview';
 import { PickMonth } from './pick-month';
 import { RecentBills } from './recent-bills';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import Link from 'next/link';
 
 const referredColors = { paid: emerald[800], due: emerald[600], total: emerald[900] };
 const doctorColors = { paid: amber[800], due: amber[600], total: amber[900] };
@@ -53,7 +54,9 @@ export const Dashboard = () => {
   return (
     <ScrollArea>
       <div className="flex items-center gap-4 p-6">
-        <h3 className="text-lg font-semibold">Date: {format(date, 'PPP')}</h3>
+        <h3 className="text-lg font-semibold">
+          Date: {type === OVERVIEW_TYPE.DAILY ? formatDate(date) : format(date, 'MMMM - yyyy')}
+        </h3>
 
         <div className="ml-auto w-fit">
           <SelectOverviewType value={type} onChange={setType} />
@@ -83,7 +86,12 @@ export const Dashboard = () => {
       </section>
 
       <div className="mt-6 flex grow flex-col gap-4 px-6">
-        <h3 className="text-lg font-semibold">Recent Bills</h3>
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold">Recent Bills</h3>
+          <Link href="/bills" className="font-semibold text-primary underline">
+            View All
+          </Link>
+        </div>
 
         <RecentBills bills={overview.bills} />
       </div>

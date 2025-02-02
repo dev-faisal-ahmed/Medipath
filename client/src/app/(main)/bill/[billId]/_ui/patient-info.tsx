@@ -1,5 +1,5 @@
 import { TBillDetails } from '@/api-lib/query';
-import { format } from 'date-fns';
+import { formatDate } from '@/helper';
 
 export const PatientInfo = ({ billId, date, patientInfo, doctor }: TPatientInfoProps) => {
   return (
@@ -11,7 +11,7 @@ export const PatientInfo = ({ billId, date, patientInfo, doctor }: TPatientInfoP
           : <span className="font-semibold">{billId}</span>
         </span>
         <span>
-          Date : <span className="font-semibold">{format(date, 'dd MMM, yyyy')}</span>
+          Date : <span className="font-semibold">{formatDate(date)}</span>
         </span>
       </span>
       {/* patient Info */}
