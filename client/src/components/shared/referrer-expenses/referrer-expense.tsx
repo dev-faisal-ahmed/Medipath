@@ -17,11 +17,11 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
 
   const { data: response, isLoading } = useQuery({
     queryKey: [QK.EXPENSE, { referrerType, dateTime: getDateForQueryKey(date) }],
-    queryFn: () => getReferrerExpenses({ darTime: date.toISOString(), referrerType }),
+    queryFn: () => getReferrerExpenses({ dateTime: date.toISOString(), referrerType }),
     select: (response) => ({
       transactions: response.data.transactions || [],
-      firstExpenseDate: response.data.firstExpenseDate,
-      lastExpenseDate: response.data.lastExpenseDate,
+      firstTransactionDate: response.data.firstTransactionDate,
+      lastTransactionDate: response.data.lastTransactionDate,
       total: response.data.total || 0,
     }),
   });
@@ -31,9 +31,20 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
   if (isLoading) return <FullSpaceLoader />;
 
   const transactions = response?.transactions || [];
-  const firstExpenseDate = response?.firstExpenseDate || new Date();
-  const lastExpenseDate = response?.lastExpenseDate || new Date();
+  const firstTransactionDate = response?.firstTransactionDate || new Date();
+  const lastTransactionDate = response?.lastTransactionDate || new Date();
   const total = response?.total || 0;
+
+  const transactionGroup = transactions.reduce((acc: TTransactionsGroup, transaction) => {
+    const key = formatDate(transaction.date);
+    if (!acc[key]) acc[key] = { transactions: [transaction], total: transaction.amount };
+    else {
+      acc[key].transactions.push(transaction);
+      acc[key].total += transaction.amount;
+    }
+
+    return acc;
+  }, {});
 
   return (
     <div className="flex h-full flex-col">
@@ -44,40 +55,50 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
             Total : {CONST.TAKA} {total}
           </h2>
         </div>
-        <TransactionList transactions={transactions} />
+        <TransactionList transactionGroup={transactionGroup} />
       </section>
-
       <MonthPagination
         date={date}
         updateDate={updateDate}
-        firstExpenseDate={firstExpenseDate}
-        lastExpenseDate={lastExpenseDate}
+        firstDate={firstTransactionDate}
+        lastDate={lastTransactionDate}
       />
     </div>
   );
 };
 
-const TransactionList = ({ transactions }: { transactions: TReferrerExpense['transactions'] }) => {
-  if (!transactions.length) return <Message className="mt-6" message="No Transactions Found" />;
+const today = formatDate(new Date());
+const TransactionList = ({ transactionGroup }: { transactionGroup: TTransactionsGroup }) => {
+  const keys = Object.keys(transactionGroup);
+  if (!keys.length) return <Message className="mt-6" message="No Expense Found" />;
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-      {transactions.map(({ id, amount, description, date, referrer }) => (
-        <div key={id} className="flex items-center gap-4 rounded-md border bg-white p-3">
-          <div>
-            <GiWallet className="size-12" />
+    <section className="space-y-5">
+      {keys.map((key) => (
+        <div key={key}>
+          <div className="mb-2 flex items-center gap-6">
+            <h2 className="text-base font-bold">
+              {key === today && 'Today,'} {key}
+            </h2>
+            <p className="font-semibold text-muted-foreground">
+              ( {CONST.TAKA} {transactionGroup[key]?.total})
+            </p>
           </div>
-          <div>
-            <h3 className="mb-1 font-semibold">{referrer.name}</h3>
-            {description && <p className="line-clamp-1 break-all text-sm text-muted-foreground">{description}</p>}
-            <p className="text-sm text-muted-foreground">{formatDate(date)}</p>
+          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+            {transactionGroup[key]?.transactions.map(({ id, referrer, amount }) => (
+              <div key={id} className="flex items-center gap-4 rounded-md border bg-white p-3">
+                <GiWallet className="size-5" />
+                <h3 className="font-semibold">{referrer?.name}</h3>
+                <p className="ml-auto whitespace-nowrap font-semibold">
+                  {CONST.TAKA} {amount}
+                </p>
+              </div>
+            ))}
           </div>
-
-          <p className="ml-auto whitespace-nowrap text-lg font-semibold">
-            {CONST.TAKA} {amount}
-          </p>
         </div>
       ))}
-    </div>
+    </section>
   );
 };
+
+type TTransactionsGroup = Record<string, { transactions: TReferrerExpense['transactions']; total: number }>;

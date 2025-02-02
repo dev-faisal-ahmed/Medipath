@@ -42,10 +42,10 @@ export type TMonthlyExpense = {
   expenses: (TUtilityExpenseTransaction & { categoryName: string })[];
 };
 
-type TGetReferrerExpenseArgs = { darTime: string; referrerType: REFERRER_TYPE };
+type TGetReferrerExpenseArgs = { dateTime: string; referrerType: REFERRER_TYPE };
 export type TReferrerExpense = {
-  firstExpenseDate: string;
-  lastExpenseDate: string;
+  firstTransactionDate: string;
+  lastTransactionDate: string;
   total: number;
   transactions: (Pick<TReferrerExpenseTransaction, 'id' | 'amount' | 'date' | 'description'> & {
     referrer: Pick<TReferrer, 'id' | 'name' | 'designation'>;

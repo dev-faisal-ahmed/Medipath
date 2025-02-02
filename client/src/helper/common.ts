@@ -47,7 +47,7 @@ export const generateNextPageParams = (): GetNextPageParamFunction<number, TServ
   };
 };
 
-export const hasPerviousMonth = ({ currentDate, targetDate }: { currentDate: Date; targetDate: Date }) => {
+export const hasPreviousMonth = ({ currentDate, targetDate }: { currentDate: Date; targetDate: Date }) => {
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
   const targetMonth = targetDate.getMonth();

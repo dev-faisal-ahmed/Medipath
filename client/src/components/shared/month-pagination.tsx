@@ -1,12 +1,12 @@
 import { cn } from '@/lib/utils';
 import { TooltipContainer } from '../ui/tooltip';
 import { Button } from '../ui/button';
-import { hasNextMonth as dateHasNextMonth, hasPerviousMonth as dateHasPreviousMonth } from '@/helper';
+import { hasNextMonth as dateHasNextMonth, hasPreviousMonth as dateHasPreviousMonth } from '@/helper';
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 
-export const MonthPagination = ({ date, firstExpenseDate, lastExpenseDate, updateDate }: TMonthPaginationProps) => {
-  const hasPerviousMonth = dateHasPreviousMonth({ currentDate: date, targetDate: new Date(firstExpenseDate) });
-  const hasNextMonth = dateHasNextMonth({ currentDate: date, targetDate: new Date(lastExpenseDate) });
+export const MonthPagination = ({ date, firstDate, lastDate, updateDate }: TMonthPaginationProps) => {
+  const hasPreviousMonth = dateHasPreviousMonth({ currentDate: date, targetDate: new Date(firstDate) });
+  const hasNextMonth = dateHasNextMonth({ currentDate: date, targetDate: new Date(lastDate) });
 
   const goPreviousMonth = () => {
     const currentDate = new Date(date);
@@ -27,10 +27,10 @@ export const MonthPagination = ({ date, firstExpenseDate, lastExpenseDate, updat
       <TooltipContainer label="Go to previous month">
         <Button
           onClick={goPreviousMonth}
-          disabled={!hasPerviousMonth}
+          disabled={!hasPreviousMonth}
           variant="outline"
           size="icon"
-          className={cn(!hasPerviousMonth && 'cursor-not-allowed')}
+          className={cn(!hasPreviousMonth && 'cursor-not-allowed')}
         >
           <ArrowLeftIcon />
         </Button>
@@ -53,6 +53,6 @@ export const MonthPagination = ({ date, firstExpenseDate, lastExpenseDate, updat
 type TMonthPaginationProps = {
   date: Date;
   updateDate(date: Date): void;
-  firstExpenseDate: string | Date;
-  lastExpenseDate: string | Date;
+  firstDate: string | Date;
+  lastDate: string | Date;
 };

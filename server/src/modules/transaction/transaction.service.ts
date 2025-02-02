@@ -81,9 +81,10 @@ const getReferrerExpenses = async (query: TObject) => {
     { $match: { 'referrer.type': referrerType } },
     {
       $facet: {
-        firstTransaction: [{ $sort: { date: -1 } }, { $limit: 1 }],
-        lastTransaction: [{ $sort: { date: 1 } }, { $limit: 1 }],
+        firstTransaction: [{ $sort: { date: 1 } }, { $limit: 1 }],
+        lastTransaction: [{ $sort: { date: -1 } }, { $limit: 1 }],
         transactions: [
+          { $match: { date: getMonthRangeQuery(year, month) } },
           { $addFields: { id: '$_id' } },
           {
             $project: {

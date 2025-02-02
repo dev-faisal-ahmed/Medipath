@@ -2,6 +2,7 @@
 
 import { QK } from '@/api-lib';
 import { format } from 'date-fns';
+import { CONST } from '@/lib/const';
 import { FullSpaceLoader } from '@/components/ui/loader';
 import { getMonthlyExpenses, TMonthlyExpense } from '@/api-lib/query';
 import { formatDate, getDateForQueryKey } from '@/helper';
@@ -10,7 +11,6 @@ import { useQuery } from '@tanstack/react-query';
 import { Message, MonthPagination } from '@/components/shared';
 import { useCallback, useState } from 'react';
 import { GiWallet } from 'react-icons/gi';
-import { CONST } from '@/lib/const';
 
 export const Expenses = () => {
   const mode = useTopbarStore((state) => state.mode);
@@ -56,22 +56,15 @@ export const Expenses = () => {
             Total : {CONST.TAKA} {total}
           </h2>
         </div>
-
         <ExpenseList expenseGroup={expenseGroup} />
       </div>
-      <MonthPagination
-        date={date}
-        updateDate={updateDate}
-        firstExpenseDate={firstExpenseDate}
-        lastExpenseDate={lastExpenseDate}
-      />
+      <MonthPagination date={date} updateDate={updateDate} firstDate={firstExpenseDate} lastDate={lastExpenseDate} />
     </div>
   );
 };
 
 const today = formatDate(new Date());
-
-export const ExpenseList = ({ expenseGroup }: { expenseGroup: TExpenseGroup }) => {
+const ExpenseList = ({ expenseGroup }: { expenseGroup: TExpenseGroup }) => {
   const keys = Object.keys(expenseGroup);
   if (!keys.length) return <Message className="mt-6" message="No Expense Found" />;
 
