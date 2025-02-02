@@ -7,13 +7,13 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calender';
 import { CalendarDaysIcon } from 'lucide-react';
 
-export const DatePicker = ({ date, onChange, disabled }: TDatePickerProps) => {
+export const DatePicker = ({ date, onChange, disabled, className }: TDatePickerProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
           variant={'outline'}
-          className={cn('w-full justify-start text-left font-normal', !date && 'text-muted-foreground')}
+          className={cn('w-full justify-start text-left font-normal', !date && 'text-muted-foreground', className)}
         >
           <CalendarDaysIcon className="mr-2 size-4" />
           {date ? format(date, 'PPP') : <span>Pick a date</span>}
@@ -27,4 +27,4 @@ export const DatePicker = ({ date, onChange, disabled }: TDatePickerProps) => {
 };
 
 // type
-type TDatePickerProps = { date: Date; onChange(date: Date): void; disabled?(date: Date): boolean };
+type TDatePickerProps = { date: Date; onChange(date: Date): void; disabled?(date: Date): boolean; className?: string };

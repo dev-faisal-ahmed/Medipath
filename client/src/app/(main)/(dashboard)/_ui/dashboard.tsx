@@ -1,24 +1,26 @@
 'use client';
 
 import { QK } from '@/api-lib';
+import { useState } from 'react';
+import { format } from 'date-fns';
+import { CONST } from '@/lib/const';
+import { getDateForQueryKey } from '@/helper';
 import { getOverview, OVERVIEW_TYPE } from '@/api-lib/query';
 import { DatePicker } from '@/components/shared/form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FullSpaceLoader } from '@/components/ui/loader';
-import { getDateForQueryKey } from '@/helper';
-import { CONST } from '@/lib/const';
 import { useTopbarStore } from '@/stores/topbar';
 import { useQuery } from '@tanstack/react-query';
-import { format } from 'date-fns';
-import { useState } from 'react';
 import { CommissionCard } from './commission-card';
 import { amber, emerald } from 'tailwindcss/colors';
+import { SelectOverviewType } from './select-overview';
+import { PickMonth } from './pick-month';
 
 const referredColors = { paid: emerald[800], due: emerald[600], total: emerald[900] };
 const doctorColors = { paid: amber[800], due: amber[600], total: amber[900] };
 
 export const Dashboard = () => {
-  const [type] = useState(OVERVIEW_TYPE.DAILY);
+  const [type, setType] = useState(OVERVIEW_TYPE.DAILY);
   const [date, setDate] = useState(new Date());
   const mode = useTopbarStore((state) => state.mode);
 
@@ -48,11 +50,15 @@ export const Dashboard = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between gap-4 p-6">
+      <div className="flex items-center gap-4 p-6">
         <h3 className="text-lg font-semibold">Date: {format(date, 'PPP')}</h3>
-        <div className="w-fit">
-          <DatePicker date={date} onChange={setDate} />
+
+        <div className="ml-auto max-w-52">
+          <SelectOverviewType value={type} onChange={setType} />
         </div>
+
+        {type === OVERVIEW_TYPE.DAILY && <DatePicker date={date} onChange={setDate} className="w-fit" />}
+        {type === OVERVIEW_TYPE.MONTHLY && <PickMonth date={date} updateDate={setDate} />}
       </div>
       <section className="grid gap-4 px-6 sm:grid-cols-2 xl:grid-cols-4">
         <SummaryCard title="Balance" value={balance} />
