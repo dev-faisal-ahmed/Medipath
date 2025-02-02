@@ -3,7 +3,6 @@
 import { QK } from '@/api-lib';
 import { FullSpaceLoader } from '@/components/ui/loader';
 import { getMonthlyExpenses, TMonthlyExpense } from '@/api-lib/query';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { useTopbarStore } from '@/stores/topbar';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
@@ -38,27 +37,24 @@ export const Expenses = () => {
   const total = response?.total || 0;
 
   return (
-    <>
-      <ScrollArea className="grow">
-        <section className="p-6">
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-lg font-bold">Month : {format(date, 'MMMM - yyyy')}</h2>
-            <h2 className="text-lg font-bold">
-              Total : {CONST.TAKA} {total}
-            </h2>
-          </div>
+    <div className="flex h-full flex-col">
+      <div className="my-6 grow px-6">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-lg font-bold">Month : {format(date, 'MMMM - yyyy')}</h2>
+          <h2 className="text-lg font-bold">
+            Total : {CONST.TAKA} {total}
+          </h2>
+        </div>
 
-          <ExpenseList expenses={expenses} />
-        </section>
-      </ScrollArea>
-
+        <ExpenseList expenses={expenses} />
+      </div>
       <MonthPagination
         date={date}
         updateDate={updateDate}
         firstExpenseDate={firstExpenseDate}
         lastExpenseDate={lastExpenseDate}
       />
-    </>
+    </div>
   );
 };
 

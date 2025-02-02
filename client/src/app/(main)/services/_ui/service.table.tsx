@@ -55,7 +55,11 @@ export const ServicesTable = () => {
   if (isLoading) return <FullSpaceLoader />;
   if (!servicesData) return <div> No Data Found</div>;
 
-  return <DataTable data={servicesData.data} pagination={{ page, totalPages }} columns={column} />;
+  return (
+    <section className="my-6 px-6">
+      <DataTable data={servicesData.data} pagination={{ page, totalPages }} columns={column} />
+    </section>
+  );
 };
 
 const ActionDropdown = (service: TService) => {

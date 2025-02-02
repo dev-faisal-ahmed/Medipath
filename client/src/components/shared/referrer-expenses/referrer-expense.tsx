@@ -3,7 +3,6 @@
 import { QK } from '@/api-lib';
 import { getReferrerExpenses, TReferrerExpense } from '@/api-lib/query';
 import { FullSpaceLoader } from '@/components/ui/loader';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { getDateForQueryKey } from '@/helper';
 import { REFERRER_TYPE } from '@/types';
 import { useQuery } from '@tanstack/react-query';
@@ -38,18 +37,16 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
   const total = response?.total || 0;
 
   return (
-    <>
-      <ScrollArea className="grow">
-        <section className="p-6">
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-lg font-bold">Month : {format(date, 'MMMM - yyyy')}</h2>
-            <h2 className="text-lg font-bold">
-              Total : {CONST.TAKA} {total}
-            </h2>
-          </div>
-          <TransactionList transactions={transactions} />
-        </section>
-      </ScrollArea>
+    <div className="flex h-full flex-col">
+      <section className="my-6 grow px-6">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-lg font-bold">Month : {format(date, 'MMMM - yyyy')}</h2>
+          <h2 className="text-lg font-bold">
+            Total : {CONST.TAKA} {total}
+          </h2>
+        </div>
+        <TransactionList transactions={transactions} />
+      </section>
 
       <MonthPagination
         date={date}
@@ -57,7 +54,7 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
         firstExpenseDate={firstExpenseDate}
         lastExpenseDate={lastExpenseDate}
       />
-    </>
+    </div>
   );
 };
 

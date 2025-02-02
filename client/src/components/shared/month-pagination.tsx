@@ -23,7 +23,7 @@ export const MonthPagination = ({ date, firstExpenseDate, lastExpenseDate, updat
   };
 
   return (
-    <div className="sticky bottom-0 flex items-center justify-end gap-4 bg-neutral-100 p-6">
+    <div className="sticky bottom-0 flex items-center justify-end gap-4 rounded-t-md bg-neutral-100 p-6">
       <TooltipContainer label="Go to previous month">
         <Button
           onClick={goPreviousMonth}

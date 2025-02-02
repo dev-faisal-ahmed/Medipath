@@ -4,7 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 export const SelectOverviewType = ({ value, onChange }: TSelectOverviewProps) => {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="w-52">
+      <SelectTrigger className="w-32">
         <SelectValue placeholder="Select Type" />
       </SelectTrigger>
       <SelectContent>

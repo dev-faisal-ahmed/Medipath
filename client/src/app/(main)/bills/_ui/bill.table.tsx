@@ -1,25 +1,20 @@
 'use client';
 
-import Link from 'next/link';
-
 import { TBill } from '@/types';
 import { QK } from '@/api-lib';
 import { CONST } from '@/lib/const';
 import { Badge } from '@/components/ui/badge';
 import { getBills, TGetBillsResponse } from '@/api-lib/query';
-import { DataTable, DataTableAction } from '@/components/ui/data-table';
+import { DataTable } from '@/components/ui/data-table';
 import { FullSpaceLoader } from '@/components/ui/loader';
 import { removeEmptyProperty } from '@/helper';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { useSearchParams } from 'next/navigation';
-import { GiveCommission } from '@/components/shared/give-commission';
 import { format } from 'date-fns';
-import { Button } from '@/components/ui/button';
-import { TakeDue } from './take-due';
 import { useTopbarStore } from '@/stores/topbar';
-import { usePopupState } from '@/hooks';
 import { MdError } from 'react-icons/md';
+import { BillTableAction } from './bill-table.action';
 
 const LIMIT = '20';
 
@@ -137,7 +132,7 @@ export const BillTable = () => {
         const due = price - (paid || 0) - (discount || 0);
 
         return (
-          <ActionMenu
+          <BillTableAction
             billId={id}
             due={due}
             transactions={transactions}
@@ -153,7 +148,11 @@ export const BillTable = () => {
 
   if (isLoading) return <FullSpaceLoader />;
 
-  return <DataTable columns={column} data={billData?.data || []} pagination={{ page, totalPages }} />;
+  return (
+    <div className="my-6 px-6">
+      <DataTable columns={column} data={billData?.data || []} pagination={{ page, totalPages }} />
+    </div>
+  );
 };
 
 // helper components
@@ -187,61 +186,6 @@ const RenderCommissionInfo = ({ title, amount, userId, transactions, name }: TRe
   );
 };
 
-const ActionMenu = ({
-  billId,
-  due,
-  transactions,
-  referrerCommission,
-  referrerId,
-  visitCommission,
-  visitorId,
-}: TActionMenuProps) => {
-  const { open, onOpenChange } = usePopupState();
-
-  return (
-    <DataTableAction open={open} onOpenChange={onOpenChange} className={{ childContainer: 'gap-3 p-3' }}>
-      <Button variant="outline" asChild>
-        <Link href={`/bill/${billId}`}>View Receipt</Link>
-      </Button>
-
-      {due ? (
-        <TakeDue billId={billId} />
-      ) : (
-        <Button variant="secondary" className="w-full">
-          Already Paid
-        </Button>
-      )}
-
-      {!!visitCommission && (
-        <GiveCommission
-          billId={billId}
-          buttonLabel="Give Doctor Commission"
-          referrerId={visitorId!}
-          disabled={!hasDue({ amount: visitCommission, transactions: transactions, userId: visitorId! })}
-        />
-      )}
-
-      {!!referrerCommission && (
-        <GiveCommission
-          billId={billId}
-          buttonLabel="Give Agent Commission"
-          referrerId={referrerId!}
-          disabled={!hasDue({ amount: referrerCommission, transactions: transactions, userId: referrerId! })}
-        />
-      )}
-    </DataTableAction>
-  );
-};
-
-// helper functions
-const hasDue = ({ amount, transactions, userId }: THasDueArgs) => {
-  const transaction = transactions.find((transaction) => transaction?._id === userId);
-  const totalPaid = transaction?.totalAmount || 0;
-
-  if (amount <= totalPaid) return false;
-  return true;
-};
-
 // types
 type TRenderCommissionInfo = {
   title: 'DOCTOR' | 'AGENT';
@@ -249,16 +193,4 @@ type TRenderCommissionInfo = {
   userId?: string;
   amount?: number;
   transactions: TGetBillsResponse['transactions'];
-};
-
-type THasDueArgs = { transactions: TGetBillsResponse['transactions']; userId: string; amount: number };
-
-type TActionMenuProps = {
-  billId: string;
-  due: number;
-  transactions: TGetBillsResponse['transactions'];
-  visitCommission?: number;
-  referrerCommission?: number;
-  visitorId?: string;
-  referrerId?: string;
 };

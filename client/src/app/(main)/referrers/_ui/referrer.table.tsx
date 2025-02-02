@@ -70,7 +70,11 @@ export const ReferrerTable = () => {
   if (isLoading) return <FullSpaceLoader />;
   if (!referrerData?.data) return <div>No Data Found</div>;
 
-  return <DataTable data={referrerData?.data} pagination={{ page, totalPages }} columns={column} />;
+  return (
+    <div className="my-6 px-6">
+      <DataTable data={referrerData?.data} pagination={{ page, totalPages }} columns={column} />
+    </div>
+  );
 };
 
 const ActionDropdown = (referrer: TGetReferrersQueryResponse) => {

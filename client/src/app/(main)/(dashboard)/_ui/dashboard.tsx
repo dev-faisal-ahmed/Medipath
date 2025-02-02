@@ -15,6 +15,8 @@ import { CommissionCard } from './commission-card';
 import { amber, emerald } from 'tailwindcss/colors';
 import { SelectOverviewType } from './select-overview';
 import { PickMonth } from './pick-month';
+import { RecentBills } from './recent-bills';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const referredColors = { paid: emerald[800], due: emerald[600], total: emerald[900] };
 const doctorColors = { paid: amber[800], due: amber[600], total: amber[900] };
@@ -49,11 +51,11 @@ export const Dashboard = () => {
   const balance = totalCollection - (utilityExpense + referredExpense + doctorsPcExpense);
 
   return (
-    <>
+    <ScrollArea>
       <div className="flex items-center gap-4 p-6">
         <h3 className="text-lg font-semibold">Date: {format(date, 'PPP')}</h3>
 
-        <div className="ml-auto max-w-52">
+        <div className="ml-auto w-fit">
           <SelectOverviewType value={type} onChange={setType} />
         </div>
 
@@ -79,7 +81,13 @@ export const Dashboard = () => {
         <SummaryCard title="Total Collection" value={totalCollection} />
         <SummaryCard title="Utility Expense" value={utilityExpense} />
       </section>
-    </>
+
+      <div className="mt-6 flex grow flex-col gap-4 px-6">
+        <h3 className="text-lg font-semibold">Recent Bills</h3>
+
+        <RecentBills bills={overview.bills} />
+      </div>
+    </ScrollArea>
   );
 };
 

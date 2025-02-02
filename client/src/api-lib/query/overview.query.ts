@@ -16,7 +16,7 @@ export enum OVERVIEW_TYPE {
 
 type TGetOverViewArgs = { type: OVERVIEW_TYPE; dateTime: Date; mode: MODE };
 
-type TOverview = {
+export type TOverview = {
   totalCollection: number;
   utilityExpense: number;
   referredExpense: number;

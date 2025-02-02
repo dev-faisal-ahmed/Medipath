@@ -29,7 +29,7 @@ TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 function TooltipContainer({ children, label }: ITooltipContainerProps) {
   return (
     <Tooltip>
-      <TooltipTrigger>{children}</TooltipTrigger>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
       <TooltipContent>{label}</TooltipContent>
     </Tooltip>
   );
