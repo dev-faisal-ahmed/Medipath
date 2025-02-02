@@ -12,7 +12,7 @@ enum OVERVIEW_TYPE {
 
 const getOverview = async (query: TObject) => {
   const type = query.type || OVERVIEW_TYPE.DAILY;
-  const dateTime = query.dataTime;
+  const dateTime = query.dateTime;
   const mode = query.mode || MODE.PATHOLOGY;
 
   const date = parseDate(dateTime);
