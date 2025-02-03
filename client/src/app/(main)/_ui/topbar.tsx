@@ -19,8 +19,7 @@ export const Topbar = () => {
   const search = useTopbarStore((state) => state.search);
   const updateSearch = useTopbarStore((state) => state.updateSearch);
 
-  const { data: session } = useAuth();
-  const user = session?.user;
+  const user = useAuth();
 
   return (
     <nav className="sticky top-0 z-20 flex items-center gap-3 border-b bg-gray-50 p-6">

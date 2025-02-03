@@ -3,16 +3,16 @@
 import { toast } from 'sonner';
 import { ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import { logOut } from '@/actions';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { EllipsisIcon, LockKeyholeIcon, LogOutIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { signOut } from 'next-auth/react';
 
 export const ProfileMenu = ({ trigger, asChild, children }: TProfileMenuProps) => {
   const router = useRouter();
 
   const onLogout = async () => {
-    await logOut();
+    signOut();
     toast.success('You have been logged out...');
     router.push('/auth/login');
   };

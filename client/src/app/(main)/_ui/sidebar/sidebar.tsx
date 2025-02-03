@@ -13,9 +13,7 @@ import { cn } from '@/lib/utils';
 
 export const Sidebar = ({ className }: SidebarProps) => {
   const { sidebarLinks } = useSidebarLinks();
-  const { data: session } = useAuth();
-
-  const user = session?.user;
+  const user = useAuth();
 
   return (
     <aside className={cn('min-h-screen flex-col justify-between gap-12 border-r py-4', className)}>

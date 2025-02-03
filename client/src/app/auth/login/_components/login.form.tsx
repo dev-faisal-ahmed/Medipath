@@ -3,7 +3,6 @@
 import { z } from 'zod';
 import { toast } from 'sonner';
 import { errorMessageGen } from '@/helper';
-import { singInAction } from '@/actions';
 import { CommonFormFiled } from '@/components/shared/form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input, PasswordInput } from '@/components/ui/input';
@@ -13,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -23,9 +23,10 @@ export const LoginForm = () => {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: singInAction,
+    mutationFn: loginWithCredentials,
     onSuccess: () => {
       toast.success('Logged in successfully');
+      console.log('Hi I am there');
       router.push('/');
     },
     onError: (error) => toast.error(errorMessageGen(error)),
@@ -66,3 +67,9 @@ const loginFormSchema = z.object({
 });
 
 type TLoginForm = z.infer<typeof loginFormSchema>;
+
+const loginWithCredentials = async (data: TLoginForm) => {
+  const response = await signIn('credentials', { ...data, redirect: false });
+  if (response?.error) throw new Error(response.error);
+  return response;
+};

@@ -1,7 +1,7 @@
 import { TCategory } from '@/types';
 
-export const SERVER_ADDRESS = 'http://localhost:5000/api/v1';
-// export const SERVER_ADDRESS = 'https://medipath-server-beta.vercel.app/api/v1';
+// export const SERVER_ADDRESS = 'http://localhost:5000/api/v1';
+export const SERVER_ADDRESS = 'https://medipath-server-beta.vercel.app/api/v1';
 
 export const apiUrl = {
   // auth
