@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { CONST } from '@/lib/const';
 import { FullSpaceLoader } from '@/components/ui/loader';
 import { getMonthlyExpenses, TMonthlyExpense } from '@/api-lib/query';
-import { formatDate, getDateForQueryKey } from '@/helper';
+import { formatDate } from '@/helper';
 import { useTopbarStore } from '@/stores/topbar';
 import { useQuery } from '@tanstack/react-query';
 import { Message, MonthPagination } from '@/components/shared';
@@ -17,7 +17,7 @@ export const Expenses = () => {
   const [date, setDate] = useState(new Date());
 
   const { data: response, isLoading } = useQuery({
-    queryKey: [QK.EXPENSE, { dateTime: getDateForQueryKey(date), mode }],
+    queryKey: [QK.EXPENSE, { dateTime: formatDate(date), mode }],
     queryFn: () => getMonthlyExpenses({ dateTime: date.toISOString(), mode }),
     select: (response) => ({
       expenses: response.data.expenses || [],

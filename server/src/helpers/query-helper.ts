@@ -43,16 +43,16 @@ export const getPartialFilterQuery = (query: TObject, ...fields: string[]) => {
   }, {});
 };
 
-const OFFSET = 6 * 60 * 1000; // 6 * 60 * 1000;
+// const OFFSET = 6 * 60 * 1000; // 6 * 60 * 1000;
 export const getMonthRangeQuery = (year: number, month: number) => {
   // Start of the month
   const startDate = new Date(year, month, 1);
-  const startTimeInBangladesh = new Date(startDate.getTime() + OFFSET);
+  const startTimeInBangladesh = new Date(startDate.getTime());
   startTimeInBangladesh.setHours(0, 0, 0, 0);
 
   // End of the month
   const endDate = new Date(year, month + 1, 0); // Day 0 of the next month is the last day of the current month
-  const endTimeInBangladesh = new Date(endDate.getTime() + OFFSET);
+  const endTimeInBangladesh = new Date(endDate.getTime());
   endTimeInBangladesh.setHours(23, 59, 59, 999);
 
   return { $gte: startTimeInBangladesh, $lte: endTimeInBangladesh };
@@ -60,9 +60,9 @@ export const getMonthRangeQuery = (year: number, month: number) => {
 
 export const getDateRangeQuery = (date: Date) => {
   // to convert bangladeshi time zone
-  const startDate = new Date(date.getTime() + OFFSET);
+  const startDate = new Date(date.getTime());
   startDate.setHours(0, 0, 0, 0);
-  const endDate = new Date(date.getTime() + OFFSET);
+  const endDate = new Date(date.getTime());
   endDate.setHours(23, 59, 59, 999);
 
   return { $gte: startDate, $lte: endDate };

@@ -4,7 +4,7 @@ import { QK } from '@/api-lib';
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { CONST } from '@/lib/const';
-import { formatDate, getDateForQueryKey } from '@/helper';
+import { formatDate } from '@/helper';
 import { getOverview, OVERVIEW_TYPE } from '@/api-lib/query';
 import { DatePicker } from '@/components/shared/form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,14 +28,13 @@ export const Dashboard = () => {
   const mode = useTopbarStore((state) => state.mode);
 
   const { data: overviewData, isLoading } = useQuery({
-    queryKey: [QK.OVERVIEW, { date: getDateForQueryKey(date), type, mode }],
+    queryKey: [QK.OVERVIEW, { date: formatDate(date), type, mode }],
     queryFn: () => getOverview({ dateTime: date, mode, type }),
   });
 
   if (isLoading) return <FullSpaceLoader />;
 
   const overview = overviewData?.data;
-
   if (!overview) return <div className="flex grow items-center justify-center font-semibold">No Data Found</div>;
 
   const {

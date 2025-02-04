@@ -5,23 +5,42 @@ import { usePopupState } from '@/hooks';
 import Link from 'next/link';
 import { TakeDue } from './take-due';
 import { GiveCommission } from '@/components/shared/give-commission';
+import { UpdateBill } from './update-bill';
+import { useMemo } from 'react';
 
-export const BillTableAction = ({
-  billId,
-  due,
-  transactions,
-  referrerCommission,
-  referrerId,
-  visitCommission,
-  visitorId,
-}: TBillTableActionProps) => {
+export const BillTableAction = ({ bill }: TBillTableActionProps) => {
+  const {
+    id: billId,
+    visitCommission,
+    referrerCommission,
+    visitorId,
+    referrerId,
+    transactions,
+    price,
+    paid,
+    discount,
+  } = bill;
+
+  const due = price - (paid || 0) - (discount || 0);
   const { open, onOpenChange } = usePopupState();
+
+  const defaultValues = useMemo(() => {
+    return {
+      visitCommission: String(visitCommission),
+      referrerCommission: String(referrerCommission),
+      visitorId,
+      referrerId,
+      discount: String(discount),
+    };
+  }, [visitCommission, referrerCommission, visitorId, referrerId, discount]);
 
   return (
     <DataTableAction open={open} onOpenChange={onOpenChange} className={{ childContainer: 'gap-3 p-3' }}>
       <Button variant="outline" asChild>
         <Link href={`/bill/${billId}`}>View Receipt</Link>
       </Button>
+
+      <UpdateBill billId={billId} defaultValues={defaultValues} />
 
       {due ? (
         <TakeDue billId={billId} />
@@ -62,13 +81,7 @@ const hasDue = ({ amount, transactions, userId }: THasDueArgs) => {
 
 // types
 type TBillTableActionProps = {
-  billId: string;
-  due: number;
-  transactions: TGetBillsResponse['transactions'];
-  visitCommission?: number;
-  referrerCommission?: number;
-  visitorId?: string;
-  referrerId?: string;
+  bill: TGetBillsResponse;
 };
 
 type THasDueArgs = { transactions: TGetBillsResponse['transactions']; userId: string; amount: number };

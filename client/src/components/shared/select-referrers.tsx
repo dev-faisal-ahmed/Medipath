@@ -7,13 +7,12 @@ import { QK } from '@/api-lib';
 import { REFERRER_TYPE } from '@/types';
 import { CommonFormFiled } from '@/components/shared/form';
 import { useFormContext } from 'react-hook-form';
-import { TAddBillForm } from './add-bill-form.schema';
 import { useQuery } from '@tanstack/react-query';
 import { Loading } from '@/components/ui/loader';
 import { Message } from '@/components/shared';
 
 export const SelectReferrers = () => {
-  const { control } = useFormContext<TAddBillForm>();
+  const { control } = useFormContext<TReferrerSubForm>();
 
   const { data: referrers, isLoading } = useQuery({
     queryKey: [QK.REFERRER, 'LIST'],
@@ -98,3 +97,5 @@ export const SelectReferrers = () => {
     </>
   );
 };
+
+type TReferrerSubForm = { visitorId: string; referrerId: string };

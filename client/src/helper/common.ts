@@ -70,9 +70,7 @@ export const hasNextMonth = ({ currentDate, targetDate }: { currentDate: Date; t
   return false;
 };
 
-export const getDateForQueryKey = (date: Date) => {
-  const [datePart] = date.toISOString().split('T');
-  return datePart;
+export const formatDate = (date: Date | string, type: 'date-month' | 'month' = 'date-month') => {
+  if (type === 'date-month') return format(new Date(date), 'dd MMM, yyyy');
+  return format(new Date(date), 'MMMM - yyyy');
 };
-
-export const formatDate = (date: Date | string) => format(new Date(date), 'dd MMM, yyyy');

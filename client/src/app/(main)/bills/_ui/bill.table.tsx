@@ -35,10 +35,7 @@ export const BillTable = () => {
 
   const column: ColumnDef<TGetBillsResponse>[] = [
     { id: 'serial', header: 'SL.', cell: ({ row }) => <span>{offset + row.index + 1}</span> },
-    {
-      accessorKey: 'billId',
-      header: 'Bill Id',
-    },
+    { accessorKey: 'billId', header: 'Bill Id' },
     {
       accessorKey: 'patientInfo.name',
       header: 'Patient Name',
@@ -122,27 +119,7 @@ export const BillTable = () => {
       header: () => <span>Date</span>,
       cell: ({ getValue }) => <span>{formatDate(getValue<string>())}</span>,
     },
-    {
-      id: 'action',
-      cell: ({ row }) => {
-        const { paid, price, discount, id, transactions, referrerCommission, visitCommission, referrerId, visitorId } =
-          row.original;
-
-        const due = price - (paid || 0) - (discount || 0);
-
-        return (
-          <BillTableAction
-            billId={id}
-            due={due}
-            transactions={transactions}
-            referrerCommission={referrerCommission}
-            visitCommission={visitCommission}
-            referrerId={referrerId}
-            visitorId={visitorId}
-          />
-        );
-      },
-    },
+    { id: 'action', cell: ({ row }) => <BillTableAction bill={row.original} /> },
   ];
 
   if (isLoading) return <FullSpaceLoader />;
