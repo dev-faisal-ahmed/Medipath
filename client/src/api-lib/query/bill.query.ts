@@ -33,6 +33,13 @@ export const giveCommission = async (payload: TGiveCommissionPayload): Promise<T
   return data;
 };
 
+export const updateBill = async (payload: TUpdateBillPayload): Promise<TServerResponse<null>> => {
+  const { id, ...restPayload } = payload;
+  const refinedPayload = removeEmptyProperty(restPayload);
+  const { data } = await axiosInstance.patch(apiUrl.updateBill(id), refinedPayload);
+  return data;
+};
+
 // types
 type TAddServicePayload = Pick<
   TBill,
@@ -59,3 +66,8 @@ export type TBillDetails = Pick<
 
 type TTakeDuePayload = { billId: string; amount: number };
 type TGiveCommissionPayload = { amount: number; referrerId: string; billId: string };
+
+type TUpdateBillPayload = Pick<
+  TBill,
+  'id' | 'referrerId' | 'visitorId' | 'referrerCommission' | 'visitCommission' | 'discount'
+>;

@@ -6,9 +6,9 @@ const patientInfoSubSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   phone: z.string().optional(),
   address: z.string().optional(),
-  age: z.number().positive().optional(),
-  ageTitle: z.nativeEnum(AGE_TITLE, { message: 'Invalid age title' }).optional(),
-  gender: z.nativeEnum(GENDER, { message: 'Invalid gender.' }).optional(),
+  age: z.number().positive(),
+  ageTitle: z.nativeEnum(AGE_TITLE, { message: 'Invalid age title' }),
+  gender: z.nativeEnum(GENDER, { message: 'Invalid gender.' }),
 });
 
 const serviceSubSchema = z.object({
@@ -37,8 +37,17 @@ const giveCommissionSchema = z.object({
   referrerId: zodMongoObjectId('Invalid referredId'),
 });
 
-export const billValidation = { addBillSchema, takeDueSchema, giveCommissionSchema };
+const updateBillSchema = z.object({
+  referrerId: zodMongoObjectId('Invalid referrerId').optional(),
+  visitorId: zodMongoObjectId('Invalid visitorId').optional(),
+  referrerCommission: z.number().positive().optional(),
+  visitCommission: z.number().positive().optional(),
+  discount: z.number().positive().optional(),
+});
+
+export const billValidation = { addBillSchema, takeDueSchema, giveCommissionSchema, updateBillSchema };
 
 export type TAddBillPayload = z.infer<typeof addBillSchema>;
 export type TTakeDuePayload = z.infer<typeof takeDueSchema>;
 export type TGiveCommissionPayload = z.infer<typeof giveCommissionSchema>;
+export type TUpdateBillPayload = z.infer<typeof updateBillSchema>;

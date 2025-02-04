@@ -1,7 +1,7 @@
 import { TCategory } from '@/types';
 
-export const SERVER_ADDRESS = 'http://localhost:5000/api/v1';
-// export const SERVER_ADDRESS = 'https://medipath-server-beta.vercel.app/api/v1';
+// export const SERVER_ADDRESS = 'http://localhost:5000/api/v1';
+export const SERVER_ADDRESS = 'https://medipath-server-beta.vercel.app/api/v1';
 
 export const apiUrl = {
   // auth
@@ -24,6 +24,7 @@ export const apiUrl = {
   getBills: (searchParams: string) => `${SERVER_ADDRESS}/bills${searchParams}`,
   takeDue: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}/take-due`,
   giveCommission: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}/give-commission`,
+  updateBill: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}`,
   // expense category
   addCategory: `${SERVER_ADDRESS}/category`,
   getCategories: (mode: TCategory['mode']) => `${SERVER_ADDRESS}/categories?mode=${mode}`,

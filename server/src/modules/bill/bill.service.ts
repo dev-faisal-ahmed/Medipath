@@ -5,7 +5,7 @@ import { billHelper } from './bill.helper';
 import { AppError } from '../../utils';
 import { TObject } from '../../utils/type';
 import { generateMeta, getPageParams, getSearchQuery } from '../../helpers';
-import { TAddBillPayload, TGiveCommissionPayload, TTakeDuePayload } from './bill.validation';
+import { TAddBillPayload, TGiveCommissionPayload, TTakeDuePayload, TUpdateBillPayload } from './bill.validation';
 import { TRANSACTION_TYPE } from '../transaction/transaction.interface';
 import { BillTransaction, ReferrerExpenseTransaction } from '../transaction/transaction.model';
 import { TRANSACTION_CATEGORY_TYPE } from '../transaction/constants';
@@ -256,4 +256,9 @@ const giveCommission = async (payload: TGiveCommissionPayload, billId: string) =
   return 'Commission given successfully';
 };
 
-export const billService = { addBill, getBillDetails, getBills, takeDue, giveCommission };
+const updateBill = async (payload: TUpdateBillPayload, billId: string) => {
+  await Bill.updateOne({ _id: billId }, { $set: payload });
+  return 'Bill updated successfully';
+};
+
+export const billService = { addBill, getBillDetails, getBills, takeDue, giveCommission, updateBill };

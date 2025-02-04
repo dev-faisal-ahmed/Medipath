@@ -29,6 +29,13 @@ billRouter.patch(
   billController.giveCommission,
 );
 
+billRouter.patch(
+  '/:billId',
+  authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
+  validationHandler(billValidation.updateBillSchema),
+  billController.updateBill,
+);
+
 export const billsRouter = Router();
 
 billsRouter.get('/', authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN), billController.getBills);

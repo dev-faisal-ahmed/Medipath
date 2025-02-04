@@ -28,4 +28,9 @@ const giveCommission = catchAsync(async (req, res) => {
   sendSuccessResponse(res, { message, data: null });
 });
 
-export const billController = { addBill, getBills, getBillDetails, takeDue, giveCommission };
+const updateBill = catchAsync(async (req, res) => {
+  const message = await billService.updateBill(req.body, req.params.billId);
+  sendSuccessResponse(res, { message, data: null });
+});
+
+export const billController = { addBill, getBills, getBillDetails, takeDue, giveCommission, updateBill };

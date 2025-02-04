@@ -40,7 +40,7 @@ export const BillTableAction = ({ bill }: TBillTableActionProps) => {
         <Link href={`/bill/${billId}`}>View Receipt</Link>
       </Button>
 
-      <UpdateBill billId={billId} defaultValues={defaultValues} />
+      <UpdateBill billId={billId} defaultValues={defaultValues} onActionChange={onOpenChange} />
 
       {due ? (
         <TakeDue billId={billId} />
