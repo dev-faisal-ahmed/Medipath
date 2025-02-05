@@ -34,9 +34,16 @@ export const giveCommission = async (payload: TGiveCommissionPayload): Promise<T
 };
 
 export const updateBill = async (payload: TUpdateBillPayload): Promise<TServerResponse<null>> => {
-  const { id, ...restPayload } = payload;
+  const { id, visitCommission, referrerCommission, discount, ...restPayload } = payload;
   const refinedPayload = removeEmptyProperty(restPayload);
-  const { data } = await axiosInstance.patch(apiUrl.updateBill(id), refinedPayload);
+
+  const { data } = await axiosInstance.patch(apiUrl.updateBill(id), {
+    ...refinedPayload,
+    visitCommission,
+    referrerCommission,
+    discount,
+  });
+
   return data;
 };
 

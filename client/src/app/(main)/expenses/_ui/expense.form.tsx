@@ -57,7 +57,7 @@ export const ExpenseForm = ({ formId, defaultValues, onSubmit }: TExpenseFormPro
 const expenseFormSchema = z.object({
   categoryId: z.string().min(1, { message: 'Expense category is required' }),
   amount: zodNumber({ min: 0, message: 'Amount can not be negative' }),
-  description: z.string().optional(),
+  description: z.string().toUpperCase().trim().optional(),
   date: z.date(),
 });
 

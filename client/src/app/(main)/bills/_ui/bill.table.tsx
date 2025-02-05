@@ -35,11 +35,15 @@ export const BillTable = () => {
 
   const column: ColumnDef<TGetBillsResponse>[] = [
     { id: 'serial', header: 'SL.', cell: ({ row }) => <span>{offset + row.index + 1}</span> },
-    { accessorKey: 'billId', header: 'Bill Id' },
+    {
+      accessorKey: 'billId',
+      header: 'Bill Id',
+      cell: ({ getValue }) => <span className="whitespace-nowrap">{getValue<string>()}</span>,
+    },
     {
       accessorKey: 'patientInfo.name',
       header: 'Patient Name',
-      cell: ({ getValue }) => <span className="font-medium">{getValue<string>()}</span>,
+      cell: ({ getValue }) => <span className="whitespace-nowrap font-medium">{getValue<string>()}</span>,
     },
     {
       accessorKey: 'services',
@@ -47,7 +51,9 @@ export const BillTable = () => {
       cell: ({ getValue }) => (
         <div className="flex flex-col gap-2">
           {getValue<TBill['services']>().map((service, index) => (
-            <li key={index}>{service.name}</li>
+            <li key={index} className="whitespace-nowrap">
+              {service.name}
+            </li>
           ))}
         </div>
       ),
@@ -56,7 +62,7 @@ export const BillTable = () => {
       accessorKey: 'paid',
       header: 'Paid',
       cell: ({ getValue }) => (
-        <span className="font-medium">
+        <span className="whitespace-nowrap font-medium">
           {CONST.TAKA} {getValue<number>()}
         </span>
       ),
@@ -72,7 +78,7 @@ export const BillTable = () => {
 
         if (due > 0)
           return (
-            <span className="font-medium">
+            <span className="whitespace-nowrap font-medium">
               {CONST.TAKA} {due}
             </span>
           );
@@ -117,7 +123,7 @@ export const BillTable = () => {
     {
       accessorKey: 'date',
       header: () => <span>Date</span>,
-      cell: ({ getValue }) => <span>{formatDate(getValue<string>())}</span>,
+      cell: ({ getValue }) => <span className="whitespace-nowrap">{formatDate(getValue<string>())}</span>,
     },
     { id: 'action', cell: ({ row }) => <BillTableAction bill={row.original} /> },
   ];
@@ -140,20 +146,20 @@ const RenderCommissionInfo = ({ title, amount, userId, transactions, name }: TRe
 
   return (
     <div className="space-y-1">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 whitespace-nowrap">
         <span>{title === 'AGENT' ? 'Referred By : ' : 'Visited By : '}</span>
-        <h2 className="font-semibold">{name}</h2>
+        <h2 className="whitespace-nowrap font-semibold">{name}</h2>
       </div>
       <div className="flex items-center gap-4 text-sm text-muted-foreground">
-        <p>
+        <p className="whitespace-nowrap">
           Commission :{' '}
-          <span className="font-semibold">
+          <span className="whitespace-nowrap font-semibold">
             {CONST.TAKA} {amount}
           </span>
         </p>
-        <p>
+        <p className="whitespace-nowrap">
           Paid :{' '}
-          <span className="font-semibold">
+          <span className="whitespace-nowrap font-semibold">
             {CONST.TAKA} {paid}
           </span>
         </p>

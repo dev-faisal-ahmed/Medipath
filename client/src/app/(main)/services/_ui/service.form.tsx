@@ -3,7 +3,6 @@
 import { CommonFormFiled } from '@/components/shared/form';
 import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { wordCapitalize } from '@/helper';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -32,12 +31,9 @@ export const ServiceForm = ({ formId, defaultValues, onSubmit }: TServiceFormPro
 };
 
 const serviceFormSchema = z.object({
-  name: z
-    .string()
-    .min(1, { message: 'Service name is required' })
-    .transform((val) => wordCapitalize(val)),
+  name: z.string().min(1, { message: 'Service name is required' }).toUpperCase().trim(),
   price: z.string().refine((val) => Number(val) >= 50, { message: 'Minimum price is 50 tk' }),
-  roomNo: z.string().optional(),
+  roomNo: z.string().trim().optional(),
 });
 
 export type TServiceForm = z.infer<typeof serviceFormSchema>;

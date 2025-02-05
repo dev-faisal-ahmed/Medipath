@@ -1,17 +1,15 @@
 'use client';
 
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
 import { TablePagination } from './table-pagination';
 import { ScrollArea, ScrollBar } from '../scroll-area';
-import { cn } from '@/lib/utils';
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 export const DataTable = <TData, TValue>({ columns, data, pagination, className }: TDataTableProps<TData, TValue>) => {
   const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel() });
 
   return (
-    // <div className="flex h-full flex-col overflow-x-auto">
-    // <div className="flex size-full grow flex-col gap-2">
     <ScrollArea disableScrollbar>
       <div className={cn('w-full overflow-hidden rounded-md border', className)}>
         <Table>
@@ -63,8 +61,6 @@ export const DataTable = <TData, TValue>({ columns, data, pagination, className 
       )}
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
-    // </div>
-    // </div>
   );
 };
 

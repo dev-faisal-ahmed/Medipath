@@ -7,11 +7,13 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 export const MainLayout = ({ children }: PropsWithChildren) => {
   return (
-    <main className="grid h-dvh md:grid-cols-[280px_1fr]">
+    <main className="flex h-dvh w-full">
       <Sidebar className="hidden md:flex" />
-      <section className="flex h-dvh flex-col overflow-hidden">
+      <section className="flex h-dvh w-full flex-col">
         <Topbar />
-        <ScrollArea className="grow">{children}</ScrollArea>
+        <ScrollArea className="grow" fixedLayout>
+          {children}
+        </ScrollArea>
       </section>
     </main>
   );

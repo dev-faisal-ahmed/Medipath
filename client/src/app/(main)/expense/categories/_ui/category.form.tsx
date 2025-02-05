@@ -24,7 +24,9 @@ export const CategoryForm = ({ formId, onSubmit, defaultValues }: TCategoryFormP
   );
 };
 
-const categoryFormSchema = z.object({ name: z.string().min(1, { message: 'Category name is required' }) });
+const categoryFormSchema = z.object({
+  name: z.string().min(1, { message: 'Category name is required' }).toUpperCase().trim(),
+});
 export type TCategoryForm = z.infer<typeof categoryFormSchema>;
 
 type TCategoryFormProps = {

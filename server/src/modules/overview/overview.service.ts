@@ -81,7 +81,7 @@ const getOverview = async (query: TObject) => {
           {
             $group: {
               _id: null,
-              revenue: { $sum: '$price' },
+              revenue: { $sum: { $subtract: ['$price', '$discount'] } },
               due: { $sum: { $subtract: [{ $subtract: ['$price', '$discount'] }, '$paid'] } },
               referredCommissionToPay: { $sum: '$referrerCommission' },
               doctorPcCommissionToPay: { $sum: '$visitCommission' },

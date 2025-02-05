@@ -41,9 +41,9 @@ export const UpdateBill = ({ billId, defaultValues, onActionChange }: TUpdateBil
     mutate({
       id: billId,
       ...formData,
-      discount: Number(formData.discount),
-      visitCommission: Number(formData.visitCommission),
-      referrerCommission: Number(formData.referrerCommission),
+      discount: Number(formData.discount) || 0,
+      visitCommission: Number(formData.visitCommission) || 0,
+      referrerCommission: Number(formData.referrerCommission) || 0,
     });
   });
 

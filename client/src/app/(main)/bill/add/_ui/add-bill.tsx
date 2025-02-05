@@ -36,6 +36,12 @@ export const AddBill = () => {
     },
   });
 
+  const services = form.watch('services');
+  const price = services.reduce((acc, service) => {
+    acc += service.price;
+    return acc;
+  }, 0);
+
   const { mutate, isPending } = useMutation({
     mutationFn: addBill,
     onSuccess: (res) => {
@@ -77,6 +83,7 @@ export const AddBill = () => {
     <ScrollArea className="grow">
       <div className="mx-auto max-w-screen-lg p-6">
         <Form {...form}>
+          <h1 className="mb-2 text-lg font-bold">Total : {price}</h1>
           <form className="grid gap-4 sm:grid-cols-2" onSubmit={handleAddBill}>
             <SelectServices />
             <PatientInfo />

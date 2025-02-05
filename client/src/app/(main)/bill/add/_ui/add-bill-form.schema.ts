@@ -1,20 +1,20 @@
-import { wordCapitalize, zodNumber } from '@/helper';
+import { zodNumber } from '@/helper';
 import { z } from 'zod';
 
 const serviceSubSchema = z.object({
   id: z.string(),
-  name: z.string().refine((value) => wordCapitalize(value)),
+  name: z.string().toUpperCase().trim(),
   price: z.number(),
   roomNo: z.string(),
 });
 
 const patientSubSchema = z.object({
-  name: z.string().min(1, { message: 'Patient name is required' }),
+  name: z.string().min(1, { message: 'Patient name is required' }).toUpperCase().trim(),
   age: zodNumber({ min: 0, message: 'Age can not be negative' }).optional(),
   ageTitle: z.string().optional(),
   phone: z.string().optional(),
   gender: z.string().optional(),
-  address: z.string().optional(),
+  address: z.string().toUpperCase().trim().optional(),
 });
 
 export const addBillFormSchema = z.object({

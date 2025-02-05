@@ -34,6 +34,7 @@ const getMonthlyExpenses = async (query: TObject) => {
           { $lookup: { from: 'categories', localField: 'categoryId', foreignField: '_id', as: 'category' } },
           { $addFields: { id: '$_id', categoryName: { $arrayElemAt: ['$category.name', 0] } } },
           { $project: { _id: 0, __v: 0, category: 0, createdAt: 0, updatedAt: 0 } },
+          { $sort: { date: -1 } },
         ],
         total: [
           { $match: { date: getMonthRangeQuery(year, month) } },
@@ -98,6 +99,7 @@ const getReferrerExpenses = async (query: TObject) => {
               referrerId: 0,
             },
           },
+          { $sort: { date: -1 } },
         ],
         total: [
           { $match: { date: getMonthRangeQuery(year, month) } },

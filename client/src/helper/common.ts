@@ -25,12 +25,9 @@ export const errorMessageGen = (error: unknown, defaultMessage: string = 'Someth
   return message;
 };
 
-interface IZodNumberArgs {
-  min: number;
-  message: string;
-}
+type TZodNumberArgs = { min: number; message: string };
 
-export const zodNumber = ({ min, message }: IZodNumberArgs) => {
+export const zodNumber = ({ min, message }: TZodNumberArgs) => {
   return z.string().refine((value) => !value || Number(value) >= min, { message });
 };
 
