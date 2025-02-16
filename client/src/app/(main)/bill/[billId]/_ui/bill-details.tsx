@@ -35,7 +35,7 @@ export const BillDetails = () => {
     );
   if (!billData?.data) return <Message message="Bill does not exist" />;
 
-  const { date, patientInfo, doctor, services, paid, price, discount, billId: bill_id } = billData.data;
+  const { createdAt, patientInfo, doctor, services, paid, price, discount, billId: bill_id } = billData.data;
 
   return (
     <ScrollArea className="grow">
@@ -53,7 +53,7 @@ export const BillDetails = () => {
           <p className="my-6 rounded-e-md border border-neutral-300 p-1 text-center text-lg font-bold">
             Invoice / Bill
           </p>
-          <PatientInfo billId={bill_id} date={date} patientInfo={patientInfo} doctor={doctor} />
+          <PatientInfo billId={bill_id} createdAt={createdAt} patientInfo={patientInfo} doctor={doctor} />
           <ServicesInfo services={services} />
           <PaymentInfo paid={paid || 0} price={price} discount={discount} />
         </div>

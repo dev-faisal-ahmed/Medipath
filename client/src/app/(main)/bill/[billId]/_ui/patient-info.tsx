@@ -1,7 +1,7 @@
 import { TBillDetails } from '@/api-lib/query';
 import { formatDate } from '@/helper';
 
-export const PatientInfo = ({ billId, date, patientInfo, doctor }: TPatientInfoProps) => {
+export const PatientInfo = ({ billId, createdAt, patientInfo, doctor }: TPatientInfoProps) => {
   return (
     <div className="mt-8 grid grid-cols-[auto_1fr] gap-x-1 gap-y-2">
       {/* bill Id */}
@@ -11,7 +11,7 @@ export const PatientInfo = ({ billId, date, patientInfo, doctor }: TPatientInfoP
           : <span className="font-semibold">{billId}</span>
         </span>
         <span>
-          Date : <span className="font-semibold">{formatDate(date)}</span>
+          Date : <span className="font-semibold">{formatDate(createdAt)}</span>
         </span>
       </span>
       {/* patient Info */}
@@ -53,4 +53,4 @@ export const PatientInfo = ({ billId, date, patientInfo, doctor }: TPatientInfoP
 };
 
 // types
-type TPatientInfoProps = Pick<TBillDetails, 'billId' | 'date' | 'patientInfo' | 'doctor'>;
+type TPatientInfoProps = Pick<TBillDetails, 'billId' | 'createdAt' | 'patientInfo' | 'doctor'>;
