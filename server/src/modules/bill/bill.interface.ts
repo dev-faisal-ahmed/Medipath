@@ -32,7 +32,6 @@ export interface IBill {
   billId: string;
   patientInfo: IPatient;
   services: TBillService[];
-  date: Date;
   price: number;
   discount: number;
   paid: number;

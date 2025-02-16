@@ -7,12 +7,12 @@ import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { errorMessageGen, zodNumber } from '@/helper';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CommonFormFiled, FormDialog } from '../form';
+import { CommonFormFiled, FormDialog } from '../shared/form';
 import { usePopupState } from '@/hooks';
 import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { giveCommission } from '@/api-lib/query';
-import { ActionButton } from '../action-button';
+import { ActionButton } from '../shared';
 
 export const GiveCommission = ({ billId, referrerId, buttonLabel, disabled }: TGiveCommissionProps) => {
   const formId = `${QK.BILL}_GIVE_COMMISSION_${billId}`;
@@ -42,7 +42,12 @@ export const GiveCommission = ({ billId, referrerId, buttonLabel, disabled }: TG
 
   return (
     <>
-      <ActionButton actionType="PAYMENT" label={buttonLabel} onClick={() => onOpenChange(true)} disabled={disabled} />
+      <ActionButton
+        actionType="PAYMENT"
+        label={buttonLabel}
+        onClick={() => !disabled && onOpenChange(true)}
+        disabled={disabled}
+      />
       <FormDialog
         formId={formId}
         open={open}

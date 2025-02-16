@@ -29,12 +29,12 @@ export type TBill = {
   billId: string;
   patientInfo: TPatient;
   services: Pick<TService, 'name' | 'price' | 'roomNo'>[];
-  date: Date;
   price: number;
   discount?: number;
   paid?: number;
   referrerCommission?: number;
   visitCommission?: number;
+  createdAt: Date;
 };
 
 export enum BILL_REFER_TYPE {

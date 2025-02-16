@@ -108,9 +108,24 @@ const getBills = async (query: TObject) => {
         pipeline: [{ $project: { name: 1, designation: 1, id: '$_id', _id: 0 } }],
       },
     },
-    { $addFields: { id: '$_id', agent: { $arrayElemAt: ['$agent', 0] }, doctor: { $arrayElemAt: ['$doctor', 0] } } },
-    { $project: { _id: 0, createdAt: 0, updatedAt: 0, __v: 0 } },
-    { $sort: { date: -1 } },
+    {
+      $addFields: {
+        id: '$_id',
+        agent: { $arrayElemAt: ['$agent', 0] },
+        doctor: { $arrayElemAt: ['$doctor', 0] },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        __v: 0,
+        updatedAt: 0,
+        'patientInfo.phone': 0,
+        'patientInfo.gender': 0,
+        'patientInfo.address': 0,
+      },
+    },
+    { $sort: { createdAt: -1 } },
     { $skip: skip },
     { $limit: limit },
   ]);

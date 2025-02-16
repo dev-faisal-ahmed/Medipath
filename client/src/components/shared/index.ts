@@ -1,5 +1,6 @@
 export * from './action-button';
 export * from './delete.dialog';
+export * from './give-commission';
 export * from './header';
 export * from './message';
 export * from './month-pagination';

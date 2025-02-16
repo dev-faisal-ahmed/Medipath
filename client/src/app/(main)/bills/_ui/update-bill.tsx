@@ -41,7 +41,6 @@ export const UpdateBill = ({ billId, defaultValues, onActionChange }: TUpdateBil
     mutate({
       id: billId,
       ...formData,
-      discount: Number(formData.discount) || 0,
       visitCommission: Number(formData.visitCommission) || 0,
       referrerCommission: Number(formData.referrerCommission) || 0,
     });
@@ -70,11 +69,6 @@ export const UpdateBill = ({ billId, defaultValues, onActionChange }: TUpdateBil
             <CommonFormFiled control={form.control} name="referrerCommission" label="Referrer Commission">
               {({ field }) => <Input {...field} type="number" min={0} />}
             </CommonFormFiled>
-            <div className="col-span-2">
-              <CommonFormFiled control={form.control} name="discount" label="Discount">
-                {({ field }) => <Input {...field} type="number" min={0} />}
-              </CommonFormFiled>
-            </div>
           </form>
         </Form>
       </FormDialog>
@@ -88,7 +82,6 @@ const updateBillFormSchema = z.object({
   referrerId: z.string().optional(),
   referrerCommission: zodNumber({ min: 0, message: 'Referrer commission can not be negative' }).optional(),
   visitCommission: zodNumber({ min: 0, message: 'Visitor commission can not be negative' }).optional(),
-  discount: zodNumber({ min: 0, message: 'Discount can not be negative' }).optional(),
 });
 
 // types

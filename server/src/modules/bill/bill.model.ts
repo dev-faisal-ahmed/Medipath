@@ -31,7 +31,6 @@ const billSchema = new Schema<IBill>(
     billId: { type: String, required: true, unique: true },
     services: { type: [servicesSubSchema], required: true, minlength: 1 },
     patientInfo: { type: patientSubSchema, required: true },
-    date: { type: Date, default: new Date() },
     price: { type: Number, min: 0 },
     discount: { type: Number, default: 0 },
     paid: { type: Number, default: 0 },

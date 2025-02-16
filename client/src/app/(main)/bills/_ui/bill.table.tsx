@@ -41,9 +41,14 @@ export const BillTable = () => {
       cell: ({ getValue }) => <span className="whitespace-nowrap">{getValue<string>()}</span>,
     },
     {
-      accessorKey: 'patientInfo.name',
+      id: 'patientInfo',
       header: 'Patient Name',
-      cell: ({ getValue }) => <span className="whitespace-nowrap font-medium">{getValue<string>()}</span>,
+      cell: ({ row }) => (
+        <div className="whitespace-nowrap font-semibold">
+          <h2>{row.original.patientInfo.name}</h2>
+          <p className="mt-1 text-xs font-semibold text-muted-foreground">Age : {row.original.patientInfo.age}</p>
+        </div>
+      ),
     },
     {
       accessorKey: 'services',
@@ -121,7 +126,7 @@ export const BillTable = () => {
       },
     },
     {
-      accessorKey: 'date',
+      accessorKey: 'createdAt',
       header: () => <span>Date</span>,
       cell: ({ getValue }) => <span className="whitespace-nowrap">{formatDate(getValue<string>())}</span>,
     },

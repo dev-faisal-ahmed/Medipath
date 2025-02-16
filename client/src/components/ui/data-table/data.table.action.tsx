@@ -21,7 +21,7 @@ export const DataTableAction = ({ open, onOpenChange, className, children }: TDa
           <EllipsisIcon />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className={cn(className?.content)}>
+      <DropdownMenuContent className={cn('min-w-60', className?.content)}>
         <DropdownMenuLabel className="text-center">Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <section className={cn('flex flex-col gap-2', className?.childContainer)}>{children}</section>

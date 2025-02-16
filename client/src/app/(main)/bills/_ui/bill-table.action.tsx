@@ -4,7 +4,7 @@ import { DataTableAction } from '@/components/ui/data-table';
 import { usePopupState } from '@/hooks';
 import Link from 'next/link';
 import { TakeDue } from './take-due';
-import { GiveCommission } from '@/components/shared/give-commission';
+import { GiveCommission } from '@/components/shared';
 import { UpdateBill } from './update-bill';
 import { useMemo } from 'react';
 

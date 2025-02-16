@@ -34,14 +34,13 @@ export const giveCommission = async (payload: TGiveCommissionPayload): Promise<T
 };
 
 export const updateBill = async (payload: TUpdateBillPayload): Promise<TServerResponse<null>> => {
-  const { id, visitCommission, referrerCommission, discount, ...restPayload } = payload;
+  const { id, visitCommission, referrerCommission, ...restPayload } = payload;
   const refinedPayload = removeEmptyProperty(restPayload);
 
   const { data } = await axiosInstance.patch(apiUrl.updateBill(id), {
     ...refinedPayload,
     visitCommission,
     referrerCommission,
-    discount,
   });
 
   return data;
@@ -68,13 +67,19 @@ export type TGetBillsResponse = TBill & {
 
 export type TBillDetails = Pick<
   TBill,
-  'id' | 'billId' | 'referrerId' | 'visitorId' | 'patientInfo' | 'date' | 'price' | 'discount' | 'paid' | 'services'
+  | 'id'
+  | 'billId'
+  | 'referrerId'
+  | 'visitorId'
+  | 'patientInfo'
+  | 'price'
+  | 'discount'
+  | 'paid'
+  | 'services'
+  | 'createdAt'
 > & { agent: { id: string; name: string }; doctor: { id: string; name: string } };
 
 type TTakeDuePayload = { billId: string; amount: number };
 type TGiveCommissionPayload = { amount: number; referrerId: string; billId: string };
 
-type TUpdateBillPayload = Pick<
-  TBill,
-  'id' | 'referrerId' | 'visitorId' | 'referrerCommission' | 'visitCommission' | 'discount'
->;
+type TUpdateBillPayload = Pick<TBill, 'id' | 'referrerId' | 'visitorId' | 'referrerCommission' | 'visitCommission'>;
