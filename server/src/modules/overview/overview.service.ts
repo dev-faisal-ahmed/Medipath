@@ -5,11 +5,6 @@ import { TRANSACTION_CATEGORY_TYPE } from '../transaction/constants';
 import { TRANSACTION_TYPE } from '../transaction/transaction.interface';
 import { Transaction } from '../transaction/transaction.model';
 
-enum OVERVIEW_TYPE {
-  DAILY = 'daily',
-  MONTHLY = 'monthly',
-}
-
 const getOverview = async (query: TObject) => {
   const type = query.type || OVERVIEW_TYPE.DAILY;
   const dateTime = query.dateTime;
@@ -138,3 +133,8 @@ const getOverview = async (query: TObject) => {
 };
 
 export const overviewService = { getOverview };
+
+enum OVERVIEW_TYPE {
+  DAILY = 'daily',
+  MONTHLY = 'monthly',
+}

@@ -125,4 +125,56 @@ const getReferrerExpenses = async (query: TObject) => {
   return { firstTransactionDate, lastTransactionDate, total, transactions };
 };
 
-export const transactionService = { addExpense, getMonthlyExpenses, getReferrerExpenses };
+const getTransactionSummary = async (query: TObject) => {
+  const dateTime = query.dateTime;
+  const date = parseDate(dateTime);
+  const year = date.getFullYear();
+  const month = date.getMonth();
+
+  const dateQuery = {
+    date: getMonthRangeQuery(year, month),
+  };
+
+  const transactions: ITransactionSummary[] = await Transaction.aggregate([
+    { $match: dateQuery },
+    {
+      $group: {
+        _id: { $dateToString: { format: '%Y-%m-%d', date: '$date' } },
+        income: { $sum: { $cond: [{ $eq: ['$type', 'REVENUE'] }, '$amount', 0] } },
+        expense: { $sum: { $cond: [{ $eq: ['$type', 'EXPENSE'] }, '$amount', 0] } },
+      },
+    },
+    { $sort: { _id: -1 } },
+  ]);
+
+  const reformedTransactions: ITransformedTransaction[] = [];
+  const total = { income: 0, expense: 0, balance: 0 };
+
+  transactions.forEach((transaction) => {
+    const balance = transaction.income - transaction.expense;
+
+    total.income += transaction.income;
+    total.expense += transaction.expense;
+    total.balance += balance;
+
+    reformedTransactions.push({ ...transaction, balance, date: transaction._id });
+  });
+
+  return { total, transactions: reformedTransactions };
+};
+
+export const transactionService = { addExpense, getMonthlyExpenses, getReferrerExpenses, getTransactionSummary };
+
+// types
+interface ITransactionSummary {
+  _id: string;
+  income: number;
+  expense: number;
+}
+
+interface ITransformedTransaction {
+  date: string;
+  income: number;
+  expense: number;
+  balance: number;
+}

@@ -18,4 +18,9 @@ const getReferrerExpense = catchAsync(async (req, res) => {
   sendSuccessResponse(res, { message: 'Referrer expense fetched', data: result });
 });
 
-export const transactionController = { addExpense, getMonthlyExpenses, getReferrerExpense };
+const getTransactionSummary = catchAsync(async (req, res) => {
+  const result = await transactionService.getTransactionSummary(req.query as TObject);
+  sendSuccessResponse(res, { message: 'Transaction summary fetched', data: result });
+});
+
+export const transactionController = { addExpense, getMonthlyExpenses, getReferrerExpense, getTransactionSummary };

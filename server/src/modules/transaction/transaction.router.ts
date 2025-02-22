@@ -26,3 +26,9 @@ transactionsRouter.get(
   authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
   transactionController.getReferrerExpense,
 );
+
+transactionsRouter.get(
+  '/summary',
+  authGuard(USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN),
+  transactionController.getTransactionSummary,
+);
