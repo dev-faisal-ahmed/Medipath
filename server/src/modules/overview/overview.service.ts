@@ -20,11 +20,16 @@ const getOverview = async (query: TObject) => {
   const month = date.getMonth();
 
   const dateQuery = {
-    date: type === OVERVIEW_TYPE.DAILY ? getDateRangeQuery(date) : getMonthRangeQuery(year, month),
+    transaction: {
+      date: type === OVERVIEW_TYPE.DAILY ? getDateRangeQuery(date) : getMonthRangeQuery(year, month),
+    },
+    bill: {
+      createdAt: type === OVERVIEW_TYPE.DAILY ? getDateRangeQuery(date) : getMonthRangeQuery(year, month),
+    },
   };
 
   const [transactionResult] = await Transaction.aggregate([
-    { $match: dateQuery },
+    { $match: dateQuery.transaction },
     {
       $facet: {
         totalCollection: [
@@ -53,7 +58,7 @@ const getOverview = async (query: TObject) => {
   ]);
 
   const [billResult] = await Bill.aggregate([
-    { $match: dateQuery },
+    { $match: dateQuery.bill },
     {
       $lookup: {
         from: 'referrers',
@@ -73,7 +78,7 @@ const getOverview = async (query: TObject) => {
       },
     },
     { $addFields: { id: '$_id', agent: { $arrayElemAt: ['$agent', 0] }, doctor: { $arrayElemAt: ['$doctor', 0] } } },
-    { $project: { _id: 0, createdAt: 0, updatedAt: 0, __v: 0 } },
+    { $project: { _id: 0, updatedAt: 0, __v: 0 } },
     {
       $facet: {
         bills: [{ $sort: { date: -1 } }, { $limit: 20 }],

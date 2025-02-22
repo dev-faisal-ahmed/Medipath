@@ -1,5 +1,8 @@
 'use client';
 
+import Link from 'next/link';
+
+import { cn } from '@/lib/utils';
 import { QK } from '@/api-lib';
 import { useState } from 'react';
 import { format } from 'date-fns';
@@ -13,13 +16,11 @@ import { useQuery } from '@tanstack/react-query';
 import { CommissionCard } from './commission-card';
 import { amber, emerald } from 'tailwindcss/colors';
 import { SelectOverviewType } from './select-overview';
-import { PickMonth } from './pick-month';
 import { RecentBills } from './recent-bills';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
 import { TableLoader } from '@/components/ui/loader';
+import { PickMonth } from './pick-month';
 
 const referredColors = { paid: emerald[800], due: emerald[600], total: emerald[900] };
 const doctorColors = { paid: amber[800], due: amber[600], total: amber[900] };
@@ -94,7 +95,7 @@ export const Dashboard = () => {
         <SummaryCard title="Utility Expense" value={utilityExpense} />
       </section>
 
-      <div className="mt-6 flex grow flex-col gap-4 px-6">
+      <div className="my-6 flex grow flex-col gap-4 px-6">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold">Recent Bills</h3>
           <Link href="/bills" className="font-semibold text-primary underline">
