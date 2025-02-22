@@ -11,13 +11,6 @@ export const removeEmptyProperty = (payload: Record<string, unknown>) => {
   }, {});
 };
 
-export const wordCapitalize = (words: string) => {
-  return words
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-};
-
 export const errorMessageGen = (error: unknown, defaultMessage: string = 'Something went wrong') => {
   let message = defaultMessage;
   if (error instanceof AxiosError) message = error.response?.data?.message;

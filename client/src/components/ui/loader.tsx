@@ -48,10 +48,11 @@ const TableRowLoader = () => (
 // Expense Category Loader
 export const ExpenseCategoryLoader = () => (
   <section className="p-6">
-    <div className="mb-4 flex items-center justify-between">
-      <Skeleton className="h-6 w-44" />
-      <Skeleton className="h-6 w-32" />
+    <div className="mb-2 flex items-center justify-between">
+      <Skeleton className="h-4 w-44" />
+      <Skeleton className="h-4 w-32" />
     </div>
+
     <div className="space-y-3">
       {Array.from({ length: 2 }).map((_, index) => (
         <div key={index}>

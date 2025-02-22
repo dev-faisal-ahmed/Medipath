@@ -46,7 +46,7 @@ export const BillDetails = () => {
             <h1 className="text-2xl font-bold">Medi Path Clinic And Digital Diagnostic Centre</h1>
             <p>Hospital Road, Rajjodhor Primary School, Sapahar Naogaon</p>
             <p>
-              Mobile : <span className="font-semibold"> 01725708075, 01728717696</span>
+              Mobile : <span className="font-semibold"> 01725708078, 01728717696</span>
             </p>
           </div>
 

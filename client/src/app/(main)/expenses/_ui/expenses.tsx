@@ -11,7 +11,10 @@ import { useQuery } from '@tanstack/react-query';
 import { Message, MonthPagination } from '@/components/shared';
 import { useCallback, useState } from 'react';
 import { GiWallet } from 'react-icons/gi';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { PrintWrapper } from '@/components/shared/print-wrapper';
 
+// Composer
 export const Expenses = () => {
   const mode = useTopbarStore((state) => state.mode);
   const [date, setDate] = useState(new Date());
@@ -50,11 +53,15 @@ export const Expenses = () => {
   return (
     <div className="flex h-full flex-col">
       <div className="my-6 grow px-6">
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex items-center gap-6">
           <h2 className="text-lg font-bold">Month : {format(date, 'MMMM - yyyy')}</h2>
-          <h2 className="text-lg font-bold">
+          <h2 className="ml-auto text-lg font-bold">
             Total : {CONST.TAKA} {total}
           </h2>
+
+          <PrintWrapper title={'Expenses'} date={date}>
+            <ExpenseTable date={date} total={total} expenses={expenses} />
+          </PrintWrapper>
         </div>
         <ExpenseList expenseGroup={expenseGroup} />
       </div>
@@ -63,6 +70,7 @@ export const Expenses = () => {
   );
 };
 
+// UI
 const ExpenseList = ({ expenseGroup }: { expenseGroup: TExpenseGroup }) => {
   const keys = Object.keys(expenseGroup);
   if (!keys.length) return <Message className="mt-6" message="No Expense Found" />;
@@ -105,8 +113,50 @@ const ExpenseList = ({ expenseGroup }: { expenseGroup: TExpenseGroup }) => {
   );
 };
 
+// UI
+const ExpenseTable = ({ date, total, expenses }: TPrintExpensesProps) => {
+  return (
+    <>
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="text-lg font-bold">Month : {format(date, 'MMMM - yyyy')}</h2>
+        <h2 className="text-lg font-bold">
+          Total : {CONST.TAKA} {total}
+        </h2>
+      </div>
+
+      <div className="w-full overflow-hidden rounded-md border">
+        <Table>
+          <TableHeader className="sticky top-0 bg-neutral-100">
+            <TableRow>
+              <TableHead>SL.</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Amount</TableHead>
+              <TableHead>Date</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {expenses.map(({ id, categoryName, description, amount, date }, index) => (
+              <TableRow key={id}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{categoryName}</TableCell>
+                <TableCell>{description || 'Description is not available'}</TableCell>
+                <TableCell>
+                  {CONST.TAKA} {amount}
+                </TableCell>
+                <TableCell>{format(date, 'dd-MM-yyyy')}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </>
+  );
+};
+
 // const
 const today = formatDate(new Date());
 
 // types
 type TExpenseGroup = Record<string, { expenses: TMonthlyExpense['expenses']; total: number }>;
+type TPrintExpensesProps = { total: number; expenses: TMonthlyExpense['expenses']; date: Date };
