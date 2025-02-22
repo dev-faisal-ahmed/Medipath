@@ -7,7 +7,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { usePopupState } from '@/hooks';
 
 export const MainLayout = ({ children }: PropsWithChildren) => {
-  const { open, onOpenChange } = usePopupState();
+  const { open, onOpenChange } = usePopupState(true);
 
   return (
     <main className="flex h-dvh w-full">

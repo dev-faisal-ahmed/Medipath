@@ -81,6 +81,7 @@ const getOverview = async (query: TObject) => {
     { $project: { _id: 0, updatedAt: 0, __v: 0 } },
     {
       $facet: {
+        totalBills: [{ $count: 'totalBills' }],
         bills: [{ $sort: { date: -1 } }, { $limit: 20 }],
         overview: [
           {
@@ -95,7 +96,13 @@ const getOverview = async (query: TObject) => {
         ],
       },
     },
-    { $project: { bills: '$bills', overview: { $arrayElemAt: ['$overview', 0] } } },
+    {
+      $project: {
+        bills: '$bills',
+        overview: { $arrayElemAt: ['$overview', 0] },
+        totalBills: { $arrayElemAt: ['$totalBills.totalBills', 0] },
+      },
+    },
   ]);
 
   const referrerExpense = { referredExpense: 0, doctorsPcExpense: 0 };
@@ -106,6 +113,7 @@ const getOverview = async (query: TObject) => {
   const referredCommissionToPay = billResult?.overview?.referredCommissionToPay || 0;
   const doctorPcCommissionToPay = billResult?.overview?.doctorPcCommissionToPay || 0;
   const bills = billResult?.bills || [];
+  const totalBills = billResult?.totalBills || 0;
 
   // generating referrer expense
   transactionResult?.referrerExpense?.forEach((expense: { _id: string; total: number }) => {
@@ -125,6 +133,7 @@ const getOverview = async (query: TObject) => {
     referredCommissionToPay,
     doctorPcCommissionToPay,
     bills,
+    totalBills,
   };
 };
 

@@ -25,8 +25,8 @@ export const useDebounce = <TData>(value: TData, delay: number = 500) => {
 };
 
 // usePopupState
-export const usePopupState = () => {
-  const [open, setOpen] = useState(false);
+export const usePopupState = (defaultValue: boolean = false) => {
+  const [open, setOpen] = useState(defaultValue);
   const onOpenChange = useCallback((open: boolean) => setOpen(open), []);
 
   return { open, onOpenChange };

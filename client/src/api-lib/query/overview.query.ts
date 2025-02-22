@@ -26,6 +26,7 @@ export type TOverview = {
   referredCommissionToPay: number;
   doctorPcCommissionToPay: number;
   bills: TBillInfo[];
+  totalBills: number;
 };
 
 type TBillInfo = TBill & {

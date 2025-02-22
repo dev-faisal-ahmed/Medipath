@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils';
 import { QK } from '@/api-lib';
 import { useState } from 'react';
 import { format } from 'date-fns';
-import { CONST } from '@/lib/const';
 import { formatDate } from '@/helper';
 import { getOverview, OVERVIEW_TYPE } from '@/api-lib/query';
 import { DatePicker } from '@/components/shared/form';
@@ -21,6 +20,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TableLoader } from '@/components/ui/loader';
 import { PickMonth } from './pick-month';
+import { ChartSplineIcon, DollarSignIcon } from 'lucide-react';
 
 const referredColors = { paid: emerald[800], due: emerald[600], total: emerald[900] };
 const doctorColors = { paid: amber[800], due: amber[600], total: amber[900] };
@@ -49,6 +49,7 @@ export const Dashboard = () => {
     utilityExpense = 0,
     doctorPcCommissionToPay = 0,
     referredCommissionToPay = 0,
+    totalBills = 0,
   } = overview;
 
   const balance = totalCollection - (utilityExpense + referredExpense + doctorsPcExpense);
@@ -93,6 +94,7 @@ export const Dashboard = () => {
         <SummaryCard title="Due" value={due} />
         <SummaryCard title="Total Collection" value={totalCollection} />
         <SummaryCard title="Utility Expense" value={utilityExpense} />
+        <SummaryCard title="Total Bills" value={totalBills} showTakaIcon={false} />
       </section>
 
       <div className="my-6 flex grow flex-col gap-4 px-6">
@@ -109,16 +111,15 @@ export const Dashboard = () => {
   );
 };
 
-const SummaryCard = ({ title, value }: TSummaryCardProps) => {
+const SummaryCard = ({ title, value, showTakaIcon = true }: TSummaryCardProps) => {
   return (
     <Card>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <p className="text-lg font-bold">
-          {CONST.TAKA} {value || 0}
-        </p>
+      <CardContent className="flex items-center justify-between gap-2">
+        <p className="text-lg font-bold">{value || 0}</p>
+        {showTakaIcon ? <DollarSignIcon /> : <ChartSplineIcon />}
       </CardContent>
     </Card>
   );
@@ -151,4 +152,5 @@ const DashboardLoader = () => (
 type TSummaryCardProps = {
   title: string;
   value: number | undefined;
+  showTakaIcon?: boolean;
 };
