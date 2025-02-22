@@ -54,11 +54,11 @@ export const DataTable = <TData, TValue>({ columns, data, pagination, className 
             )}
           </TableBody>
         </Table>
-      </div>
 
-      {pagination && pagination.totalPages > 1 && (
-        <TablePagination page={pagination.page} totalPages={pagination.totalPages} />
-      )}
+        {pagination && pagination.totalPages > 1 && (
+          <TablePagination page={pagination.page} totalPages={pagination.totalPages} />
+        )}
+      </div>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
   );

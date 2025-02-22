@@ -15,7 +15,7 @@ import { useTopbarStore } from '@/stores/topbar';
 import { CONST } from '@/lib/const';
 import { Badge } from '@/components/ui/badge';
 
-const LIMIT = '20';
+const LIMIT = '15';
 
 export const ReferrerTable = () => {
   const searchTerm = useTopbarStore((state) => state.searchTerm);

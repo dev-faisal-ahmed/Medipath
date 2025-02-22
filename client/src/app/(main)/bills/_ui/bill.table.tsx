@@ -15,7 +15,7 @@ import { useTopbarStore } from '@/stores/topbar';
 import { MdError } from 'react-icons/md';
 import { BillTableAction } from './bill-table.action';
 
-const LIMIT = '20';
+const LIMIT = '10';
 
 // main component
 export const BillTable = () => {

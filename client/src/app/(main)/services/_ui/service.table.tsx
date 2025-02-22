@@ -15,7 +15,7 @@ import { DeleteService } from './delete-service';
 import { FullSpaceLoader } from '@/components/ui/loader';
 import { useTopbarStore } from '@/stores/topbar';
 
-const LIMIT = '15';
+const LIMIT = '10';
 
 export const ServicesTable = () => {
   const searchTerm = useTopbarStore((state) => state.searchTerm);

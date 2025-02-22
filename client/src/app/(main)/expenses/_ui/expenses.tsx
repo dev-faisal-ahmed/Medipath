@@ -63,7 +63,6 @@ export const Expenses = () => {
   );
 };
 
-const today = formatDate(new Date());
 const ExpenseList = ({ expenseGroup }: { expenseGroup: TExpenseGroup }) => {
   const keys = Object.keys(expenseGroup);
   if (!keys.length) return <Message className="mt-6" message="No Expense Found" />;
@@ -81,10 +80,19 @@ const ExpenseList = ({ expenseGroup }: { expenseGroup: TExpenseGroup }) => {
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-            {expenseGroup[key]?.expenses.map(({ id, categoryName, amount }) => (
-              <div key={id} className="flex items-center gap-4 rounded-md border bg-white p-3">
-                <GiWallet className="size-5" />
-                <h3 className="font-semibold">{categoryName}</h3>
+            {expenseGroup[key]?.expenses.map(({ id, categoryName, amount, description }) => (
+              <div
+                key={id}
+                className="grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-md border bg-white p-3"
+              >
+                <GiWallet className="size-8" />
+                <div>
+                  <h3 className="font-semibold">{categoryName}</h3>
+                  <p className="mt-1 line-clamp-1 text-muted-foreground duration-500 hover:line-clamp-none">
+                    {description ? description : 'No Description available'}
+                  </p>
+                </div>
+
                 <p className="ml-auto whitespace-nowrap font-semibold">
                   {CONST.TAKA} {amount}
                 </p>
@@ -97,4 +105,8 @@ const ExpenseList = ({ expenseGroup }: { expenseGroup: TExpenseGroup }) => {
   );
 };
 
+// const
+const today = formatDate(new Date());
+
+// types
 type TExpenseGroup = Record<string, { expenses: TMonthlyExpense['expenses']; total: number }>;
