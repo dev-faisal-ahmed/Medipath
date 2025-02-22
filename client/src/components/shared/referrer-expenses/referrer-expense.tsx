@@ -11,6 +11,9 @@ import { MonthPagination } from '../month-pagination';
 import { Message } from '../message';
 import { GiWallet } from 'react-icons/gi';
 import { CONST } from '@/lib/const';
+import { format } from 'date-fns';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { PrintWrapper } from '../print-wrapper';
 
 export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }) => {
   const [date, setDate] = useState(new Date());
@@ -46,14 +49,23 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
     return acc;
   }, {});
 
+  const pdfTitle =
+    referrerType === REFERRER_TYPE.AGENT
+      ? `Referrer Expenses - ${formatDate(date, 'month')}`
+      : `Doctor Expenses - ${formatDate(date, 'month')}`;
+
   return (
     <div className="flex h-full flex-col">
       <section className="my-6 grow px-6">
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex items-center gap-6">
           <h2 className="text-lg font-bold">Month : {formatDate(date, 'month')}</h2>
-          <h2 className="text-lg font-bold">
+          <h2 className="ml-auto text-lg font-bold">
             Total : {CONST.TAKA} {total}
           </h2>
+
+          <PrintWrapper title={pdfTitle} date={date}>
+            <ReferrerExpenseTable date={date} total={total} transactions={transactions} />
+          </PrintWrapper>
         </div>
         <TransactionList transactionGroup={transactionGroup} />
       </section>
@@ -101,4 +113,42 @@ const TransactionList = ({ transactionGroup }: { transactionGroup: TTransactions
   );
 };
 
+const ReferrerExpenseTable = ({ date, total, transactions }: TTransactionTableProps) => (
+  <>
+    <div className="mb-6 flex items-center justify-between">
+      <h2 className="text-lg font-bold">Month : {format(date, 'MMMM - yyyy')}</h2>
+      <h2 className="text-lg font-bold">
+        Total : {CONST.TAKA} {total}
+      </h2>
+    </div>
+
+    <div className="w-full overflow-hidden rounded-md border">
+      <Table>
+        <TableHeader className="sticky top-0 bg-neutral-100">
+          <TableRow>
+            <TableHead>SL.</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Amount</TableHead>
+            <TableHead>Date</TableHead>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
+          {transactions.map(({ id, amount, date, referrer }, index) => (
+            <TableRow key={id}>
+              <TableCell>{index + 1}</TableCell>
+              <TableCell className="max-w-[350px]">{referrer.name}</TableCell>
+              <TableCell>
+                {CONST.TAKA} {amount}
+              </TableCell>
+              <TableCell>{format(date, 'dd-MM-yyyy')}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  </>
+);
+
 type TTransactionsGroup = Record<string, { transactions: TReferrerExpense['transactions']; total: number }>;
+type TTransactionTableProps = { total: number; transactions: TReferrerExpense['transactions']; date: Date };

@@ -1,39 +1,39 @@
 import { TCategory } from '@/types';
 
-export const SERVER_ADDRESS = 'http://localhost:5000/api/v1';
-// export const SERVER_ADDRESS = 'https://medipath-server-beta.vercel.app/api/v1';
+// export const SERVER_ADDRESS = 'http://localhost:5000/api/v1';
+export const SERVER_ADDRESS = 'https://medipath-server-beta.vercel.app/api/v1';
 
 export const apiUrl = {
   // auth
-  loginWithCredentials: `${SERVER_ADDRESS}/auth/login/credentials`,
+  loginWithCredentials: `/auth/login/credentials`,
   // service
-  addService: `${SERVER_ADDRESS}/service`,
-  getServices: (searchParams: string) => `${SERVER_ADDRESS}/services${searchParams}`,
-  deleteService: (serviceId: string) => `${SERVER_ADDRESS}/service/${serviceId}`,
-  updateService: (serviceId: string) => `${SERVER_ADDRESS}/service/${serviceId}`,
-  getServiceList: `${SERVER_ADDRESS}/services/list`,
+  addService: `/service`,
+  getServices: (searchParams: string) => `/services${searchParams}`,
+  deleteService: (serviceId: string) => `/service/${serviceId}`,
+  updateService: (serviceId: string) => `/service/${serviceId}`,
+  getServiceList: `/services/list`,
   // referrer
-  addReferrer: `${SERVER_ADDRESS}/referrer`,
-  getReferrers: (searchParams: string) => `${SERVER_ADDRESS}/referrers${searchParams}`,
-  updateReferrer: (referrerId: string) => `${SERVER_ADDRESS}/referrer/${referrerId}`,
-  deleteReferrer: (referrerId: string) => `${SERVER_ADDRESS}/referrer/${referrerId}`,
-  getReferrerList: `${SERVER_ADDRESS}/referrers/list`,
+  addReferrer: `/referrer`,
+  getReferrers: (searchParams: string) => `/referrers${searchParams}`,
+  updateReferrer: (referrerId: string) => `/referrer/${referrerId}`,
+  deleteReferrer: (referrerId: string) => `/referrer/${referrerId}`,
+  getReferrerList: `/referrers/list`,
   // bill
-  addBill: `${SERVER_ADDRESS}/bill`,
-  getBillDetails: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}`,
-  getBills: (searchParams: string) => `${SERVER_ADDRESS}/bills${searchParams}`,
-  takeDue: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}/take-due`,
-  giveCommission: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}/give-commission`,
-  updateBill: (billId: string) => `${SERVER_ADDRESS}/bill/${billId}`,
+  addBill: `/bill`,
+  getBillDetails: (billId: string) => `/bill/${billId}`,
+  getBills: (searchParams: string) => `/bills${searchParams}`,
+  takeDue: (billId: string) => `/bill/${billId}/take-due`,
+  giveCommission: (billId: string) => `/bill/${billId}/give-commission`,
+  updateBill: (billId: string) => `/bill/${billId}`,
   // expense category
-  addCategory: `${SERVER_ADDRESS}/category`,
-  getCategories: (mode: TCategory['mode']) => `${SERVER_ADDRESS}/categories?mode=${mode}`,
-  updateCategory: (categoryId: string) => `${SERVER_ADDRESS}/category/${categoryId}`,
-  deleteCategory: (categoryId: string) => `${SERVER_ADDRESS}/category/${categoryId}`,
+  addCategory: `/category`,
+  getCategories: (mode: TCategory['mode']) => `/categories?mode=${mode}`,
+  updateCategory: (categoryId: string) => `/category/${categoryId}`,
+  deleteCategory: (categoryId: string) => `/category/${categoryId}`,
   // transaction
-  addExpense: `${SERVER_ADDRESS}/transaction/expense`,
-  getMonthlyExpenses: (searchParams: string) => `${SERVER_ADDRESS}/transactions/expenses/monthly${searchParams}`,
-  getReferrerExpenses: (searchParams: string) => `${SERVER_ADDRESS}/transactions/expenses/referrer${searchParams}`,
+  addExpense: `/transaction/expense`,
+  getMonthlyExpenses: (searchParams: string) => `/transactions/expenses/monthly${searchParams}`,
+  getReferrerExpenses: (searchParams: string) => `/transactions/expenses/referrer${searchParams}`,
   // overview
-  getOverview: (searchParams: string) => `${SERVER_ADDRESS}/overview${searchParams}`,
+  getOverview: (searchParams: string) => `/overview${searchParams}`,
 };
