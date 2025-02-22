@@ -12,7 +12,7 @@ import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { useTopbarStore } from '@/stores/topbar';
 import { Sidebar } from './sidebar';
 
-export const Topbar = () => {
+export const Topbar = ({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) => {
   const isSearchbarShown = useTopbarStore((state) => state.isSearchbarShown);
   const headerTitle = useTopbarStore((state) => state.headerTitle);
   const headerChild = useTopbarStore((state) => state.headerChild);
@@ -24,6 +24,10 @@ export const Topbar = () => {
   return (
     <nav className="sticky top-0 z-20 flex items-center gap-3 border-b p-6">
       <div className="flex items-center gap-3">
+        <button className="rounded-full border p-2 shadow" onClick={() => onOpenChange(!open)}>
+          <MenuIcon />
+        </button>
+
         <MobileSidebar />
         {isSearchbarShown ? (
           <SearchInput

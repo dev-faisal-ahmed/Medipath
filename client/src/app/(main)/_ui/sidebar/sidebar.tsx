@@ -20,6 +20,7 @@ export const Sidebar = ({ className }: SidebarProps) => {
       <Link href="/">
         <AppLogo className="mx-4 pt-2" />
       </Link>
+
       <ScrollArea className="grow">
         <section className="flex flex-col gap-1">
           {sidebarLinks.map((link, index) => (
