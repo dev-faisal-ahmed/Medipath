@@ -1,7 +1,7 @@
 import { TCategory } from '@/types';
 
-export const SERVER_ADDRESS = 'http://localhost:5000/api/v1';
-// export const SERVER_ADDRESS = 'https://medipath-server-beta.vercel.app/api/v1';
+// export const SERVER_ADDRESS = 'http://localhost:5000/api/v1';
+export const SERVER_ADDRESS = 'https://medipath-server-beta.vercel.app/api/v1';
 
 export const apiUrl = {
   // auth
@@ -34,6 +34,7 @@ export const apiUrl = {
   addExpense: `/transaction/expense`,
   getMonthlyExpenses: (searchParams: string) => `/transactions/expenses/monthly${searchParams}`,
   getReferrerExpenses: (searchParams: string) => `/transactions/expenses/referrer${searchParams}`,
+  getTransactionSummary: (searchParams: string) => `/transactions/summary${searchParams}`,
   // overview
   getOverview: (searchParams: string) => `/overview${searchParams}`,
 };

@@ -21,6 +21,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { TableLoader } from '@/components/ui/loader';
 import { PickMonth } from './pick-month';
 import { ChartSplineIcon, DollarSignIcon } from 'lucide-react';
+import { PrintTransaction } from './print-transaction';
 
 const referredColors = { paid: emerald[800], due: emerald[600], total: emerald[900] };
 const doctorColors = { paid: amber[800], due: amber[600], total: amber[900] };
@@ -75,6 +76,8 @@ export const Dashboard = () => {
 
         {type === OVERVIEW_TYPE.DAILY && <DatePicker date={date} onChange={setDate} className="w-fit" />}
         {type === OVERVIEW_TYPE.MONTHLY && <PickMonth date={date} updateDate={setDate} />}
+
+        <PrintTransaction date={date} />
       </div>
       <section className="grid gap-4 px-6 md:grid-cols-2 xl:grid-cols-4">
         <SummaryCard title="Balance" value={balance} />
@@ -111,19 +114,17 @@ export const Dashboard = () => {
   );
 };
 
-const SummaryCard = ({ title, value, showTakaIcon = true }: TSummaryCardProps) => {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <CardContent className="flex items-center justify-between gap-2">
-        <p className="text-lg font-bold">{value || 0}</p>
-        {showTakaIcon ? <DollarSignIcon /> : <ChartSplineIcon />}
-      </CardContent>
-    </Card>
-  );
-};
+const SummaryCard = ({ title, value, showTakaIcon = true }: TSummaryCardProps) => (
+  <Card>
+    <CardHeader>
+      <CardTitle>{title}</CardTitle>
+    </CardHeader>
+    <CardContent className="flex items-center justify-between gap-2">
+      <p className="text-lg font-bold">{value || 0}</p>
+      {showTakaIcon ? <DollarSignIcon /> : <ChartSplineIcon />}
+    </CardContent>
+  </Card>
+);
 
 const DashboardLoader = () => (
   <>

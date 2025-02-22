@@ -144,7 +144,7 @@ const getTransactionSummary = async (query: TObject) => {
         expense: { $sum: { $cond: [{ $eq: ['$type', 'EXPENSE'] }, '$amount', 0] } },
       },
     },
-    { $sort: { _id: -1 } },
+    { $sort: { _id: 1 } },
   ]);
 
   const reformedTransactions: ITransformedTransaction[] = [];
