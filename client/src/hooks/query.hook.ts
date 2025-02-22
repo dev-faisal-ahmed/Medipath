@@ -1,6 +1,6 @@
 import { QK } from '@/api-lib';
 import { getCategories } from '@/api-lib/query';
-import { useTopbarStore } from '@/stores/topbar';
+import { useTopbarStore } from '@/stores/topbar.store';
 import { useQuery } from '@tanstack/react-query';
 
 export const useGetCategories = () => {

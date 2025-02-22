@@ -13,7 +13,7 @@ import { useSearchParams } from 'next/navigation';
 import { UpdateService } from './update-service';
 import { DeleteService } from './delete-service';
 import { TableLoader } from '@/components/ui/loader';
-import { useTopbarStore } from '@/stores/topbar';
+import { useTopbarStore } from '@/stores/topbar.store';
 
 const LIMIT = '10';
 

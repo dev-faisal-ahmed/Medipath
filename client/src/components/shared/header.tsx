@@ -1,6 +1,6 @@
 'use client';
 
-import { useTopbarStore } from '@/stores/topbar';
+import { useTopbarStore } from '@/stores/topbar.store';
 import { memo, ReactNode, useEffect } from 'react';
 
 export const Header = memo(({ title = 'Medipath', children, showSearchBar = false }: THeaderProps) => {

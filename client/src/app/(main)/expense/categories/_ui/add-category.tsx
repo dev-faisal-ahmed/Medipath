@@ -9,7 +9,7 @@ import { CategoryForm, TCategoryForm } from './category.form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addCategory } from '@/api-lib/query';
 import { errorMessageGen } from '@/helper';
-import { useTopbarStore } from '@/stores/topbar';
+import { useTopbarStore } from '@/stores/topbar.store';
 
 const formId = QK.CATEGORY + '_ADD';
 

@@ -9,7 +9,7 @@ import { ProfileMenu } from './profile-menu';
 import { ProfileIcon } from '@/components/shared';
 import { TooltipContainer } from '@/components/ui/tooltip';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { useTopbarStore } from '@/stores/topbar';
+import { useTopbarStore } from '@/stores/topbar.store';
 import { Sidebar } from './sidebar';
 
 export const Topbar = ({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) => {
@@ -24,7 +24,7 @@ export const Topbar = ({ open, onOpenChange }: { open: boolean; onOpenChange: (o
   return (
     <nav className="sticky top-0 z-20 flex items-center gap-3 border-b p-6">
       <div className="flex items-center gap-3">
-        <button className="rounded-full border p-2 shadow" onClick={() => onOpenChange(!open)}>
+        <button className="hidden rounded-full border p-2 shadow md:block" onClick={() => onOpenChange(!open)}>
           <MenuIcon />
         </button>
 

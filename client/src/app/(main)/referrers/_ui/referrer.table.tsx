@@ -11,7 +11,7 @@ import { useSearchParams } from 'next/navigation';
 import { UpdateReferrer } from './update-referrer';
 import { DeleteReferrer } from './delete-referrer';
 import { TableLoader } from '@/components/ui/loader';
-import { useTopbarStore } from '@/stores/topbar';
+import { useTopbarStore } from '@/stores/topbar.store';
 import { CONST } from '@/lib/const';
 import { Badge } from '@/components/ui/badge';
 
