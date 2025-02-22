@@ -40,17 +40,25 @@ export const Dashboard = () => {
   if (!overview) return <div className="flex grow items-center justify-center font-semibold">No Data Found</div>;
 
   const {
-    revenue,
-    totalCollection,
-    due,
-    doctorsPcExpense,
-    referredExpense,
-    utilityExpense,
-    doctorPcCommissionToPay,
-    referredCommissionToPay,
+    revenue = 0,
+    totalCollection = 0,
+    due = 0,
+    doctorsPcExpense = 0,
+    referredExpense = 0,
+    utilityExpense = 0,
+    doctorPcCommissionToPay = 0,
+    referredCommissionToPay = 0,
   } = overview;
 
   const balance = totalCollection - (utilityExpense + referredExpense + doctorsPcExpense);
+
+  const dueData = {
+    referred: referredCommissionToPay - referredExpense,
+    doctor: doctorPcCommissionToPay - doctorsPcExpense,
+  };
+
+  const referredCommissionDue = dueData.referred < 0 ? 0 : dueData.referred;
+  const doctorsCommissionDue = dueData.doctor < 0 ? 0 : dueData.doctor;
 
   return (
     <ScrollArea>
@@ -72,13 +80,13 @@ export const Dashboard = () => {
         <CommissionCard
           title="Referred Commission"
           paid={referredExpense || 0}
-          due={(referredCommissionToPay || 0) - (referredExpense || 0)}
+          due={referredCommissionDue}
           colors={referredColors}
         />
         <CommissionCard
           title="Doctor Pc Commission"
           paid={doctorsPcExpense || 0}
-          due={(doctorPcCommissionToPay || 0) - (doctorsPcExpense || 0)}
+          due={doctorsCommissionDue}
           colors={doctorColors}
         />
         <SummaryCard title="Due" value={due} />
