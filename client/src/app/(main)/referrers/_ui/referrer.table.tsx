@@ -10,7 +10,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { useSearchParams } from 'next/navigation';
 import { UpdateReferrer } from './update-referrer';
 import { DeleteReferrer } from './delete-referrer';
-import { FullSpaceLoader } from '@/components/ui/loader';
+import { TableLoader } from '@/components/ui/loader';
 import { useTopbarStore } from '@/stores/topbar';
 import { CONST } from '@/lib/const';
 import { Badge } from '@/components/ui/badge';
@@ -67,7 +67,7 @@ export const ReferrerTable = () => {
     { id: 'action', cell: ({ row }) => <ActionDropdown {...row.original} /> },
   ];
 
-  if (isLoading) return <FullSpaceLoader />;
+  if (isLoading) return <TableLoader length={10} className="p-6" />;
   if (!referrerData?.data) return <div>No Data Found</div>;
 
   return (

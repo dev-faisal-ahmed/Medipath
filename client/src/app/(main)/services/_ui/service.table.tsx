@@ -12,7 +12,7 @@ import { usePopupState } from '@/hooks';
 import { useSearchParams } from 'next/navigation';
 import { UpdateService } from './update-service';
 import { DeleteService } from './delete-service';
-import { FullSpaceLoader } from '@/components/ui/loader';
+import { TableLoader } from '@/components/ui/loader';
 import { useTopbarStore } from '@/stores/topbar';
 
 const LIMIT = '10';
@@ -52,7 +52,7 @@ export const ServicesTable = () => {
     { id: 'action', cell: ({ row }) => <ActionDropdown {...row.original} /> },
   ];
 
-  if (isLoading) return <FullSpaceLoader />;
+  if (isLoading) return <TableLoader length={10} className="p-6" />;
   if (!servicesData) return <div> No Data Found</div>;
 
   return (

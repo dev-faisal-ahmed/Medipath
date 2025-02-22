@@ -8,7 +8,6 @@ import { formatDate } from '@/helper';
 import { getOverview, OVERVIEW_TYPE } from '@/api-lib/query';
 import { DatePicker } from '@/components/shared/form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { FullSpaceLoader } from '@/components/ui/loader';
 import { useTopbarStore } from '@/stores/topbar';
 import { useQuery } from '@tanstack/react-query';
 import { CommissionCard } from './commission-card';
@@ -18,6 +17,9 @@ import { PickMonth } from './pick-month';
 import { RecentBills } from './recent-bills';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import Link from 'next/link';
+import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
+import { TableLoader } from '@/components/ui/loader';
 
 const referredColors = { paid: emerald[800], due: emerald[600], total: emerald[900] };
 const doctorColors = { paid: amber[800], due: amber[600], total: amber[900] };
@@ -32,7 +34,7 @@ export const Dashboard = () => {
     queryFn: () => getOverview({ dateTime: date, mode, type }),
   });
 
-  if (isLoading) return <FullSpaceLoader />;
+  if (isLoading) return <DashboardLoader />;
 
   const overview = overviewData?.data;
   if (!overview) return <div className="flex grow items-center justify-center font-semibold">No Data Found</div>;
@@ -64,7 +66,7 @@ export const Dashboard = () => {
         {type === OVERVIEW_TYPE.DAILY && <DatePicker date={date} onChange={setDate} className="w-fit" />}
         {type === OVERVIEW_TYPE.MONTHLY && <PickMonth date={date} updateDate={setDate} />}
       </div>
-      <section className="grid gap-4 px-6 sm:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-4 px-6 md:grid-cols-2 xl:grid-cols-4">
         <SummaryCard title="Balance" value={balance} />
         <SummaryCard title="Revenue" value={revenue} />
         <CommissionCard
@@ -112,6 +114,29 @@ const SummaryCard = ({ title, value }: TSummaryCardProps) => {
     </Card>
   );
 };
+
+const DashboardLoader = () => (
+  <>
+    <div className="flex items-center gap-4 p-6">
+      <Skeleton className="h-8 w-24" />
+      <Skeleton className="ml-auto h-8 w-24" />
+      <Skeleton className="h-8 w-24" />
+    </div>
+
+    <div className="grid gap-4 px-6 md:grid-cols-2 xl:grid-cols-4">
+      {Array.from({ length: 7 }).map((_, index) => (
+        <Skeleton className={cn('h-32 w-full', (index === 2 || index === 3) && 'row-span-2 h-full')} key={index} />
+      ))}
+    </div>
+    <div className="mt-8 px-6">
+      <div className="mb-4 flex items-center justify-between">
+        <Skeleton className="h-5 w-40" />
+        <Skeleton className="h-5 w-20" />
+      </div>
+      <TableLoader length={4} />
+    </div>
+  </>
+);
 
 // types
 type TSummaryCardProps = {

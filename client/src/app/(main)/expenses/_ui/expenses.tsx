@@ -3,7 +3,7 @@
 import { QK } from '@/api-lib';
 import { format } from 'date-fns';
 import { CONST } from '@/lib/const';
-import { FullSpaceLoader } from '@/components/ui/loader';
+import { ExpenseCategoryLoader } from '@/components/ui/loader';
 import { getMonthlyExpenses, TMonthlyExpense } from '@/api-lib/query';
 import { formatDate } from '@/helper';
 import { useTopbarStore } from '@/stores/topbar';
@@ -29,7 +29,7 @@ export const Expenses = () => {
 
   const updateDate = useCallback((date: Date) => setDate(date), []);
 
-  if (isLoading) return <FullSpaceLoader />;
+  if (isLoading) return <ExpenseCategoryLoader />;
 
   const expenses = response?.expenses || [];
   const firstExpenseDate = response?.firstExpenseDate || new Date();
@@ -83,7 +83,7 @@ const ExpenseList = ({ expenseGroup }: { expenseGroup: TExpenseGroup }) => {
             {expenseGroup[key]?.expenses.map(({ id, categoryName, amount, description }) => (
               <div
                 key={id}
-                className="grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-md border bg-white p-3"
+                className="grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-md border bg-gray-50 p-3"
               >
                 <GiWallet className="size-8" />
                 <div>

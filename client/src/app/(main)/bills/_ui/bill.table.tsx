@@ -6,7 +6,7 @@ import { CONST } from '@/lib/const';
 import { Badge } from '@/components/ui/badge';
 import { getBills, TGetBillsResponse } from '@/api-lib/query';
 import { DataTable } from '@/components/ui/data-table';
-import { FullSpaceLoader } from '@/components/ui/loader';
+import { TableLoader } from '@/components/ui/loader';
 import { formatDate, removeEmptyProperty } from '@/helper';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
@@ -133,7 +133,7 @@ export const BillTable = () => {
     { id: 'action', cell: ({ row }) => <BillTableAction bill={row.original} /> },
   ];
 
-  if (isLoading) return <FullSpaceLoader />;
+  if (isLoading) return <TableLoader length={10} className="p-6" />;
 
   return (
     <div className="my-6 px-6">

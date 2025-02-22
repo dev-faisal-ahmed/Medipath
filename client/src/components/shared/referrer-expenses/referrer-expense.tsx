@@ -2,7 +2,7 @@
 
 import { QK } from '@/api-lib';
 import { getReferrerExpenses, TReferrerExpense } from '@/api-lib/query';
-import { FullSpaceLoader } from '@/components/ui/loader';
+import { ExpenseCategoryLoader } from '@/components/ui/loader';
 import { formatDate } from '@/helper';
 import { REFERRER_TYPE } from '@/types';
 import { useQuery } from '@tanstack/react-query';
@@ -28,7 +28,7 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
 
   const updateDate = useCallback((date: Date) => setDate(date), []);
 
-  if (isLoading) return <FullSpaceLoader />;
+  if (isLoading) return <ExpenseCategoryLoader />;
 
   const transactions = response?.transactions || [];
   const firstTransactionDate = response?.firstTransactionDate || new Date();
@@ -86,7 +86,7 @@ const TransactionList = ({ transactionGroup }: { transactionGroup: TTransactions
           </div>
           <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
             {transactionGroup[key]?.transactions.map(({ id, referrer, amount }) => (
-              <div key={id} className="flex items-center gap-4 rounded-md border bg-white p-3">
+              <div key={id} className="flex items-center gap-4 rounded-md border bg-gray-50 p-3">
                 <GiWallet className="size-5" />
                 <h3 className="font-semibold">{referrer?.name}</h3>
                 <p className="ml-auto whitespace-nowrap font-semibold">

@@ -22,7 +22,7 @@ export const Topbar = () => {
   const user = useAuth();
 
   return (
-    <nav className="sticky top-0 z-20 flex items-center gap-3 border-b bg-gray-50 p-6">
+    <nav className="sticky top-0 z-20 flex items-center gap-3 border-b p-6">
       <div className="flex items-center gap-3">
         <MobileSidebar />
         {isSearchbarShown ? (
