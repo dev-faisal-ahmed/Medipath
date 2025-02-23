@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 
+import { Sidebar } from './sidebar';
 import { useAuth, usePopupState } from '@/hooks';
 import { SearchInput } from '@/components/ui/input';
 import { MenuIcon, PlusIcon } from 'lucide-react';
@@ -10,7 +11,7 @@ import { ProfileIcon } from '@/components/shared';
 import { TooltipContainer } from '@/components/ui/tooltip';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { useTopbarStore } from '@/stores/topbar.store';
-import { Sidebar } from './sidebar';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 
 export const Topbar = ({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) => {
   const isSearchbarShown = useTopbarStore((state) => state.isSearchbarShown);
@@ -19,7 +20,18 @@ export const Topbar = ({ open, onOpenChange }: { open: boolean; onOpenChange: (o
   const search = useTopbarStore((state) => state.search);
   const updateSearch = useTopbarStore((state) => state.updateSearch);
 
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
   const user = useAuth();
+
+  const handleSearch = (search: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', '1');
+    router.replace(`${pathname}?${params.toString()}`);
+    updateSearch(search);
+  };
 
   return (
     <nav className="sticky top-0 z-20 flex items-center gap-3 border-b p-6">
@@ -30,11 +42,7 @@ export const Topbar = ({ open, onOpenChange }: { open: boolean; onOpenChange: (o
 
         <MobileSidebar />
         {isSearchbarShown ? (
-          <SearchInput
-            value={search}
-            onChange={(search) => updateSearch(search)}
-            className={{ container: 'w-full max-w-96' }}
-          />
+          <SearchInput value={search} onChange={handleSearch} className={{ container: 'w-full max-w-96' }} />
         ) : (
           <h1 className="text-xl font-bold">{headerTitle}</h1>
         )}

@@ -14,14 +14,16 @@ import { useSearchParams } from 'next/navigation';
 import { useTopbarStore } from '@/stores/topbar.store';
 import { MdError } from 'react-icons/md';
 import { BillTableAction } from './bill-table.action';
+import { useDebounce } from '@/hooks';
 
 const LIMIT = '10';
 
 // main component
 export const BillTable = () => {
-  const searchTerm = useTopbarStore((state) => state.searchTerm);
+  const search = useTopbarStore((state) => state.search);
   const searchParams = useSearchParams();
   const pageParams = searchParams.get('page') || '1';
+  const searchTerm = useDebounce(search);
 
   const { data: billData, isLoading } = useQuery({
     queryKey: [QK.BILL, { ...removeEmptyProperty({ searchTerm, page: pageParams, limit: LIMIT }) }],

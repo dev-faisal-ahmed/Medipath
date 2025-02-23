@@ -79,7 +79,6 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
   );
 };
 
-const today = formatDate(new Date());
 const TransactionList = ({ transactionGroup }: { transactionGroup: TTransactionsGroup }) => {
   const keys = Object.keys(transactionGroup);
   if (!keys.length) return <Message className="mt-6" message="No Expense Found" />;
@@ -99,7 +98,7 @@ const TransactionList = ({ transactionGroup }: { transactionGroup: TTransactions
           <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
             {transactionGroup[key]?.transactions.map(({ id, referrer, amount }) => (
               <div key={id} className="flex items-center gap-4 rounded-md border bg-gray-50 p-3">
-                <GiWallet className="size-5" />
+                <GiWallet className="size-5 shrink-0" />
                 <h3 className="font-semibold">{referrer?.name}</h3>
                 <p className="ml-auto whitespace-nowrap font-semibold">
                   {CONST.TAKA} {amount}
@@ -150,5 +149,9 @@ const ReferrerExpenseTable = ({ date, total, transactions }: TTransactionTablePr
   </>
 );
 
+// const
+const today = formatDate(new Date());
+
+// types
 type TTransactionsGroup = Record<string, { transactions: TReferrerExpense['transactions']; total: number }>;
 type TTransactionTableProps = { total: number; transactions: TReferrerExpense['transactions']; date: Date };

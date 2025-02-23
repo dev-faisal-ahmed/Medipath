@@ -3,7 +3,7 @@
 import { QK } from '@/api-lib';
 import { getReferrers, TGetReferrersQueryResponse } from '@/api-lib/query';
 import { DataTable, DataTableAction } from '@/components/ui/data-table';
-import { usePopupState } from '@/hooks';
+import { useDebounce, usePopupState } from '@/hooks';
 import { removeEmptyProperty } from '@/helper';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
@@ -18,9 +18,10 @@ import { Badge } from '@/components/ui/badge';
 const LIMIT = '15';
 
 export const ReferrerTable = () => {
-  const searchTerm = useTopbarStore((state) => state.searchTerm);
+  const search = useTopbarStore((state) => state.search);
   const searchParams = useSearchParams();
   const pageParams = searchParams.get('page') || '1';
+  const searchTerm = useDebounce(search);
 
   const { data: referrerData, isLoading } = useQuery({
     queryKey: [QK.REFERRER, { ...removeEmptyProperty({ searchTerm, page: pageParams, limit: LIMIT }) }],

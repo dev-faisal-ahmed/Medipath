@@ -4,7 +4,6 @@ import { create } from 'zustand';
 
 export const useTopbarStore = create<TTopbarState>((set) => ({
   search: '',
-  searchTerm: '',
   isSearchbarShown: false,
   headerTitle: '',
   headerChild: null,
@@ -19,7 +18,6 @@ export const useTopbarStore = create<TTopbarState>((set) => ({
 // types
 type TTopbarState = {
   search: string;
-  searchTerm: string;
   isSearchbarShown: boolean;
   headerTitle: string;
   headerChild: ReactNode | null;

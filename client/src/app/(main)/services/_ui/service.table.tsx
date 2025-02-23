@@ -8,7 +8,7 @@ import { DataTable, DataTableAction } from '@/components/ui/data-table';
 import { removeEmptyProperty } from '@/helper';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
-import { usePopupState } from '@/hooks';
+import { useDebounce, usePopupState } from '@/hooks';
 import { useSearchParams } from 'next/navigation';
 import { UpdateService } from './update-service';
 import { DeleteService } from './delete-service';
@@ -18,9 +18,10 @@ import { useTopbarStore } from '@/stores/topbar.store';
 const LIMIT = '10';
 
 export const ServicesTable = () => {
-  const searchTerm = useTopbarStore((state) => state.searchTerm);
+  const search = useTopbarStore((state) => state.search);
   const searchParams = useSearchParams();
   const pageParams = searchParams.get('page') || '1';
+  const searchTerm = useDebounce(search);
 
   const { data: servicesData, isLoading } = useQuery({
     queryKey: [QK.SERVICE, { ...removeEmptyProperty({ searchTerm, limit: LIMIT, page: pageParams }) }],
