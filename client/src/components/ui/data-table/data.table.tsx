@@ -13,7 +13,7 @@ export const DataTable = <TData, TValue>({ columns, data, pagination, className 
     <ScrollArea disableScrollbar>
       <div className={cn('w-full overflow-hidden rounded-md border', className)}>
         <Table>
-          <TableHeader className="sticky top-0 bg-neutral-100">
+          <TableHeader className="sticky top-0 bg-gray-50">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {

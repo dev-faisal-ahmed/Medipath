@@ -63,7 +63,7 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
             Total : {CONST.TAKA} {total}
           </h2>
 
-          <PrintWrapper title={pdfTitle} date={date}>
+          <PrintWrapper title={pdfTitle} date={date} printTitle="Print Expenses">
             <ReferrerExpenseTable date={date} total={total} transactions={transactions} />
           </PrintWrapper>
         </div>

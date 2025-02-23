@@ -135,8 +135,8 @@ const DashboardLoader = () => (
     </div>
 
     <div className="grid gap-4 px-6 md:grid-cols-2 xl:grid-cols-4">
-      {Array.from({ length: 7 }).map((_, index) => (
-        <Skeleton className={cn('h-32 w-full', (index === 2 || index === 3) && 'row-span-2 h-full')} key={index} />
+      {Array.from({ length: 8 }).map((_, index) => (
+        <Skeleton className={cn('h-32 w-full', (index === 2 || index === 3) && 'row-span-3 h-full')} key={index} />
       ))}
     </div>
     <div className="mt-8 px-6">

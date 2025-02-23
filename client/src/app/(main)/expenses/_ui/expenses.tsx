@@ -59,7 +59,7 @@ export const Expenses = () => {
             Total : {CONST.TAKA} {total}
           </h2>
 
-          <PrintWrapper title={'Expenses'} date={date}>
+          <PrintWrapper title={'Expenses'} date={date} printTitle="Print Expenses">
             <ExpenseTable date={date} total={total} expenses={expenses} />
           </PrintWrapper>
         </div>

@@ -20,24 +20,24 @@ export const CommissionCard = ({ title, paid, due, colors }: TCommissionCardProp
   };
 
   return (
-    <Card className="row-span-2">
+    <Card className="row-span-3">
       <CardHeader>
         <CardTitle> {title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-1">
-        <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[120px]">
+        <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[180px]">
           <PieChart>
             <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
             <Pie
               data={due || paid ? chartData : fallbackData}
               dataKey="amount"
               nameKey="type"
-              innerRadius={30}
+              innerRadius={50}
               paddingAngle={5}
             />
           </PieChart>
         </ChartContainer>
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+        <div className="mx-auto mt-2 grid w-fit grid-cols-2 gap-x-4 gap-y-1">
           <Description title="Paid" amount={paid} color={colors.paid} />
           <Description title="Due" amount={due} color={colors.due} />
           <Description title="Total" amount={due + paid} color={colors.total} />
@@ -49,10 +49,15 @@ export const CommissionCard = ({ title, paid, due, colors }: TCommissionCardProp
 
 const Description = ({ title, amount, color }: TDescriptionProps) => {
   return (
-    <div className="flex items-center gap-1">
-      <span style={{ backgroundColor: color }} className="block size-3 rounded-[2px]" />
-      {title} : {CONST.TAKA} <span className="font-semibold">{amount}</span>
-    </div>
+    <>
+      <p className="flex items-center gap-1">
+        <span style={{ backgroundColor: color }} className="block size-3 rounded-[2px]" />
+        {title}
+      </p>
+      <p>
+        {CONST.TAKA} <span className="text-lg font-bold">{amount}</span>
+      </p>
+    </>
   );
 };
 

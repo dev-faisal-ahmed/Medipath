@@ -21,7 +21,11 @@ export const PrintTransaction = ({ date }: { date: Date }) => {
   if (!summary) return null;
 
   return (
-    <PrintWrapper title={`Transaction - ${formatDate(date, 'month')}`} date={date}>
+    <PrintWrapper
+      title={`Transaction - ${formatDate(date, 'month')}`}
+      date={date}
+      printTitle="Print Monthly Transactions"
+    >
       <TransactionTable {...summary} />
     </PrintWrapper>
   );

@@ -11,7 +11,7 @@ const getPageMargins = () => {
   return `@page { margin: 50px !important; }`;
 };
 
-export const PrintWrapper = ({ title, children, date }: { title: string; children: ReactNode; date: Date }) => {
+export const PrintWrapper = ({ title, children, date, printTitle = 'Print' }: TPrintWrapperProps) => {
   const month = format(date, 'MMMM - yyyy');
   const printRef = useRef<HTMLDivElement>(null);
   const onPrint = useReactToPrint({ contentRef: printRef, documentTitle: `${title} : ${month}` });
@@ -20,7 +20,7 @@ export const PrintWrapper = ({ title, children, date }: { title: string; childre
     <>
       <style>{getPageMargins()}</style>
       <Button onClick={() => onPrint()}>
-        <PrinterIcon className="mr-2 h-4 w-4" /> Print
+        <PrinterIcon className="mr-2 h-4 w-4" /> {printTitle}
       </Button>
       <section className="hidden">
         <div ref={printRef}>
@@ -44,4 +44,11 @@ const Logo = () => {
       <Image src={'/images/medipath.jpg'} width={100} height={100} alt="Logo" />
     </div>
   );
+};
+
+type TPrintWrapperProps = {
+  title: string;
+  children: ReactNode;
+  date: Date;
+  printTitle?: string;
 };
