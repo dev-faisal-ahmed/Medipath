@@ -34,6 +34,11 @@ export const LoginForm = () => {
 
   const handleLogin = form.handleSubmit((data) => mutate(data));
 
+  const insertDemoCredentials = () => {
+    form.setValue('email', 'faisal@gmail.com');
+    form.setValue('password', 'faisal');
+  };
+
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
@@ -53,6 +58,9 @@ export const LoginForm = () => {
             </CommonFormFiled>
             <Button disabled={isPending} className="mt-2 w-full">
               {isPending ? 'Logging in...' : 'Login'}
+            </Button>
+            <Button onClick={insertDemoCredentials} type="button" variant="ghost" className="underline">
+              Use demo credentials
             </Button>
           </form>
         </Form>
