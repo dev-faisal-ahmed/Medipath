@@ -15,8 +15,6 @@ import { useTopbarStore } from '@/stores/topbar.store';
 import { CONST } from '@/lib/const';
 import { Badge } from '@/components/ui/badge';
 
-const LIMIT = '15';
-
 export const ReferrerTable = () => {
   const search = useTopbarStore((state) => state.search);
   const searchParams = useSearchParams();
@@ -24,8 +22,8 @@ export const ReferrerTable = () => {
   const searchTerm = useDebounce(search);
 
   const { data: referrerData, isLoading } = useQuery({
-    queryKey: [QK.REFERRER, { ...removeEmptyProperty({ searchTerm, page: pageParams, limit: LIMIT }) }],
-    queryFn: () => getReferrers({ searchTerm, page: pageParams, limit: LIMIT }),
+    queryKey: [QK.REFERRER, { ...removeEmptyProperty({ searchTerm, page: pageParams, limit: CONST.LIMIT }) }],
+    queryFn: () => getReferrers({ searchTerm, page: pageParams, limit: String(CONST.LIMIT) }),
   });
 
   const page = referrerData?.meta?.page || 1;

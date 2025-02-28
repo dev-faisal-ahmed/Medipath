@@ -139,20 +139,22 @@ const ServiceList = ({ isLoading, services, selectedServices, field }: IServiceL
   if (services.length === 0) return <div className="p-8 text-center font-semibold">No Service Found</div>;
 
   return (
-    <section className="grid max-h-64 grid-rows-1">
+    <section className="grid max-h-72 grid-rows-1">
       <ScrollArea className="h-full">
         <div className="mt-2 flex flex-col">
           {services.map((service) => (
             <button
               onClick={() => field.onChange([...selectedServices, service])}
               key={service.id}
-              className="flex items-center justify-between px-4 py-1 text-start transition hover:bg-primary hover:text-white"
+              className="group grid grid-cols-2 gap-6 px-4 py-1 text-start transition hover:bg-primary hover:text-white"
             >
-              <div>
-                <h1 className="mb-1 font-semibold">{service.name}</h1>
-                <p>Room : {service.roomNo}</p>
+              <h1 className="text-base font-semibold">{service.name}</h1>
+              <div className="flex w-full items-center justify-between gap-12">
+                <p className="text-base font-medium text-muted-foreground transition-colors group-hover:text-white">
+                  Room : {service.roomNo}
+                </p>
+                <p className="text-base font-semibold">{service.price} ৳</p>
               </div>
-              <p className="text-lg font-semibold">{service.price} ৳</p>
             </button>
           ))}
         </div>

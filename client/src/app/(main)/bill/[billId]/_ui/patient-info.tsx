@@ -45,7 +45,9 @@ export const PatientInfo = ({ billId, createdAt, patientInfo, doctor }: TPatient
       {doctor && (
         <>
           <span>Visited By</span>
-          <span className="line-clamp-1">: {doctor.name} </span>
+          <span className="line-clamp-1">
+            : {doctor.name} {doctor.designation && `(${doctor.designation})`}
+          </span>
         </>
       )}
     </div>

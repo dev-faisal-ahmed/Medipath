@@ -49,10 +49,7 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
     return acc;
   }, {});
 
-  const pdfTitle =
-    referrerType === REFERRER_TYPE.AGENT
-      ? `Referrer Expenses - ${formatDate(date, 'month')}`
-      : `Doctor Expenses - ${formatDate(date, 'month')}`;
+  const pdfTitle = referrerType === REFERRER_TYPE.AGENT ? `Referrer Expenses` : `Doctor Expenses`;
 
   return (
     <div className="flex h-full flex-col">

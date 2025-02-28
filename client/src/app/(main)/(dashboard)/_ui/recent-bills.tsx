@@ -16,9 +16,14 @@ export const RecentBills = ({ bills }: TRecentBillsProps) => {
       header: 'Bill Id',
     },
     {
-      accessorKey: 'patientInfo.name',
+      id: 'patientInfo',
       header: 'Patient Name',
-      cell: ({ getValue }) => <span className="font-medium">{getValue<string>()}</span>,
+      cell: ({ row }) => (
+        <div className="whitespace-nowrap font-semibold">
+          <h2>{row.original.patientInfo.name}</h2>
+          <p className="mt-1 text-xs font-semibold text-muted-foreground">Age : {row.original.patientInfo.age}</p>
+        </div>
+      ),
     },
     {
       accessorKey: 'services',

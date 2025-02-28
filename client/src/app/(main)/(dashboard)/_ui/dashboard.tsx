@@ -22,6 +22,7 @@ import { TableLoader } from '@/components/ui/loader';
 import { PickMonth } from './pick-month';
 import { ChartSplineIcon, DollarSignIcon } from 'lucide-react';
 import { PrintTransaction } from './print-transaction';
+import { Message } from '@/components/shared';
 
 const referredColors = { paid: emerald[800], due: emerald[600], total: emerald[900] };
 const doctorColors = { paid: amber[800], due: amber[600], total: amber[900] };
@@ -39,7 +40,7 @@ export const Dashboard = () => {
   if (isLoading) return <DashboardLoader />;
 
   const overview = overviewData?.data;
-  if (!overview) return <div className="flex grow items-center justify-center font-semibold">No Data Found</div>;
+  if (!overview) return <Message message="No Data Found" className="my-6" />;
 
   const {
     revenue = 0,

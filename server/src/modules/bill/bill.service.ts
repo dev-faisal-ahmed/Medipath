@@ -154,7 +154,7 @@ const getBillDetails = async (billId: string) => {
         from: 'referrers',
         localField: 'visitorId',
         foreignField: '_id',
-        pipeline: [{ $project: { name: 1 } }],
+        pipeline: [{ $project: { name: 1, designation: 1 } }],
         as: 'doctor',
       },
     },

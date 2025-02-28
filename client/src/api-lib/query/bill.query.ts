@@ -77,7 +77,7 @@ export type TBillDetails = Pick<
   | 'paid'
   | 'services'
   | 'createdAt'
-> & { agent: { id: string; name: string }; doctor: { id: string; name: string } };
+> & { agent: { id: string; name: string }; doctor: { id: string; name: string; designation: string } };
 
 type TTakeDuePayload = { billId: string; amount: number };
 type TGiveCommissionPayload = { amount: number; referrerId: string; billId: string };

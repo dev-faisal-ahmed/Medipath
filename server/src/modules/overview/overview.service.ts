@@ -77,7 +77,7 @@ const getOverview = async (query: TObject) => {
     {
       $facet: {
         totalBills: [{ $count: 'totalBills' }],
-        bills: [{ $sort: { date: -1 } }, { $limit: 20 }],
+        bills: [{ $sort: { date: -1 } }, ...(type === OVERVIEW_TYPE.MONTHLY ? [{ $limit: 40 }] : [])],
         overview: [
           {
             $group: {

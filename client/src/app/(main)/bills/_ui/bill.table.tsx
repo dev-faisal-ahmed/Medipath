@@ -16,8 +16,6 @@ import { MdError } from 'react-icons/md';
 import { BillTableAction } from './bill-table.action';
 import { useDebounce } from '@/hooks';
 
-const LIMIT = '10';
-
 // main component
 export const BillTable = () => {
   const search = useTopbarStore((state) => state.search);
@@ -26,8 +24,8 @@ export const BillTable = () => {
   const searchTerm = useDebounce(search);
 
   const { data: billData, isLoading } = useQuery({
-    queryKey: [QK.BILL, { ...removeEmptyProperty({ searchTerm, page: pageParams, limit: LIMIT }) }],
-    queryFn: () => getBills({ searchTerm, page: pageParams, limit: LIMIT }),
+    queryKey: [QK.BILL, { ...removeEmptyProperty({ searchTerm, page: pageParams, limit: CONST.LIMIT }) }],
+    queryFn: () => getBills({ searchTerm, page: pageParams, limit: String(CONST.LIMIT) }),
   });
 
   const page = billData?.meta?.page || 1;

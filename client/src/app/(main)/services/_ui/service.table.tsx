@@ -15,8 +15,6 @@ import { DeleteService } from './delete-service';
 import { TableLoader } from '@/components/ui/loader';
 import { useTopbarStore } from '@/stores/topbar.store';
 
-const LIMIT = '10';
-
 export const ServicesTable = () => {
   const search = useTopbarStore((state) => state.search);
   const searchParams = useSearchParams();
@@ -24,8 +22,8 @@ export const ServicesTable = () => {
   const searchTerm = useDebounce(search);
 
   const { data: servicesData, isLoading } = useQuery({
-    queryKey: [QK.SERVICE, { ...removeEmptyProperty({ searchTerm, limit: LIMIT, page: pageParams }) }],
-    queryFn: () => getServices({ searchTerm, limit: LIMIT, page: pageParams }),
+    queryKey: [QK.SERVICE, { ...removeEmptyProperty({ searchTerm, limit: CONST.LIMIT, page: pageParams }) }],
+    queryFn: () => getServices({ searchTerm, limit: String(CONST.LIMIT), page: pageParams }),
   });
 
   const page = servicesData?.meta?.page || 1;
@@ -54,11 +52,10 @@ export const ServicesTable = () => {
   ];
 
   if (isLoading) return <TableLoader length={10} className="p-6" />;
-  if (!servicesData) return <div> No Data Found</div>;
 
   return (
     <section className="my-6 px-6">
-      <DataTable data={servicesData.data} pagination={{ page, totalPages }} columns={column} />
+      <DataTable data={servicesData?.data || []} pagination={{ page, totalPages }} columns={column} />
     </section>
   );
 };

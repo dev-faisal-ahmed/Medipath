@@ -18,7 +18,7 @@ const getServices = async (query: TObject) => {
   const dbQuery = { isDeleted: false, ...getSearchQuery(query, 'name') };
   const { page, limit, skip } = getPageParams(query);
 
-  const services = await Service.find(dbQuery, { updatedAt: 0 }).sort({ createdAt: -1 }).skip(skip).limit(limit);
+  const services = await Service.find(dbQuery, { updatedAt: 0 }).sort({ name: 1 }).skip(skip).limit(limit);
 
   const total = await Service.countDocuments(dbQuery);
   const meta = generateMeta({ page, limit, total });

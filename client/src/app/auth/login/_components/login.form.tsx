@@ -26,7 +26,6 @@ export const LoginForm = () => {
     mutationFn: loginWithCredentials,
     onSuccess: () => {
       toast.success('Logged in successfully');
-      console.log('Hi I am there');
       router.push('/');
     },
     onError: (error) => toast.error(errorMessageGen(error)),
