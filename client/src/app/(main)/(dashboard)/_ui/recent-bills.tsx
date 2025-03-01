@@ -38,7 +38,7 @@ export const RecentBills = ({ bills }: TRecentBillsProps) => {
                 <p>
                   Visited By : <span className="font-bold">{doctor.name}</span>
                 </p>
-                {doctor.designation && <p className="text-sm text-muted-foreground">{doctor.name}</p>}
+                {doctor.designation && <p className="text-sm text-muted-foreground">{doctor.designation}</p>}
               </div>
             )}
 
@@ -101,7 +101,11 @@ export const RecentBills = ({ bills }: TRecentBillsProps) => {
     },
   ];
 
-  return <DataTable columns={column} data={bills} />;
+  return (
+    <div className="">
+      <DataTable columns={column} data={bills} />
+    </div>
+  );
 };
 
 type TRecentBillsProps = {
