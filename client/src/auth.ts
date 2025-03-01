@@ -7,6 +7,7 @@ import { axiosInstance } from './lib/axios';
 import { apiUrl } from './api-lib';
 import { AxiosError } from 'axios';
 import { generateAccessToken } from './helper';
+import { NEXTAUTH_SECRET } from './lib/config';
 
 declare module 'next-auth' {
   interface Session {
@@ -42,6 +43,8 @@ export const authOption: NextAuthOptions = {
       },
     }),
   ],
+
+  secret: NEXTAUTH_SECRET,
 
   jwt: {
     encode: ({ secret, token }) => {
