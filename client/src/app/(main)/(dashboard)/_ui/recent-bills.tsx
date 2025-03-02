@@ -97,7 +97,7 @@ export const RecentBills = ({ bills }: TRecentBillsProps) => {
     {
       accessorKey: 'createdAt',
       header: () => <span>Date</span>,
-      cell: ({ getValue }) => <span>{formatDate(getValue<string>())}</span>,
+      cell: ({ getValue }) => <span>{formatDate({ date: getValue<string>() })}</span>,
     },
   ];
 

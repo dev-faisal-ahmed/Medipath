@@ -20,7 +20,7 @@ export const Expenses = () => {
   const [date, setDate] = useState(new Date());
 
   const { data: response, isLoading } = useQuery({
-    queryKey: [QK.EXPENSE, { dateTime: formatDate(date), mode }],
+    queryKey: [QK.EXPENSE, { dateTime: formatDate({ date }), mode }],
     queryFn: () => getMonthlyExpenses({ dateTime: date.toISOString(), mode }),
     select: (response) => ({
       expenses: response.data.expenses || [],
@@ -40,7 +40,7 @@ export const Expenses = () => {
   const total = response?.total || 0;
 
   const expenseGroup = expenses.reduce((acc: TExpenseGroup, expense) => {
-    const key = formatDate(expense.date);
+    const key = formatDate({ date: expense.date });
     if (!acc[key]) acc[key] = { expenses: [expense], total: expense.amount };
     else {
       acc[key].expenses.push(expense);
@@ -155,7 +155,7 @@ const ExpenseTable = ({ date, total, expenses }: TPrintExpensesProps) => {
 };
 
 // const
-const today = formatDate(new Date());
+const today = formatDate({ date: new Date() });
 
 // types
 type TExpenseGroup = Record<string, { expenses: TMonthlyExpense['expenses']; total: number }>;

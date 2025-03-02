@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { QK } from '@/api-lib';
 import { useState } from 'react';
-import { format } from 'date-fns';
 import { formatDate } from '@/helper';
 import { getOverview, OVERVIEW_TYPE } from '@/api-lib/query';
 import { DatePicker } from '@/components/shared/form';
@@ -33,8 +32,8 @@ export const Dashboard = () => {
   const mode = useTopbarStore((state) => state.mode);
 
   const { data: overviewData, isLoading } = useQuery({
-    queryKey: [QK.OVERVIEW, { date: formatDate(date), type, mode }],
-    queryFn: () => getOverview({ dateTime: date, mode, type }),
+    queryKey: [QK.OVERVIEW, { date: formatDate({ date, type: 'local-date-string' }), type, mode }],
+    queryFn: () => getOverview({ dateTime: formatDate({ date, type: 'local-date-string' }), mode, type }),
   });
 
   if (isLoading) return <DashboardLoader />;
@@ -68,7 +67,7 @@ export const Dashboard = () => {
     <ScrollArea>
       <div className="flex items-center gap-4 p-6">
         <h3 className="text-lg font-semibold">
-          Date: {type === OVERVIEW_TYPE.DAILY ? formatDate(date) : format(date, 'MMMM - yyyy')}
+          Date: {type === OVERVIEW_TYPE.DAILY ? formatDate({ date }) : formatDate({ date, type: 'month' })}
         </h3>
 
         <div className="ml-auto w-fit">

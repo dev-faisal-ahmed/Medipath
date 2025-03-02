@@ -19,7 +19,7 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
   const [date, setDate] = useState(new Date());
 
   const { data: response, isLoading } = useQuery({
-    queryKey: [QK.EXPENSE, { referrerType, dateTime: formatDate(date) }],
+    queryKey: [QK.EXPENSE, { referrerType, dateTime: formatDate({ date }) }],
     queryFn: () => getReferrerExpenses({ dateTime: date.toISOString(), referrerType }),
     select: (response) => ({
       transactions: response.data.transactions || [],
@@ -39,7 +39,7 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
   const total = response?.total || 0;
 
   const transactionGroup = transactions.reduce((acc: TTransactionsGroup, transaction) => {
-    const key = formatDate(transaction.date);
+    const key = formatDate({ date: transaction.date });
     if (!acc[key]) acc[key] = { transactions: [transaction], total: transaction.amount };
     else {
       acc[key].transactions.push(transaction);
@@ -55,7 +55,7 @@ export const RefererExpense = ({ referrerType }: { referrerType: REFERRER_TYPE }
     <div className="flex h-full flex-col">
       <section className="my-6 grow px-6">
         <div className="mb-6 flex items-center gap-6">
-          <h2 className="text-lg font-bold">Month : {formatDate(date, 'month')}</h2>
+          <h2 className="text-lg font-bold">Month : {formatDate({ date, type: 'month' })}</h2>
           <h2 className="ml-auto text-lg font-bold">
             Total : {CONST.TAKA} {total}
           </h2>
@@ -147,7 +147,7 @@ const ReferrerExpenseTable = ({ date, total, transactions }: TTransactionTablePr
 );
 
 // const
-const today = formatDate(new Date());
+const today = formatDate({ date: new Date() });
 
 // types
 type TTransactionsGroup = Record<string, { transactions: TReferrerExpense['transactions']; total: number }>;

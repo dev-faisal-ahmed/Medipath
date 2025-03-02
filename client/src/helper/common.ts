@@ -60,7 +60,18 @@ export const hasNextMonth = ({ currentDate, targetDate }: { currentDate: Date; t
   return false;
 };
 
-export const formatDate = (date: Date | string, type: 'date-month' | 'month' = 'date-month') => {
-  if (type === 'date-month') return format(new Date(date), 'dd MMM, yyyy');
-  return format(new Date(date), 'MMMM - yyyy');
+export const formatDate = ({ date, type = 'date-month' }: FormatDateArgs) => {
+  switch (type) {
+    case 'date-month':
+      return format(new Date(date), 'dd MMM, yyyy');
+    case 'month':
+      return format(new Date(date), 'MMMM - yyyy');
+    case 'local-date-string':
+      return format(new Date(date), 'yyyy-MM-dd');
+    default:
+      return format(new Date(date), 'dd MMM, yyyy');
+  }
 };
+
+// type
+type FormatDateArgs = { date: Date | string; type?: 'date-month' | 'month' | 'local-date-string' };

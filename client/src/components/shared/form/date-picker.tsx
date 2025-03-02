@@ -16,7 +16,7 @@ export const DatePicker = ({ date, onChange, disabled, className }: TDatePickerP
           className={cn('w-full justify-start text-left font-normal', !date && 'text-muted-foreground', className)}
         >
           <CalendarDaysIcon className="mr-2 size-4" />
-          {date ? formatDate(date) : <span>Pick a date</span>}
+          {date ? formatDate({ date }) : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">

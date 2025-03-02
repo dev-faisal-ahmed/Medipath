@@ -11,7 +11,7 @@ export const PatientInfo = ({ billId, createdAt, patientInfo, doctor }: TPatient
           : <span className="font-semibold">{billId}</span>
         </span>
         <span>
-          Date : <span className="font-semibold">{formatDate(createdAt)}</span>
+          Date : <span className="font-semibold">{formatDate({ date: createdAt })}</span>
         </span>
       </span>
       {/* patient Info */}

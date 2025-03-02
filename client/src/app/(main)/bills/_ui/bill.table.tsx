@@ -128,7 +128,7 @@ export const BillTable = () => {
     {
       accessorKey: 'createdAt',
       header: () => <span>Date</span>,
-      cell: ({ getValue }) => <span className="whitespace-nowrap">{formatDate(getValue<string>())}</span>,
+      cell: ({ getValue }) => <span className="whitespace-nowrap">{formatDate({ date: getValue<string>() })}</span>,
     },
     { id: 'action', cell: ({ row }) => <BillTableAction bill={row.original} /> },
   ];

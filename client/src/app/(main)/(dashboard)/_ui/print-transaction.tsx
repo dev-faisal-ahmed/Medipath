@@ -12,7 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const PrintTransaction = ({ date }: { date: Date }) => {
   const { data: summary, isLoading } = useQuery({
-    queryKey: [QK.OVERVIEW, 'SUMMARY', { dateTime: formatDate(date) }],
+    queryKey: [QK.OVERVIEW, 'SUMMARY', { dateTime: formatDate({ date }) }],
     queryFn: () => getTransactionSummary({ dateTime: date }),
     select: (res) => res.data,
   });

@@ -3,7 +3,7 @@ import { axiosInstance } from '@/lib/axios';
 import { MODE, TBill, TReferrer, TServerResponse } from '@/types';
 
 export const getOverview = async (args: TGetOverViewArgs): Promise<TServerResponse<TOverview>> => {
-  const searchParams = new URLSearchParams({ ...args, dateTime: args.dateTime.toISOString() });
+  const searchParams = new URLSearchParams(args);
   const { data } = await axiosInstance.get(apiUrl.getOverview(`?${searchParams}`));
   return data;
 };
@@ -14,7 +14,7 @@ export enum OVERVIEW_TYPE {
   MONTHLY = 'monthly',
 }
 
-type TGetOverViewArgs = { type: OVERVIEW_TYPE; dateTime: Date; mode: MODE };
+type TGetOverViewArgs = { type: OVERVIEW_TYPE; dateTime: string; mode: MODE };
 
 export type TOverview = {
   totalCollection: number;
